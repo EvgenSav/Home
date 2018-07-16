@@ -15,11 +15,11 @@ namespace WebAppRfc.Controllers
             return View();
         }
 
-        public string SwitchDev(int devKey) {
+        public JsonResult SwitchDev(int devKey) {
             if(Program.DevBase.Data.ContainsKey(devKey)) {
                 Program.DevBase.Data[devKey].SetSwitch(Program.Mtrf64);
             }
-            return LastRxMsg();
+            return new JsonResult(Program.DevBase.Data[devKey]);
         }
 
         public string SetBright(int devKey, int bright) {
@@ -32,12 +32,12 @@ namespace WebAppRfc.Controllers
         public string LastRxMsg() {
             return Program.Mtrf64.GetLogMsg(Program.Mtrf64.rxBuf);
         }
-        public string DevBaseList() {
+        public JsonResult DevBase() {
             string res = "";
             foreach (var item in Program.DevBase.Data) {
                 res += String.Format("Name: {0} key: {1} \n",item.Value.Name,item.Key);
             }
-            return res;
+            return new JsonResult(Program.DevBase.Data);
         }
 
         public IActionResult About()

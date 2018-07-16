@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebAppRfc;
 
 namespace RFController {
     [Serializable]
@@ -31,10 +32,10 @@ namespace RFController {
             }
             set {
                 key = value;
-                //if (!DevicesForm.ActionLog.Data.ContainsKey(key)) {
-                //    DevicesForm.ActionLog.Data.Add(key, new List<ILogItem>());
-                //}
-                //Log = DevicesForm.ActionLog.Data[key];
+                if (!Program.ActionLog.Data.ContainsKey(key)) {
+                    Program.ActionLog.Data.Add(key, new List<ILogItem>());
+                }
+                Log = Program.ActionLog.Data[key];
             }
         }
 
@@ -87,7 +88,7 @@ namespace RFController {
         public void ReadSetBrightAnswer(MTRF mtrfDev) {
             if (Type == NooDevType.PowerUnit) {
                 if (mtrfDev.rxBuf.D0 >= 28) {
-                    //Bright = DevicesForm.Round((((float)mtrfDev.rxBuf.D0 - 28) / 128) * 100);
+                    Bright = Round((((float)mtrfDev.rxBuf.D0 - 28) / 128) * 100);
                     if (mtrfDev.rxBuf.D0 > 28) {
                         State = 1;
                     } else {
@@ -105,7 +106,7 @@ namespace RFController {
                 ExtDevType = mtrfDev.rxBuf.D0;
                 FirmwareVer = mtrfDev.rxBuf.D1;
                 State = mtrfDev.rxBuf.D2;
-                //Bright = DevicesForm.Round(((float)mtrfDev.rxBuf.D3 / 255) * 100);
+                Bright = Round(((float)mtrfDev.rxBuf.D3 / 255) * 100);
             }
         }
         public void Unbind(MTRF mtrfDev) {
