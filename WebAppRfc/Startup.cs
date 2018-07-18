@@ -35,6 +35,7 @@ namespace WebAppRfc
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddSignalR();
         }
 
@@ -52,7 +53,7 @@ namespace WebAppRfc
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            
+            app.UseWebSockets();
             app.UseSignalR(routes=> {
                 routes.MapHub<FeedbackHub>("/chatHub");
             });

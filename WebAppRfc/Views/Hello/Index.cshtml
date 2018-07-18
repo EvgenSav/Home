@@ -14,12 +14,12 @@
             <div class="glyphicon glyphicon-off"> 
                 <span> State: {{dev.state}} </span>  
                 <span> 
-                    <label ng-bind-html="sbox" style="background-color:lightgreen">State</label>
+                    <label id="stateId{{dev.key}}" style="background-color:lightgreen">On</label>
                 </span>
                 </div>
             <p ng-model="dev.bright"> Bright: {{dev.bright}}</p>
             <div class="input-group">
-                <input ng-model="dev.bright" type="range" class="input-lg" onchange="SetBright(3, value)" />
+                <input ng-model="dev.bright" type="range" class="input-lg" onchange="SetBright(dev.key, value)" />
                 <input ng-click="SetSwitch(dev.key)" type="button" title="Switch" value="Switch" class="btn btn-primary center-block" />
             </div>
         </div>

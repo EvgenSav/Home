@@ -69,3 +69,4 @@ D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreap
 D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\WebAppRfc.dll
 D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\WebAppRfc.pdb
 D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\WebAppRfc.csproj.CopyComplete
+c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Hello\Index.g.cshtml.cs

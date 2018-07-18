@@ -7,11 +7,10 @@ const connection = new signalR.HubConnectionBuilder()
     .build();
 
 
-
 connection.on("UpdateDevView", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
     appCtrlScope.$apply(function () {
-        appCtrlScope.UpdateDevView(rfdevice);
+        appCtrlScope.UpdateDevView(rfdevice.value);
     })
     console.log(rfdevice.value);
 });
