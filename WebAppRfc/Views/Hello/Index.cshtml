@@ -7,20 +7,20 @@
     <div id="app_controller" ng-controller="appController" ng-init="GetDevBase()">
         <h1>NooLite Controller for Web</h1>
 
-        <h2>There are @ViewBag.DevCount NooLite devices</h2>
-        <div ng-repeat="dev in DevBase" class="panel panel-default" style="min-width: 150px; max-width: 150px; display: inline-grid">
-            <div class="panel-heading text-center">{{dev.name}} </div>
-            <p> Key: {{dev.key}}</p>
-            <div class="glyphicon glyphicon-off"> 
-                <span> State: {{dev.state}} </span>  
-                <span> 
-                    <label id="stateId{{dev.key}}" style="background-color:lightgreen">On</label>
-                </span>
+        <h2>There are {{DevCount}} NooLite devices</h2>
+        <div style="margin-left:auto; margin-right:auto">
+            <div ng-repeat="dev in DevBase" class="panel panel-default" style="min-width: 150px; max-width: 150px; display:inline-grid">
+                <div class="panel-heading text-center">{{dev.name}} </div>
+                <div class="panel-body">
+                    <p> Key: {{dev.key}}</p>
+                    <p>
+                        State: <span class="label-success" ng-show="(dev.state != 0)"> On </span>
+                        <span ng-show="!(dev.state != 0)"> Off </span>
+                    </p>
+                    <p ng-model="dev.bright"> Bright: {{dev.bright}}</p>
+                    <p> <input ng-model="dev.bright" type="range" class="label-success" ng-click="SetBright(dev.key, dev.bright)" /> </p>
+                    <p> <input ng-click="SetSwitch(dev.key)" type="button" title="Switch" value="Switch" class="btn btn-primary center-block" /></p>
                 </div>
-            <p ng-model="dev.bright"> Bright: {{dev.bright}}</p>
-            <div class="input-group">
-                <input ng-model="dev.bright" type="range" class="input-lg" onchange="SetBright(dev.key, value)" />
-                <input ng-click="SetSwitch(dev.key)" type="button" title="Switch" value="Switch" class="btn btn-primary center-block" />
             </div>
         </div>
     </div>

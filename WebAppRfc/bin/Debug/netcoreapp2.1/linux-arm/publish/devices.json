@@ -148,24 +148,6 @@
       "Redirect": [],
       "Key": 14
     },
-    "18": {
-      "Channel": 18,
-      "Type": 1,
-      "Name": "SU-1-300@home",
-      "State": 0,
-      "Addr": 0,
-      "Bright": 0,
-      "IsDimmable": false,
-      "FirmwareVer": 0,
-      "ExtDevType": 0,
-      "Settings": 0,
-      "DimCorrLvlHi": 0,
-      "DimCorrLvlLow": 0,
-      "OnLvl": 0,
-      "Room": "All",
-      "Redirect": [],
-      "Key": 18
-    }
     "2616": {
       "Channel": 0,
       "Type": 2,
@@ -183,6 +165,26 @@
       "Room": "SD 180",
       "Redirect": [],
       "Key": 2616
+    },
+    "23399": {
+      "Channel": 0,
+      "Type": 2,
+      "Name": "SUF-1-300",
+      "State": 0,
+      "Addr": 23399,
+      "Bright": 0,
+      "IsDimmable": true,
+      "FirmwareVer": 0,
+      "ExtDevType": 5,
+      "Settings": 3,
+      "DimCorrLvlHi": 255,
+      "DimCorrLvlLow": 0,
+      "OnLvl": 38,
+      "Room": "Кухня",
+      "Redirect": [
+        23399
+      ],
+      "Key": 23399
     }
   }
 }

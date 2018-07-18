@@ -3,17 +3,19 @@
 angular.module("app").controller("appController", function ($scope, $http) {
     $scope.GetDevBase = function () {
         var host = window.location.host;
-        console.log("Host: ${host}");
+        console.log("Host: " + host);
         $http.get("http://" + host + "/Home/devbase").
             then(function successCallback(response) {
                 if ($scope.DevBase == null) {
                     $scope.DevBase = {};
                 }
                 $scope.DevBase = response.data;
-                console.log("devbase receive success!");
-                for (var rfdev in $scope.DevBase) {
-                    $scope.UpdateView(rfdev);
+                $scope.DevCount = 0;
+                for (dev in $scope.DevBase) {
+                    $scope.DevCount++;
                 }
+                console.log("Device count: " + $scope.DevCount);
+                console.log("devbase receive success!");
             }, function errorCallback(response) {
             });
     }
@@ -29,25 +31,6 @@ angular.module("app").controller("appController", function ($scope, $http) {
 
     $scope.UpdateDevView = function (rfdevice) {
         $scope.DevBase[rfdevice.key] = rfdevice;
-        var stateLabel = document.getElementById("stateId" + rfdevice.key);
-        if (rfdevice.state != 0) {
-            stateLabel.textContent = "On";
-            stateLabel.style.backgroundColor = "lightgreen";
-        } else {
-            stateLabel.textContent = "Off";
-            stateLabel.style.backgroundColor = "white";
-        }
-        console.log("View of {rfddevice.value.name} updated!");
+        console.log("View of " + rfdevice.name + " updated!");
     };
-    $scope.UpdateView = function (rfdev) {
-        console.log("view upd ng-change");
-        var stateLabel = document.getElementById("stateId" + rfdev.key);
-        if (rfdev.state != 0) {
-            stateLabel.textContent = "On";
-            stateLabel.style.backgroundColor = "lightgreen";
-        } else {
-            stateLabel.textContent = "Off";
-            stateLabel.style.backgroundColor = "white";
-        }
-    }
 });

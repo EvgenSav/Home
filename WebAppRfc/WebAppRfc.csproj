@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\signalr\" />
+    <Folder Include="wwwroot\lib\angular\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

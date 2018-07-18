@@ -21,6 +21,8 @@ var SetBright = function (devkey, brightlvl) {
         appCtrlScope.SetBright(devkey, brightlvl);
     })
 }
-
+var SelectTab = function () {
+    $('#nav-tabs a[href="#2"]').tab('show');
+}
 connection.start().catch(err => console.error(err.toString()));
 
