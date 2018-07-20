@@ -34,3 +34,31 @@ angular.module("app").controller("appController", function ($scope, $http) {
         console.log("View of " + rfdevice.name + " updated!");
     };
 });
+angular.module("app").controller("addNewDev", function ($scope, $http) {
+    $scope.NooDevTypes = [
+        {
+            id: 0,
+            name: "Tx"
+        }, {
+            id: 1,
+            name:"Rx"
+        }, {
+            id: 2,
+            name:"F-Tx"
+        }];
+    $scope.OpenWindow = function () {
+        var host = document.location.host
+        window.open("http://" + host + "/Hello/addNewDevice");
+    }
+    $scope.GetRooms = function () {
+        var host = document.location.host
+        $http.get("http://" + host + "/Hello/GetRooms").then(
+            function successCallback(response) {
+                $scope.Rooms = response.data;
+                console.log(response.data);
+            }, function errorCallback(response) {
+        });
+    }
+});
+
+

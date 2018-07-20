@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using RFController;
 using System.Timers;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace WebAppRfc
 {
@@ -20,11 +21,13 @@ namespace WebAppRfc
         public static MTRF Mtrf64;
         public static MyDB<int, RfDevice> DevBase;
         public static MyDB<int, List<ILogItem>> ActionLog;
+        public static List<string> Rooms;
 
         public static void Main(string[] args)
         {
             ActionLog = MyDB<int, List<ILogItem>>.OpenFile("log.json");
             DevBase = MyDB<int, RfDevice>.OpenFile("devices.json");
+            Rooms = GetRooms();
             Mtrf64 = new MTRF();
             Mtrf64.NewDataReceived += Mtrf64_NewDataReceived;
             List<Mtrf> availableAdapters = Mtrf64.GetAvailableComPorts();
@@ -166,7 +169,21 @@ namespace WebAppRfc
             }
 
         }
-
+        public static List<string> GetRooms() {
+            List<string> rooms;
+            using (StreamReader s1 = new StreamReader(new FileStream("rooms.json", FileMode.Open))) {
+                string res = s1.ReadToEnd();
+                
+                try {
+                    rooms=JsonConvert.DeserializeObject<List<string>>(res, new JsonSerializerSettings {
+                        Formatting = Formatting.Indented
+                    });
+                } catch {
+                    rooms = new List<string> { "All" };
+                }
+            }
+            return rooms;
+        }
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();

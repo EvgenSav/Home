@@ -16,5 +16,12 @@ namespace WebAppRfc.Controllers
         {
             return View();
         }
+
+        public IActionResult AddNewDevice() {
+            return View();
+        }
+        public JsonResult GetRooms() {
+            return new JsonResult(Program.Rooms);
+        }
     }
 }

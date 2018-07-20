@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "AddNewDevice";
+}
+
+<h2>Adding new device</h2>
+
+<div ng-controller="addNewDev" ng-model="Rooms" ng-init="GetRooms()">
+    <div>
+        <input type="text" ng-model="Name" placeholder="Device Name" />
+    </div>
+    <div>
+        <select ng-model="selectedRoom" ng-options="room for room in Rooms"> </select>
+    </div>
+    <div>
+        <input type="text" ng-model="selectedRoom" />
+    </div>
+    <div>
+        <select ng-model="selectedType" ng-options="type.name for type in NooDevTypes"> </select>
+        <input type="text" ng-model="selectedType.id" />
+    </div>
+
+</div>
+

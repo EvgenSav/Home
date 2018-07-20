@@ -19,11 +19,12 @@
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
-    background-color: #fff">
+    background-color: #fff"
+      ng-app="app">
     <header>
         <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="#1">Home</a></li>
-            <li role="presentation"><a href="#2" onclick="SelectTab()">Profile</a></li>
+            <li role="presentation" class="active"><a href="http://192.168.0.100">Home</a></li>
+            <li role="presentation" ng-controller="addNewDev"><a href="#2" ng-click="OpenWindow()">Add new device</a></li>
             <li role="presentation"><a href="#3">Messages</a></li>
 
             <li role="presentation" class="dropdown">
