@@ -1,5 +1,4 @@
-﻿using System;
-using RFController;
+﻿
 
 public enum CmdByteIdx {
     St, Mode, Ctr, Res, Ch, Cmd, Fmt,

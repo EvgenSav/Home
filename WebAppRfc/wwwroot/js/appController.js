@@ -59,6 +59,12 @@ angular.module("app").controller("addNewDev", function ($scope, $http) {
             }, function errorCallback(response) {
         });
     }
+    $scope.AddNewDev = function (name, type, room) {
+        console.log("Adding dev: Name: " + name + "Type: " + type.name + "Room: " + room);
+    }
+    $scope.DevModeSelected = function (type) {
+        console.log(type);
+    }
 });
 
 

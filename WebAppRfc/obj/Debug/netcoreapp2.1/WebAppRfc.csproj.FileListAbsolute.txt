@@ -65,3 +65,4 @@ C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Deb
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\WebAppRfc.csprojAssemblyReference.cache
 D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\WebAppRfc.csprojAssemblyReference.cache
 D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\Razor\Views\Hello\AddNewDevice.g.cshtml.cs
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\Razor\Views\Hello\AddNewDevice.g.cshtml.cs
