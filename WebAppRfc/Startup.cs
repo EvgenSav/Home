@@ -61,7 +61,7 @@ namespace WebAppRfc
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Hello}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

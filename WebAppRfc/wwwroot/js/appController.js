@@ -48,11 +48,11 @@ angular.module("app").controller("addNewDev", function ($scope, $http) {
         }];
     $scope.OpenWindow = function () {
         var host = document.location.host
-        window.open("http://" + host + "/Hello/addNewDevice");
+        window.open("http://" + host + "/NewDevice/");
     }
     $scope.GetRooms = function () {
         var host = document.location.host
-        $http.get("http://" + host + "/Hello/GetRooms").then(
+        $http.get("http://" + host + "/NewDevice/GetRooms").then(
             function successCallback(response) {
                 $scope.Rooms = response.data;
                 console.log(response.data);
@@ -60,7 +60,10 @@ angular.module("app").controller("addNewDev", function ($scope, $http) {
         });
     }
     $scope.AddNewDev = function (name, type, room) {
-        console.log("Adding dev: Name: " + name + "Type: " + type.name + "Room: " + room);
+        $http.get("http://" + document.location.host + "/NewDevice/GetEmptyChannel?mode=" + type.id).then(
+            function successCallback(response) {
+                console.log("Adding dev: \nName: " + name + "\nType: " + type.name + "\nRoom: " + room+"\nChannel: "+response.data);
+            }, function errorCallback(response) { });
     }
     $scope.DevModeSelected = function (type) {
         console.log(type);
