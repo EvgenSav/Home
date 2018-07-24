@@ -20,12 +20,12 @@
     line-height: 1.42857143;
     color: #333;
     background-color: #fff"
-      ng-app="app">
+      ng-app="app" ng-controller="MainCtrl as MainCtrl">
     <header>
         <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="http://192.168.0.100">Home</a></li>
-            <li role="presentation" ng-controller="addNewDev"><a href="#2" ng-click="OpenWindow()">Add new device</a></li>
-            <li role="presentation"><a href="#3">Messages</a></li>
+            <li role="presentation" class="active"><a href="http://192.168.0.100/">Home</a></li>
+            <li role="presentation" ng-controller="addNewDev as newDev"><a href="#2" ng-click="newDev.OpenWindow()">Add new device</a></li>
+            <li role="presentation"ng-click="MainCtrl.ShowBaseFromMainCtrl()"><a href="#3">Test factory</a></li>
 
             <li role="presentation" class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -38,15 +38,9 @@
                 </ul>
 
             </li>
-            <li role="presentation" class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    Dropdown <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu"></ul>
-            </li>
         </ul>
     </header>
-    <section>
+    <section >
         @RenderBody()
     </section>
     <footer></footer>

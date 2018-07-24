@@ -6,29 +6,26 @@
 <div class="panel panel-primary" style="display:inline-block">
     <h2 class="panel-heading">Adding new device</h2>
 
-    <div ng-controller="addNewDev" ng-model="Rooms" ng-init="GetRooms()" class="panel-body">
+    <div id="app_controller_addNewDev" ng-controller="addNewDev as newDev" ng-init="newDev.GetRooms()" class="panel-body">
         <div>
-            <input type="text" ng-model="Name" placeholder="Device Name" />
+            <input type="text" ng-model="newDev.Name" placeholder="Device Name" />
+        </div>
+        <div>
+            <select ng-model="newDev.selectedType" ng-options="type.name for type in newDev.DevTypes"> </select>
+        </div>
+        <div>
+            <select ng-model="newDev.selectedRoom" ng-options="room for room in newDev.Rooms" ng-change="newDev.RoomSelected(newDev.Name,newDev.selectedRoom,newDev.selectedType)"> </select>
+        </div>
+
+        <div ng-show="newDev.selectedType.id == 1 || newDEv.selectedType.id == 2">
+            <input class="btn-primary" type="button" ng-click="newDev.BindClicked()" value="Send Bind"/>
         </div>
 
         <div>
-            <select ng-model="selectedRoom" ng-options="room for room in Rooms"> </select>
+            <input type="button" value="Add" ng-click="newDev.AddClicked()" />
         </div>
-
-        <div>
-            <input type="text" ng-model="selectedRoom" />
-        </div>
-
-        <div>
-            <select ng-model="selectedType" ng-options="type.name for type in NooDevTypes" ng-change="DevModeSelected(selectedType)"> </select>
-        </div>
-
-        <div>
-            <input type="text" ng-model="selectedType.id" />
-        </div>
-
-        <div>
-            <input type="button" value="Add" ng-click="AddNewDev(Name,selectedType,selectedRoom)" />
+        <div class="center-block"> 
+            <label  class="bg-success text-center"  ng-model="newDev.Status">{{newDev.Status}}</label>
         </div>
     </div>
 </div>

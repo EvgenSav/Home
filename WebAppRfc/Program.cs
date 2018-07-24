@@ -18,7 +18,6 @@ namespace WebAppRfc
 {
     public class Program
     {
-        public static AddNewDev AddNew { get; set; }
         public static MTRF Mtrf64;
         public static MyDB<int, RfDevice> DevBase;
         public static MyDB<int, List<ILogItem>> ActionLog;

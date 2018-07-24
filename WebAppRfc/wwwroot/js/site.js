@@ -10,17 +10,19 @@ const connection = new signalR.HubConnectionBuilder()
 connection.on("UpdateDevView", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
     appCtrlScope.$apply(function () {
-        appCtrlScope.UpdateDevView(rfdevice.value);
+        appCtrlScope.devView.UpdateDevView(rfdevice.value);
     })
     console.log(rfdevice.value);
 });
 
-var SetBright = function (devkey, brightlvl) {
-    var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
+connection.on("ConfirmDevAdd", function (rfdevice) {
+    var appCtrlScope = angular.element(document.getElementById("app_controller_addNewDev")).scope();
     appCtrlScope.$apply(function () {
-        appCtrlScope.SetBright(devkey, brightlvl);
+        appCtrlScope.ConfirmAddDev(rfdevice.value);
     })
-}
+    console.log(rfdevice.value);
+});
+
 var SelectTab = function () {
     $('#nav-tabs a[href="#2"]').tab('show');
 }

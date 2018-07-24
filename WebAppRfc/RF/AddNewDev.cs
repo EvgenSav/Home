@@ -4,16 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using WebAppRfc.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace RFController {
-    public class AddNewDev{
-        MyDB<int, RfDevice> Devices;    //device list
+    public class AddNewDev {
+        public MyDB<int, RfDevice> Devices { get; private set; }    //device list
         MTRF Mtrf64;                    //MTRF driver
         List<string> Rooms;
         Timer timer1 = new Timer();
-        
-        public  int FindedChannel;
+
+        public int FindedChannel { get; private set; }
         int SelectedType;
         bool WaitingBindFlag = false;
 
@@ -22,7 +25,7 @@ namespace RFController {
         public bool AddingOk { get; private set; }
         public string Status { get; private set; }
 
-        ~AddNewDev(){
+        ~AddNewDev() {
             Mtrf64.NewDataReceived -= Dev1_NewDataReceived;
         }
         public AddNewDev(MyDB<int, RfDevice> devList, MTRF dev, List<string> rooms) {
@@ -31,14 +34,10 @@ namespace RFController {
             Rooms = rooms;
             Mtrf64.NewDataReceived += Dev1_NewDataReceived;
 
-
             timer1.Elapsed += Tmr_Tick;
-            timer1.Interval = 1000;
-            timer1.AutoReset = true;
-            timer1.Start();
         }
 
-        private void Dev1_NewDataReceived(object sender, EventArgs e) {
+        private async void Dev1_NewDataReceived(object sender, EventArgs e) {
             if (WaitingBindFlag) {
                 switch (SelectedType) {
                     case NooDevType.PowerUnitF:
@@ -47,6 +46,7 @@ namespace RFController {
                             Device.Addr = Mtrf64.rxBuf.AddrF;
                             KeyToAdd = Device.Addr;
                             Device.Key = KeyToAdd;
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("ConfirmDevAdd", new JsonResult(Device));
                         }
                         break;
                     case NooDevType.Sensor:
@@ -56,6 +56,7 @@ namespace RFController {
                             Device.ExtDevType = Mtrf64.rxBuf.D0;
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("ConfirmDevAdd", new JsonResult(Device));
                         }
                         break;
                     default:
@@ -64,6 +65,7 @@ namespace RFController {
                             WaitingBindFlag = false;
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("ConfirmDevAdd", new JsonResult(Device));
                         }
                         break;
                 }
@@ -72,8 +74,7 @@ namespace RFController {
 
 
         private void Tmr_Tick(object sender, EventArgs e) {
-            FindedChannel++;
-            //timer1.Stop();
+            timer1.Stop();
             if (WaitingBindFlag) {
                 Status = "Device not added";
                 WaitingBindFlag = false;
@@ -100,7 +101,7 @@ namespace RFController {
                     FAddrCount++;
                     //MessageBox.Show(item.Key.ToString());
                 }
-                if (FAddrCount < 64) return 0; 
+                if (FAddrCount < 64) return 0;
                 else return -1; //noo F memory is Full
             } else { //Noo
                 for (int i = 0; i < 64; i++) {
@@ -114,7 +115,7 @@ namespace RFController {
             }
         }
 
-        private void BindBtn_Click(object sender, EventArgs e) {
+        public void SendBind() {
             if (SelectedType == NooDevType.PowerUnitF) {
                 Mtrf64.SendCmd(0, NooMode.FTx, NooCmd.Bind);
                 Status = "Waiting...";
@@ -135,39 +136,39 @@ namespace RFController {
 
 
 
-        private void OkBtn_Click(object sender, EventArgs e) {
+        public void AddBtnClicked() {
             KeyToAdd = FindedChannel;
             Device.Key = KeyToAdd;
-            //DevList.Add(FindedChannel, Device);
+            Devices.Data.Add(FindedChannel, Device);
             WaitingBindFlag = false;
             UpdateForm();
         }
 
-        private void RoomBox_SelectionChangeCommitted(object sender, EventArgs e) {
-            //SelectedType = (int)DevTypeBox.SelectedValue;                
+        public void RoomSelected(string name, string room, int mode) {
+            SelectedType = mode;
             Mtrf64.SendCmd(0, 0, 0, MtrfMode: NooCtr.BindModeDisable); //send disable bind if enabled
 
             FindedChannel = FindEmptyChannel(SelectedType);    //find empty channel
             if (FindedChannel != -1) {
                 Device = new RfDevice {
-                    //Name = DevNameBox.Text,
+                    Name = name,
                     Type = SelectedType,
                     Channel = FindedChannel,
-                    //Room = (string) RoomBox.SelectedValue
+                    Room = room
                 };
 
                 switch (SelectedType) {
                     case NooDevType.PowerUnit:
                         WaitingBindFlag = false;
-                        
+
                         break;
                     case NooDevType.PowerUnitF:
                         WaitingBindFlag = false;
-                        
+
                         break;
                     default: //NooDevType.RemController or NooDevType.Sensor     
                         Mtrf64.SendCmd(FindedChannel, NooMode.Rx, 0, MtrfMode: NooCtr.BindModeEnable); //enable bind at finded chnannel
-                        
+
                         Status = "Waiting...";
 
                         WaitingBindFlag = true;
