@@ -1,4 +1,4 @@
-﻿
+﻿"use strict";
 
 angular.module("app").controller("MainCtrl", function ($http, myFactory) {
     this.ShowBaseFromMainCtrl = function () {
@@ -7,27 +7,27 @@ angular.module("app").controller("MainCtrl", function ($http, myFactory) {
 });
 
 angular.module("app").factory("myFactory", function () {
-    const DevBase = {};
-    return DevBase;
+    return {
+        DevBase: [],
+        Rooms: [],
+        DevCount: 0,
+        Host: window.location.host
+    }
 });
 
 angular.module("app").controller("appController", function ($http, myFactory) {
     this.myFactory = myFactory;
     this.GetDevBase = function () {
-        var host = window.location.host;
-        console.log("Host: " + host);
-        $http.get(`http://${host}/Home/devbase`).
+        //var host = window.location.host;
+        console.log("Host: " + myFactory.Host);
+        $http.get(`http://${myFactory.Host}/Home/devbase`).
             then(function successCallback(response) {
-                //if ($scope.DevBase == null) {
-                //    $scope.DevBase = {};
-                //}
                 myFactory.DevBase = response.data;
-                //$scope.DevBase = response.data;
-                this.DevCount = 0;
-                for (dev in myFactory.DevBase) {
-                    this.DevCount++;
+                myFactory.DevCount = 0;
+                for (let dev in myFactory.DevBase) {
+                    myFactory.DevCount++;
                 }
-                console.log("Device count: " + this.DevCount);
+                console.log("Device count: " + myFactory.DevCount);
                 console.log("devbase receive success!");
             }, function errorCallback(response) {
             });
@@ -35,12 +35,10 @@ angular.module("app").controller("appController", function ($http, myFactory) {
 
     this.SetSwitch = function (devKey) {
         console.log("clicked dev:" + devKey);
-        var host = window.location.host;
-        $http.post(`http://${host}/Home/switchdev?devkey=${devKey}`);
+        $http.post(`http://${myFactory.Host}/Home/switchdev?devkey=${devKey}`);
     }
     this.SetBright = function (devkey, brightlvl) {
-        var host = window.location.host;
-        $http.post(`http://${host}/Home/setbright?devkey=${devkey}&bright=${brightlvl}`);
+        $http.post(`http://${myFactory.Host}/Home/setbright?devkey=${devkey}&bright=${brightlvl}`);
     }
 
     this.UpdateDevView = function (rfdevice) {
@@ -48,7 +46,9 @@ angular.module("app").controller("appController", function ($http, myFactory) {
         console.log(`View of ${rfdevice.name} updated!`);
     };
 });
+
 angular.module("app").controller("addNewDev", function ($http, myFactory) {
+    this.myFactory = myFactory; //gives possibility to accecc myFactory in html tempplate page
     this.DevTypes = [
         {
             id: 0,
@@ -74,47 +74,42 @@ angular.module("app").controller("addNewDev", function ($http, myFactory) {
             id: 2,
             name: "F-Tx"
         }];
-    this.Rooms = [ "All", "lol", "LOLOLOLO"];
-
+    var DevBase = this;
+    let Status = this;
     this.OpenWindow = function () {
-        var host = document.location.host
-        window.open(`http://${host}/NewDevice/`);
+        window.open(`http://${myFactory.Host}/NewDevice/`);
     }
 
     this.GetRooms = function () {
-        var host = document.location.host
-        $http.get(`http://${host}/NewDevice/GetRooms`).then(
+        $http.get(`http://${myFactory.Host}/NewDevice/GetRooms`).then(
             function successCallback(response) {
-                this.Rooms = response.data;
+                myFactory.Rooms = response.data;
                 console.log(response.data);
             }, function errorCallback(response) {
             });
     }
-  
+
     this.RoomSelected = function (name, room, type) {
-        var host = document.location.host;
-        $http.get(`http://${host}/NewDevice/RoomSelected?name=${name}&room=${room}&mode=${type.id}`).then(
+        $http.get(`http://${myFactory.Host}/NewDevice/RoomSelected?name=${name}&room=${room}&mode=${type.id}`).then(
             function successCallback(response) {
-                console.log("Adding dev: \nName: " + name + "\nType: " + type.name + "\nRoom: " + room + "\nChannel: " + response.data.channel + "\nStatus: " + response.data.status);
-                this.Status = response.data.status;
+                console.log(`Adding dev: \nName: ${name}\nType: ${type.name}\nRoom: ${room}\nChannel: ${response.data.channel} \nStatus: ${response.data.status}`);
+                Status = response.data.status;
             }, function errorCallback(response) { });
     }
 
     this.BindClicked = function () {
-        var host = document.location.host;
-        $http.get(`http://${host}/NewDevice/SendBind`).then(
+        $http.get(`http://${myFactory.Host}/NewDevice/SendBind`).then(
             function successCallback(response) {
-                this.Status = response.data.status;
+                Status = response.data.status;
             }, function errorCallback(response) {
             });
     }
 
     this.AddClicked = function () {
-        var host = document.location.host;
-        $http.get(`http://${host}/NewDevice/Add`).then(
+        $http.get(`http://${myFactory.Host}/NewDevice/Add`).then(
             function successCallback(response) {
                 console.log(response.data);
-                myFactory.DevBase=response.data;
+                myFactory.DevBase.push(response.data);
             }, function errorCallback(response) { });
     }
 

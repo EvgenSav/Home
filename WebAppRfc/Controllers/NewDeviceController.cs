@@ -18,7 +18,7 @@ namespace WebAppRfc.Controllers
 
         public JsonResult Add() {
             AddNew.AddBtnClicked();
-            return new JsonResult(AddNew.Devices);
+            return new JsonResult(AddNew.Device);
         }
 
         public JsonResult SendBind() {

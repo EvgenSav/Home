@@ -14,7 +14,7 @@
             <select ng-model="newDev.selectedType" ng-options="type.name for type in newDev.DevTypes"> </select>
         </div>
         <div>
-            <select ng-model="newDev.selectedRoom" ng-options="room for room in newDev.Rooms" ng-change="newDev.RoomSelected(newDev.Name,newDev.selectedRoom,newDev.selectedType)"> </select>
+            <select ng-model="newDev.selectedRoom" ng-options="room for room in newDev.myFactory.Rooms" ng-change="newDev.RoomSelected(newDev.Name,newDev.selectedRoom,newDev.selectedType)"> </select>
         </div>
 
         <div ng-show="newDev.selectedType.id == 1 || newDEv.selectedType.id == 2">
