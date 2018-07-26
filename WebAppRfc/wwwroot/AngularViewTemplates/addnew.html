@@ -1,8 +1,4 @@
 ﻿
-@{
-    ViewData["Title"] = "AddNewDevice";
-}
-
 <div class="panel panel-primary" style="display:inline-block">
     <h2 class="panel-heading">Adding new device</h2>
     <div id="app_controller_addNewDev" ng-controller="addNewDev as newDev" ng-init="newDev.Init()" class="panel-body">
@@ -18,14 +14,14 @@
         </div>
 
         <div ng-show="newDev.selectedType.id == 1 || newDev.selectedType.id == 2">
-            <input class="btn-primary" type="button" ng-click="newDev.BindClicked()" value="Send Bind"/>
+            <input class="btn-primary" type="button" ng-click="newDev.BindClicked()" value="Send Bind" />
         </div>
 
         <div>
             <input type="button" value="Add" ng-click="newDev.AddClicked()" />
         </div>
-        <div class="center-block"> 
-            <label  class="bg-success text-center"  ng-model="newDev.Status">{{newDev.Status}}</label>
+        <div class="center-block">
+            <label class="bg-success text-center" ng-model="newDev.Status">{{newDev.Status}}</label>
         </div>
     </div>
 </div>

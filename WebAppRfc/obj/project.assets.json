@@ -13317,11 +13317,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
+      "projectUniqueName": "d:\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
       "projectName": "WebAppRfc",
-      "projectPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
+      "projectPath": "d:\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
       "packagesPath": "C:\\Users\\Evgen\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\obj\\",
+      "outputPath": "d:\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

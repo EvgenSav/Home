@@ -3,48 +3,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewData["Title"] - WebAppRfc</title>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/lib/angular/angular.js"></script>
-    <script src="~/js/app.js"></script>
-    <script src="~/js/appController.js"></script>
+    <script src="~/lib/angular-route/angular-route.js"></script>
     <script src="~/lib/signalr/signalr.js"></script>
     <script src="~/js/site.js"></script>
 
 </head>
-<body style="
-    font-family:Helvetica,Arial,sans-serif;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #333;
-    background-color: #fff"
-      ng-app="app" ng-controller="MainCtrl as MainCtrl">
-    <header>
-        <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="http://192.168.0.100/">Home</a></li>
-            <li role="presentation" ng-controller="addNewDev as newDev"><a href="#2" ng-click="newDev.OpenWindow()">Add new device</a></li>
-            <li role="presentation"ng-click="MainCtrl.ShowBaseFromMainCtrl()"><a href="#3">Test factory</a></li>
-
-            <li role="presentation" class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    Dropdown <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li role="presentation" class="active"><a href="#4">Home</a></li>
-                    <li role="presentation"><a href="#5">Profile</a></li>
-                    <li role="presentation"><a href="#6">Messages</a></li>
-                </ul>
-
-            </li>
-        </ul>
-    </header>
-    <section >
-        @RenderBody()
-    </section>
+<body ng-app="app">
+    <header></header>
+    <section></section>
     <footer></footer>
-    
-    
+    @RenderSection("Scripts", false)
+    @RenderBody()
 </body>
 </html>

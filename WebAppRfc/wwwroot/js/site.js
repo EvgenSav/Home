@@ -23,8 +23,5 @@ connection.on("ConfirmDevAdd", function (rfdevice) {
     console.log(rfdevice.value);
 });
 
-var SelectTab = function () {
-    $('#nav-tabs a[href="#2"]').tab('show');
-}
 connection.start().catch(err => console.error(err.toString()));
 

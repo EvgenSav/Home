@@ -10,6 +10,10 @@ namespace WebAppRfc.Controllers
 {
     public class HomeController : Controller
     {
+        public IActionResult AngularRoute() {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
