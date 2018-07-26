@@ -11,7 +11,7 @@ connection.on("UpdateDevView", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
     appCtrlScope.$apply(function () {
         appCtrlScope.devView.UpdateDevView(rfdevice.value);
-    })
+    });
     console.log(rfdevice.value);
 });
 
@@ -19,7 +19,7 @@ connection.on("ConfirmDevAdd", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("app_controller_addNewDev")).scope();
     appCtrlScope.$apply(function () {
         appCtrlScope.ConfirmAddDev(rfdevice.value);
-    })
+    });
     console.log(rfdevice.value);
 });
 

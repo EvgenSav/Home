@@ -14,6 +14,7 @@ app.config(function ($routeProvider) {
 app.factory("myFactory", function () {
     let devBase = {};
     return {
+        Status: "Nothing yet...",
         Key: 999,
         get DevBase() {
             return devBase;
@@ -37,11 +38,15 @@ app.factory("myFactory", function () {
     }
 });
 
-app.controller("MainCtrl", function ($http, myFactory) {
+app.controller("MainCtrl", function ($http, $location, myFactory) {
     this.myFactory = myFactory;
     this.ShowBaseFromMainCtrl = function () {
         console.log(myFactory.DevBase);
     }
+
+    this.isActive = function (viewLocation) {
+        return viewLocation === $location.path();
+    };
 });
 
 app.controller("appController", function ($http, myFactory) {
@@ -122,7 +127,6 @@ app.controller("addNewDev", function ($http, myFactory) {
             id: 2,
             name: "F-Tx"
         }];
-    let Status = this;
     this.GetRooms = function () {
         $http.get(`http://${myFactory.Host}/NewDevice/GetRooms`).then(
             function successCallback(response) {
@@ -136,29 +140,33 @@ app.controller("addNewDev", function ($http, myFactory) {
         $http.get(`http://${myFactory.Host}/NewDevice/RoomSelected?name=${name}&room=${room}&mode=${type.id}`).then(
             function successCallback(response) {
                 console.log(`Adding dev: \nName: ${name}\nType: ${type.name}\nRoom: ${room}\nChannel: ${response.data.channel} \nStatus: ${response.data.status}`);
-                Status = response.data.status;
+                myFactory.Status = response.data.status;
             }, function errorCallback(response) { });
     }
 
     this.BindClicked = function () {
         $http.get(`http://${myFactory.Host}/NewDevice/SendBind`).then(
             function successCallback(response) {
-                Status = response.data.status;
+                myFactory.Status = response.data.status;
             }, function errorCallback(response) {
             });
     }
 
-    this.AddClicked = function () {
+    this.Add = function () {
         console.log("myFactory before add:");
         console.log(myFactory.DevBase);
         $http.get(`http://${myFactory.Host}/NewDevice/Add`).then(
-            function successCallback(response) { 
+            function successCallback(response) {
                 console.log("Response data:");
                 console.log(response.data);
-                myFactory.AddToBase(response.data);
+                myFactory.AddToBase(response.data.device);
+                myFactory.Status = response.data.status;
                 console.log("myFactory after add:");
                 console.log(myFactory.DevBase);
             }, function errorCallback(response) { });
+        this.Name = "";
+        this.selectedType = {};
+        this.selectedRoom = "";
     }
 
     this.ConfirmAddDev = function (device) {

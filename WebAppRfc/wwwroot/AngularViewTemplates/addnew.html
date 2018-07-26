@@ -1,27 +1,29 @@
 ﻿
+
 <div class="panel panel-primary" style="display:inline-block">
     <h2 class="panel-heading">Adding new device</h2>
-    <div id="app_controller_addNewDev" ng-controller="addNewDev as newDev" ng-init="newDev.Init()" class="panel-body">
-        <button class="btn-success" ng-click="newDev.ShowBaseFromNewDev()">Test base from newDevController</button>
-        <div>
-            <input type="text" ng-model="newDev.Name" placeholder="Device Name" />
-        </div>
-        <div>
-            <select ng-model="newDev.selectedType" ng-options="type.name for type in newDev.DevTypes"> </select>
-        </div>
-        <div>
-            <select ng-model="newDev.selectedRoom" ng-options="room for room in newDev.myFactory.Rooms" ng-change="newDev.RoomSelected(newDev.Name,newDev.selectedRoom,newDev.selectedType)"> </select>
-        </div>
+    <div id="app_controller_addNewDev" ng-controller="addNewDev as new" ng-init="new.Init()" class="panel-body">
+        <div class="form-group">
+            <div>
+                <input type="text" ng-model="new.Name" placeholder="Device Name"  class="col-md-10"/>
+            </div>
+            <div>
+                <select ng-model="new.selectedType" ng-options="type.name for type in new.DevTypes" class="col-md-10"> </select>
+            </div>
+            <div>
+                <select ng-model="new.selectedRoom" ng-options="room for room in new.myFactory.Rooms" ng-change="new.RoomSelected(new.Name,new.selectedRoom,new.selectedType)" class="col-md-10"> </select>
+            </div>
 
-        <div ng-show="newDev.selectedType.id == 1 || newDev.selectedType.id == 2">
-            <input class="btn-primary" type="button" ng-click="newDev.BindClicked()" value="Send Bind" />
-        </div>
+            <div ng-show="((new.selectedType.id == 1 || new.selectedType.id == 2) && new.selectedRoom != '' && new.selectedRoom != null)">
+                <input type="button" ng-click="new.BindClicked()" value="Send Bind" class="btn-primary col-md-10"/>
+            </div>
 
-        <div>
-            <input type="button" value="Add" ng-click="newDev.AddClicked()" />
-        </div>
-        <div class="center-block">
-            <label class="bg-success text-center" ng-model="newDev.Status">{{newDev.Status}}</label>
+            <div ng-show="new.Name != '' && new.selectedType != null && new.selectedRoom != ''">
+                <input type="button" value="Add" ng-click="new.Add()" class="col-md-10"/>
+            </div>
+            <div>
+                <label class="bg-success" ng-model="new.myFactory.Status">{{new.myFactory.Status}}</label>
+            </div>
         </div>
     </div>
 </div>

@@ -13,8 +13,8 @@
     background-color: #fff"
             ng-controller="MainCtrl as Main">
         <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="#!/"> Home</a></li>
-            <li role="presentation"> <a href="#!/addnew"> Add new device</a></li>
+            <li ng-class="{ active: Main.isActive('/')}"role="presentation" class="active"><a href="#!/"> Home</a></li>
+            <li ng-class="{ active: Main.isActive('/addnew')}"role="presentation"> <a href="#!/addnew"> Add new device</a></li>
             <li role="presentation" ng-click="Main.ShowBaseFromMainCtrl()"><a href="">Test factory</a></li>
             <li role="presentation" ng-click="Main.myFactory.AddTest()"><a href="">Add item</a></li>
             <li role="presentation" class="dropdown">

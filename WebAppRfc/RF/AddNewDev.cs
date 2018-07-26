@@ -25,9 +25,6 @@ namespace RFController {
         public bool AddingOk { get; private set; }
         public string Status { get; private set; }
 
-        ~AddNewDev() {
-            Mtrf64.NewDataReceived -= Dev1_NewDataReceived;
-        }
         public AddNewDev(MyDB<int, RfDevice> devList, MTRF dev, List<string> rooms) {
             Devices = devList;
             Mtrf64 = dev;
@@ -78,19 +75,11 @@ namespace RFController {
             if (WaitingBindFlag) {
                 Status = "Device not added";
                 WaitingBindFlag = false;
-                timer1.Interval = 1500;
-                timer1.Start();
-            } else {
-                //close form
+                AddingOk = false;
             }
         }
 
-        public void UpdateForm() {
-            Status = "Device added";
-            AddingOk = true;
-            timer1.Interval = 1500;
-            timer1.Start();
-        }
+
 
         public int FindEmptyChannel(int mode) {
             int FAddrCount = 0;
@@ -139,9 +128,16 @@ namespace RFController {
         public void AddBtnClicked() {
             KeyToAdd = FindedChannel;
             Device.Key = KeyToAdd;
-            Devices.Data.Add(FindedChannel, Device);
+            try {
+                Devices.Data.Add(FindedChannel, Device);
+                Status = "Device added";
+                AddingOk = true;
+            } catch (Exception e){
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                Status = "Device not added\n" + e.Message;
+                AddingOk = false;
+            }
             WaitingBindFlag = false;
-            UpdateForm();
         }
 
         public void RoomSelected(string name, string room, int mode) {
@@ -160,7 +156,7 @@ namespace RFController {
                 switch (SelectedType) {
                     case NooDevType.PowerUnit:
                         WaitingBindFlag = false;
-
+                        Status = "Press Send Bind";
                         break;
                     case NooDevType.PowerUnitF:
                         WaitingBindFlag = false;
