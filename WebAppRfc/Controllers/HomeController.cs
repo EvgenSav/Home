@@ -18,7 +18,7 @@ namespace WebAppRfc.Controllers
         {
             return View();
         }
-
+        
         public JsonResult SwitchDev(int devKey) {
             if(Program.DevBase.Data.ContainsKey(devKey)) {
                 Program.DevBase.Data[devKey].SetSwitch(Program.Mtrf64);

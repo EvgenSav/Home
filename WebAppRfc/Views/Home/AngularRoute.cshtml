@@ -13,8 +13,9 @@
     background-color: #fff"
             ng-controller="MainCtrl as main" ng-init="main.GetBase()">
         <ul class="nav nav-tabs">
-            <li ng-class="{ active: main.myFactory.isActive('/')}"        role="presentation" class="active"><a href="#!/"> Home</a></li>
-            <li ng-class="{ active: main.myFactory.isActive('/addnew')}"  role="presentation"> <a href="#!/addnew"> Add new device</a></li>
+            <li ng-class="{ active: main.myFactory.isActive('/')}" role="presentation" class="active"><a href="#!/"> Home</a></li>
+            <li ng-class="{ active: main.myFactory.isActive('/addnew')}" role="presentation"> <a href="#!/addnew"> Add new device</a></li>
+            <li ng-class="{ active: main.myFactory.isActive('/rooms')}" role="presentation"> <a href="#!/rooms"> Eddit rooms</a></li>
             <li role="presentation" ng-click="main.ShowBaseFromMainCtrl()"><a href="">Test factory</a></li>
             <li role="presentation" ng-click="main.myFactory.AddTest()"><a href="">Add item</a></li>
             <li role="presentation" class="dropdown">

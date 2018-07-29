@@ -3,12 +3,16 @@ var app = angular.module("app", ["ngRoute"]);
 app.config(function ($routeProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "/AngularViewTemplates/Devices.html",
+            templateUrl: "/AngularViewTemplates/devices.html",
             controller: "appController"
         })
         .when("/addnew", {
             templateUrl: "/AngularViewTemplates/addnew.html",
             controller: "addNewDev"
+        })
+        .when("/rooms", {
+            templateUrl: "/AngularViewTemplates/rooms.html",
+            controller:"roomsController"
         })
 });
 app.factory("myFactory", function ($location) {
@@ -56,7 +60,7 @@ app.controller("MainCtrl", function ($http, myFactory) {
                 console.log("devbase receive success!");
             }, function errorCallback(response) {
             });
-        $http.get(`http://${myFactory.Host}/NewDevice/GetRooms`).then(
+        $http.get(`http://${myFactory.Host}/Rooms/GetRooms`).then(
             function successCallback(response) {
                 myFactory.Rooms = response.data;
                 //console.log(response.data);
@@ -67,7 +71,25 @@ app.controller("MainCtrl", function ($http, myFactory) {
         console.log(myFactory.DevBase);
     }
 });
+app.controller("roomsController", function ($http, myFactory) {
+    this.myFactory = myFactory;
+    this.AddRoom = function (roomName) {
+        $http.post(`http://${myFactory.Host}/Rooms/AddRoom?roomName=${roomName}`).then(
+            function successCallback(response) {
+                myFactory.Rooms = response.data;
+            }, function errorCallback(reponse) {
 
+            });
+    }
+    this.RemoveRoom = function (roomName) {
+        $http.post(`http://${myFactory.Host}/Rooms/RemoveRoom?roomName=${roomName}`).then(
+            function successCallback(response) {
+                myFactory.Rooms = response.data;
+            }, function errorCallback(reponse) {
+
+            });
+    }
+});
 app.controller("appController", function ($http, myFactory) {
     this.myFactory = myFactory;
     this.selectedRoom = "All";
@@ -104,7 +126,7 @@ app.controller("addNewDev", function ($http, myFactory) {
             });
         console.log("myFactory.Devbase after request");
         console.log(myFactory.DevBase);
-        $http.get(`http://${myFactory.Host}/NewDevice/GetRooms`).then(
+        $http.get(`http://${myFactory.Host}/Rooms/GetRooms`).then(
             function successCallback(response) {
                 myFactory.Rooms = response.data;
                 //console.log(response.data);
@@ -137,7 +159,7 @@ app.controller("addNewDev", function ($http, myFactory) {
             name: "F-Tx"
         }];
     this.GetRooms = function () {
-        $http.get(`http://${myFactory.Host}/NewDevice/GetRooms`).then(
+        $http.get(`http://${myFactory.Host}/Rooms/GetRooms`).then(
             function successCallback(response) {
                 myFactory.Rooms = response.data;
                 console.log(response.data);

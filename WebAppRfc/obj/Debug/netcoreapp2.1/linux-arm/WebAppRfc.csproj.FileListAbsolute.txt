@@ -17,10 +17,7 @@ c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Deb
 c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\WebAppRfc.TagHelpers.input.cache
 c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\WebAppRfc.TagHelpers.output.cache
 c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\WebAppRfc.RazorCoreGenerate.cache
-c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Home\About.g.cshtml.cs
-c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Home\Contact.g.cshtml.cs
 c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Home\Index.g.cshtml.cs
-c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Home\Privacy.g.cshtml.cs
 c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Shared\Error.g.cshtml.cs
 c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
 c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Shared\_Layout.g.cshtml.cs
@@ -69,4 +66,9 @@ D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreap
 D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\WebAppRfc.dll
 D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\WebAppRfc.pdb
 D:\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\WebAppRfc.csproj.CopyComplete
-c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Hello\Index.g.cshtml.cs
+c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\default examples\About.g.cshtml.cs
+c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\default examples\Contact.g.cshtml.cs
+c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\default examples\Index_default.g.cshtml.cs
+c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\default examples\Privacy.g.cshtml.cs
+c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\Home\AngularRoute.g.cshtml.cs
+c:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\linux-arm\Razor\Views\NewDevice\Index.g.cshtml.cs
