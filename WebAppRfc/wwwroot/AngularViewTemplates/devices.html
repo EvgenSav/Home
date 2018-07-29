@@ -1,10 +1,14 @@
 ﻿
-<div id="app_controller" ng-controller="appController as devView" ng-init="devView.GetDevBase()">
-    <h1>NooLite Controller for Web</h1>
-
+<div id="app_controller" ng-controller="appController as devView">
+    <h2>My Home</h2>
     <h2>There are {{devView.myFactory.DevCount}} NooLite devices</h2>
+    <ul class="nav nav-tabs"  ng-model="devView.selectedRoom">
+        <li  ng-repeat="room in devView.myFactory.Rooms" ng-class="{active: (devView.selectedRoom == room)}" role="presentation">  <a href="" ng-click="devView.SetSelectedRoom(room)">{{room}}</a>
+        </li>
+    </ul>
+    {{devView.selectedRoom}}
     <div style="margin-left:auto; margin-right:auto">
-        <div ng-model="devView.myFactory.DevBase" ng-repeat="dev in devView.myFactory.DevBase track by dev.key" class="panel panel-default" style="min-width: 150px; max-width: 150px; display:inline-grid">
+        <div ng-model="devView.myFactory.DevBase" ng-repeat="dev in devView.myFactory.DevBase track by dev.key" ng-show="(dev.room == devView.selectedRoom) || (devView.selectedRoom == 'All')" class="panel panel-default" style="min-width: 150px; max-width: 150px; display:inline-grid">
             <div class="panel-heading text-center">{{dev.name}} </div>
             <div class="panel-body">
                 <p> Key: {{dev.key}}</p>

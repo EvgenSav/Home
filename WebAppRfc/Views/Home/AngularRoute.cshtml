@@ -11,12 +11,12 @@
     line-height: 1.42857143;
     color: #333;
     background-color: #fff"
-            ng-controller="MainCtrl as Main">
+            ng-controller="MainCtrl as main" ng-init="main.GetBase()">
         <ul class="nav nav-tabs">
-            <li ng-class="{ active: Main.isActive('/')}"role="presentation" class="active"><a href="#!/"> Home</a></li>
-            <li ng-class="{ active: Main.isActive('/addnew')}"role="presentation"> <a href="#!/addnew"> Add new device</a></li>
-            <li role="presentation" ng-click="Main.ShowBaseFromMainCtrl()"><a href="">Test factory</a></li>
-            <li role="presentation" ng-click="Main.myFactory.AddTest()"><a href="">Add item</a></li>
+            <li ng-class="{ active: main.myFactory.isActive('/')}"        role="presentation" class="active"><a href="#!/"> Home</a></li>
+            <li ng-class="{ active: main.myFactory.isActive('/addnew')}"  role="presentation"> <a href="#!/addnew"> Add new device</a></li>
+            <li role="presentation" ng-click="main.ShowBaseFromMainCtrl()"><a href="">Test factory</a></li>
+            <li role="presentation" ng-click="main.myFactory.AddTest()"><a href="">Add item</a></li>
             <li role="presentation" class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="false">
                     Dropdown <span class="caret"></span>

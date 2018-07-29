@@ -11,7 +11,7 @@ app.config(function ($routeProvider) {
             controller: "addNewDev"
         })
 });
-app.factory("myFactory", function () {
+app.factory("myFactory", function ($location) {
     let devBase = {};
     return {
         Status: "Nothing yet...",
@@ -34,25 +34,16 @@ app.factory("myFactory", function () {
             newDev.key = this.Key;
             this.DevBase[this.Key] = newDev;
             this.Key++;
+        },
+        isActive: function (viewlocation) {
+            return viewlocation === $location.path();
         }
     }
 });
 
-app.controller("MainCtrl", function ($http, $location, myFactory) {
+app.controller("MainCtrl", function ($http, myFactory) {
     this.myFactory = myFactory;
-    this.ShowBaseFromMainCtrl = function () {
-        console.log(myFactory.DevBase);
-    }
-
-    this.isActive = function (viewLocation) {
-        return viewLocation === $location.path();
-    };
-});
-
-app.controller("appController", function ($http, myFactory) {
-    this.myFactory = myFactory;
-    this.GetDevBase = function () {
-        //var host = window.location.host;
+    this.GetBase = function () {
         console.log("Host: " + myFactory.Host);
         $http.get(`http://${myFactory.Host}/Home/devbase`).
             then(function successCallback(response) {
@@ -65,6 +56,24 @@ app.controller("appController", function ($http, myFactory) {
                 console.log("devbase receive success!");
             }, function errorCallback(response) {
             });
+        $http.get(`http://${myFactory.Host}/NewDevice/GetRooms`).then(
+            function successCallback(response) {
+                myFactory.Rooms = response.data;
+                //console.log(response.data);
+            }, function errorCallback(response) {
+            });
+    }
+    this.ShowBaseFromMainCtrl = function () {
+        console.log(myFactory.DevBase);
+    }
+});
+
+app.controller("appController", function ($http, myFactory) {
+    this.myFactory = myFactory;
+    this.selectedRoom = "All";
+    this.SetSelectedRoom = function (roomName) {
+        this.selectedRoom = roomName;
+        console.log(`Selected room tab: ${roomName}`);
     }
 
     this.SetSwitch = function (devKey) {
