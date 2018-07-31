@@ -22,7 +22,7 @@ namespace RFController {
         public int DimCorrLvlLow { get; set; }
         public int OnLvl { get; set; }
         public string Room { get; set; }
-        [NonSerialized]
+        //[NonSerialized]
         public List<ILogItem> Log;
         public List<int> Redirect { get; } = new List<int>(16);
         private int key;

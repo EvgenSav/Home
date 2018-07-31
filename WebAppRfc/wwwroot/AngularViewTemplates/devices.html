@@ -6,19 +6,28 @@
         <li  ng-repeat="room in devView.myFactory.Rooms" ng-class="{active: (devView.selectedRoom == room)}" role="presentation">  <a href="" ng-click="devView.SetSelectedRoom(room)">{{room}}</a>
         </li>
     </ul>
-    {{devView.selectedRoom}}
-    <div style="margin-left:auto; margin-right:auto">
+    <!--{{devView.selectedRoom}}-->
+    <div style="margin-left:auto; margin-right:auto" ng-model="devView.curLogKey">
         <div ng-model="devView.myFactory.DevBase" ng-repeat="dev in devView.myFactory.DevBase track by dev.key" ng-show="(dev.room == devView.selectedRoom) || (devView.selectedRoom == 'All')" class="panel panel-default" style="min-width: 150px; max-width: 150px; display:inline-grid">
             <div class="panel-heading text-center">{{dev.name}} </div>
-            <div class="panel-body">
+            <div class="panel-body" style="min-height:230px">
                 <p> Key: {{dev.key}}</p>
                 <p>
-                    State: <span class="label-success" ng-show="(dev.state != 0)"> On </span>
-                    <span ng-show="!(dev.state != 0)"> Off </span>
+                    <div ng-if="dev.type==1 || dev.type == 2">
+                        State: <span class="label-success" ng-show="(dev.state != 0)"> On </span>
+                        <span ng-show="!(dev.state != 0)"> Off </span>
+                    </div>
+                    <div ng-if="dev.type == 3 && dev.extDevType == 1">
+                        t = {{dev.log[dev.log.length-1].sensVal}}
+                    </div>
                 </p>
-                <p ng-model="dev.bright"> Bright: {{dev.bright}}</p>
-                <p> <input ng-model="dev.bright" type="range" class="label-success" ng-click="devView.SetBright(dev.key, dev.bright)" /> </p>
-                <p> <input ng-click="devView.SetSwitch(dev.key)" type="button" title="Switch" value="Switch" class="btn btn-primary center-block" /></p>
+                <div ng-show="dev.type==1 || dev.type == 2">
+                    <p ng-model="dev.bright"> Bright: {{dev.bright}}</p>
+                    <p> <input ng-model="dev.bright" type="range" class="label-success" ng-click="devView.SetBright(dev.key, dev.bright)" /> </p>
+                    <p> <input ng-click="devView.SetSwitch(dev.key)" type="button" title="Switch" value="Switch" class="btn btn-primary center-block" /></p>
+                </div>
+                
+                <a href="#!/log"> <input ng-click="devView.myFactory.CurLogKey = dev.key" type="button" value="Show log" class="btn btn-primary center-block" /></a>
             </div>
         </div>
     </div>

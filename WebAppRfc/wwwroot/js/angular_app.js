@@ -12,13 +12,20 @@ app.config(function ($routeProvider) {
         })
         .when("/rooms", {
             templateUrl: "/AngularViewTemplates/rooms.html",
-            controller:"roomsController"
+            controller: "roomsController"
+        })
+        .when("/log", {
+            templateUrl: "/AngularViewTemplates/log.html",
+            controller: "logController"
         })
 });
+
 app.factory("myFactory", function ($location) {
     let devBase = {};
+
     return {
         Status: "Nothing yet...",
+        CurLogKey: 0,
         Key: 999,
         get DevBase() {
             return devBase;
@@ -41,6 +48,10 @@ app.factory("myFactory", function ($location) {
         },
         isActive: function (viewlocation) {
             return viewlocation === $location.path();
+        },
+        UpdateDevView: function (rfdevice) {
+            this.DevBase[rfdevice.key] = rfdevice;
+            console.log(`View of ${rfdevice.name} updated!`);
         }
     }
 });
@@ -71,6 +82,15 @@ app.controller("MainCtrl", function ($http, myFactory) {
         console.log(myFactory.DevBase);
     }
 });
+
+app.controller("logController", function (myFactory) {
+    this.myFactory = myFactory;
+    this.UpdateDevView = function (rfdevice) {
+        myFactory.DevBase[rfdevice.key] = rfdevice;
+        console.log(`View of ${rfdevice.name} updated!`);
+    };
+});
+
 app.controller("roomsController", function ($http, myFactory) {
     this.myFactory = myFactory;
     this.AddRoom = function (roomName) {
