@@ -14,13 +14,13 @@ connection.on("UpdateDevView", function (rfdevice) {
         appCtrlScope.$apply(function () {
             appCtrlScope.devView.UpdateDevView(rfdevice.value);
         });
-    } catch{
+    } catch(err){
         appCtrlScope = angular.element(document.getElementById("log_controller")).scope();
         try {
             appCtrlScope.$apply(function () {
                 appCtrlScope.devLog.UpdateDevView(rfdevice.value);
             });
-        } catch{ }
+        } catch(err){ }
     } finally {
         console.log("Device info updated!");
     }
@@ -30,9 +30,9 @@ connection.on("UpdateDevView", function (rfdevice) {
 });
 
 connection.on("ConfirmDevAdd", function (rfdevice) {
-    var appCtrlScope = angular.element(document.getElementById("app_controller_addNewDev")).scope();
+    var appCtrlScope = angular.element(document.getElementById("addNewDev_controller")).scope();
     appCtrlScope.$apply(function () {
-        appCtrlScope.ConfirmAddDev(rfdevice.value);
+        appCtrlScope.new.ConfirmAddDev(rfdevice.value);
     });
     console.log(rfdevice.value);
 });

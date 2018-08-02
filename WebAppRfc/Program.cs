@@ -95,19 +95,24 @@ namespace WebAppRfc
                         Device.Log.Add(new LogItem(DateTime.Now, NooCmd.Switch));
                         break;
                     case NooCmd.On:
-                        if (Mtrf64.rxBuf.Mode == 0) {
-                            Device.State = 1;
-                            if (Device.Type == NooDevType.PowerUnitF) {
+                        if (Mtrf64.rxBuf.Mode == NooMode.Tx) {
+                            if (Device.Type == NooDevType.PowerUnit) {
+                                Device.State = 1;
                                 Device.Bright = Mtrf64.rxBuf.D0;
+                                Device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.On, Device.State, Device.Bright));
                             }
-                            Device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.On, Device.State, Device.Bright));
+                            
+                        } else if(Mtrf64.rxBuf.Mode == NooMode.Rx) {
+                            Device.Log.Add(new LogItem(DateTime.Now, NooCmd.On));
                         }
                         break;
                     case NooCmd.Off:
-                        if (Mtrf64.rxBuf.Mode == 0) {
+                        if (Mtrf64.rxBuf.Mode == NooMode.Tx) {
                             Device.State = 0;
+                            Device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.Off, Device.State, Device.Bright));
+                        } else if(Mtrf64.rxBuf.Mode == NooMode.Rx) {
+                            Device.Log.Add(new LogItem(DateTime.Now, NooCmd.Off));
                         }
-                        Device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.On, Device.State, Device.Bright));
                         break;
                     case NooCmd.SetBrightness:
                         Device.ReadSetBrightAnswer(Mtrf64);

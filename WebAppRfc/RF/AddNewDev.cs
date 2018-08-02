@@ -43,6 +43,7 @@ namespace RFController {
                             Device.Addr = Mtrf64.rxBuf.AddrF;
                             KeyToAdd = Device.Addr;
                             Device.Key = KeyToAdd;
+                            Status = "Bind accepted";
                             await FeedbackHub.GlobalContext.Clients.All.SendAsync("ConfirmDevAdd", new JsonResult(Device));
                         }
                         break;
@@ -53,6 +54,7 @@ namespace RFController {
                             Device.ExtDevType = Mtrf64.rxBuf.D0;
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
+                            Status = "Bind from sensor accepted";
                             await FeedbackHub.GlobalContext.Clients.All.SendAsync("ConfirmDevAdd", new JsonResult(Device));
                         }
                         break;
@@ -62,6 +64,7 @@ namespace RFController {
                             WaitingBindFlag = false;
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
+                            Status = "Bind from RC accepted";
                             await FeedbackHub.GlobalContext.Clients.All.SendAsync("ConfirmDevAdd", new JsonResult(Device));
                         }
                         break;

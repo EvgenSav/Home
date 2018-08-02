@@ -1,0 +1,12 @@
+﻿<h2>Edit rooms</h2>
+<div ng-controller="roomsController as rooms">
+    <div>
+        <input type="text" ng-model="rooms.newName" placeholder="Room name"/>
+        <input type="button" class="btn btn-primary" value="Add selected" ng-click="rooms.AddRoom(rooms.newName)"/>
+    </div>
+    <div>
+        <select class="btn-default" ng-model="rooms.selectedRoom" ng-options="room for room in rooms.myFactory.Rooms"></select>
+        <input type="button" class="btn btn-primary" value="Remove selected" ng-click="rooms.RemoveRoom(rooms.selectedRoom)" />
+        {{rooms.selectedRoom}}
+    </div>
+</div>

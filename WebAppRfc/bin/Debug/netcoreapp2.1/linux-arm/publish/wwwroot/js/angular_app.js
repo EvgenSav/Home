@@ -3,18 +3,29 @@ var app = angular.module("app", ["ngRoute"]);
 app.config(function ($routeProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "/AngularViewTemplates/Devices.html",
+            templateUrl: "/AngularViewTemplates/devices.html",
             controller: "appController"
         })
         .when("/addnew", {
             templateUrl: "/AngularViewTemplates/addnew.html",
             controller: "addNewDev"
         })
+        .when("/rooms", {
+            templateUrl: "/AngularViewTemplates/rooms.html",
+            controller: "roomsController"
+        })
+        .when("/log", {
+            templateUrl: "/AngularViewTemplates/log.html",
+            controller: "logController"
+        })
 });
+
 app.factory("myFactory", function ($location) {
     let devBase = {};
+
     return {
         Status: "Nothing yet...",
+        CurLogKey: 0,
         Key: 999,
         get DevBase() {
             return devBase;
@@ -37,6 +48,10 @@ app.factory("myFactory", function ($location) {
         },
         isActive: function (viewlocation) {
             return viewlocation === $location.path();
+        },
+        UpdateDevView: function (rfdevice) {
+            this.DevBase[rfdevice.key] = rfdevice;
+            console.log(`View of ${rfdevice.name} updated!`);
         }
     }
 });
@@ -56,7 +71,7 @@ app.controller("MainCtrl", function ($http, myFactory) {
                 console.log("devbase receive success!");
             }, function errorCallback(response) {
             });
-        $http.get(`http://${myFactory.Host}/NewDevice/GetRooms`).then(
+        $http.get(`http://${myFactory.Host}/Rooms/GetRooms`).then(
             function successCallback(response) {
                 myFactory.Rooms = response.data;
                 //console.log(response.data);
@@ -68,6 +83,33 @@ app.controller("MainCtrl", function ($http, myFactory) {
     }
 });
 
+app.controller("logController", function (myFactory) {
+    this.myFactory = myFactory;
+    this.UpdateDevView = function (rfdevice) {
+        myFactory.DevBase[rfdevice.key] = rfdevice;
+        console.log(`View of ${rfdevice.name} updated!`);
+    };
+});
+
+app.controller("roomsController", function ($http, myFactory) {
+    this.myFactory = myFactory;
+    this.AddRoom = function (roomName) {
+        $http.post(`http://${myFactory.Host}/Rooms/AddRoom?roomName=${roomName}`).then(
+            function successCallback(response) {
+                myFactory.Rooms = response.data;
+            }, function errorCallback(reponse) {
+
+            });
+    }
+    this.RemoveRoom = function (roomName) {
+        $http.post(`http://${myFactory.Host}/Rooms/RemoveRoom?roomName=${roomName}`).then(
+            function successCallback(response) {
+                myFactory.Rooms = response.data;
+            }, function errorCallback(reponse) {
+
+            });
+    }
+});
 app.controller("appController", function ($http, myFactory) {
     this.myFactory = myFactory;
     this.selectedRoom = "All";
@@ -104,7 +146,7 @@ app.controller("addNewDev", function ($http, myFactory) {
             });
         console.log("myFactory.Devbase after request");
         console.log(myFactory.DevBase);
-        $http.get(`http://${myFactory.Host}/NewDevice/GetRooms`).then(
+        $http.get(`http://${myFactory.Host}/Rooms/GetRooms`).then(
             function successCallback(response) {
                 myFactory.Rooms = response.data;
                 //console.log(response.data);
@@ -137,7 +179,7 @@ app.controller("addNewDev", function ($http, myFactory) {
             name: "F-Tx"
         }];
     this.GetRooms = function () {
-        $http.get(`http://${myFactory.Host}/NewDevice/GetRooms`).then(
+        $http.get(`http://${myFactory.Host}/Rooms/GetRooms`).then(
             function successCallback(response) {
                 myFactory.Rooms = response.data;
                 console.log(response.data);

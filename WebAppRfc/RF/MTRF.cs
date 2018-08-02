@@ -33,6 +33,8 @@ namespace RFController {
         System.Threading.ManualResetEvent AnswerReceived2 = new System.Threading.ManualResetEvent(false);
 
         public MTRF() {
+            rxBuf = new Buf();
+            txBuf = new Buf();
             serialPort = new SerialPortStream {
                 BaudRate = 9600,
                 DataBits = 8,
@@ -40,9 +42,7 @@ namespace RFController {
                 Parity = Parity.None
             };
             serialPort.DataReceived += new EventHandler<SerialDataReceivedEventArgs>(DataReceivedHandler);
-            rxBuf = new Buf();
-            txBuf = new Buf();
-
+            
             LastTempBuf = new float[64];
             for (int i = 0; i < LastTempBuf.Length; i++) {
                 LastTempBuf[i] = 65535;

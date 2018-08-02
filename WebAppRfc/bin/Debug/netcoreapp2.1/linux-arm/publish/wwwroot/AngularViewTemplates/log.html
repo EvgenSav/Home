@@ -1,0 +1,12 @@
+
+
+<div id="log_controller" ng-controller="logController as devLog">
+    <input type="text" class="btn btn-default text-center" value="Time" />
+    <input type="text" class="btn btn-default text-center"  value="Cmd"/>
+    <input ng-show="devLog.myFactory.DevBase[devLog.myFactory.CurLogKey].log[0].sensVal != null" type="text" class="btn btn-default text-center"  value="Teperature, C"/>
+    <div ng-repeat="logItem in devLog.myFactory.DevBase[devLog.myFactory.CurLogKey].log track by $id(logItem)">
+        <input type="text" class="btn btn-default" ng-model="logItem.currentTime" />
+        <input type="text" class="btn btn-default" ng-model="logItem.cmd" />
+        <input ng-show="logItem.sensVal != null" type="text" class="btn btn-default" ng-model="logItem.sensVal" />
+    </div>
+</div>
