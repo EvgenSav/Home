@@ -29,29 +29,20 @@ namespace WebAppRfc
             DevBase = MyDB<int, RfDevice>.OpenFile("devices.json");
             Rooms = GetRooms();
             Mtrf64 = new MTRF();
-            Mtrf64.NewDataReceived += Mtrf64_NewDataReceived;
+            
             List<Mtrf> availableAdapters = Mtrf64.GetAvailableComPorts();
             if (availableAdapters.Count > 0) {
                 Mtrf64.OpenPort(availableAdapters[0]);
+                Mtrf64.NewDataReceived += Mtrf64_NewDataReceived;
             }
             IWebHost host = CreateWebHostBuilder(args).Build();
             Task hostrunning = host.RunAsync();
-            Timer t1 = new Timer {
-                Interval = 5000,
-                AutoReset = true
-            };
-            t1.Elapsed += T1_Elapsed;
-            //t1.Start();
             hostrunning.Wait();
             hostrunning.GetAwaiter().OnCompleted(new Action(() => {
                 DevBase.SaveToFile("devices.json");
                 ActionLog.SaveToFile("log.json");
             }));
 
-        }
-
-        async private static void T1_Elapsed(object sender, ElapsedEventArgs e) {
-            await FeedbackHub.GlobalContext.Clients.All.SendAsync("UpdateDevView",new JsonResult(DevBase.Data[3]));
         }
 
         private async static void Mtrf64_NewDataReceived(object sender, EventArgs e) {

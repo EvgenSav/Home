@@ -16,20 +16,24 @@ namespace WebAppRfc.Controllers
             }
         }
 
-        public JsonResult Add() {
-            AddNew.AddBtnClicked();
-            return new JsonResult( new { Device = AddNew.Device, Status = AddNew.Status });
+        public JsonResult RoomSelected(string name, string room, int mode) {
+            AddNew.RoomSelected(name, room, mode);
+            return new JsonResult(new { Channel = AddNew.FindedChannel, Status = AddNew.Status });
         }
 
         public JsonResult SendBind() {
             AddNew.SendBind();
-            return new JsonResult( new { Status = AddNew.Status });
+            return new JsonResult(new { Status = AddNew.Status });
         }
 
-        public JsonResult RoomSelected(string name, string room, int mode) {
-            AddNew.RoomSelected(name, room, mode);
-            return new JsonResult(new { Channel = AddNew.FindedChannel, Status = AddNew.Status }); //FindEmptyChannel(mode);
+        public JsonResult Add() {
+            AddNew.SendAdd();
+            return new JsonResult( new { Device = AddNew.Device, Status = AddNew.Status });
         }
+
+        
+
+        
 
         public IActionResult Index()
         {

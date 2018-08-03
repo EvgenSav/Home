@@ -95,6 +95,7 @@ namespace RFController {
                 task2 = new Task<List<Mtrf>>(new Func<List<Mtrf>>(SearchMtrf));
             }
             task2.Start();
+            task2.Wait();
             return task2.Result;
         }
 
@@ -103,7 +104,7 @@ namespace RFController {
             Stream s1 = serialPort;
             BinaryReader b1 = new BinaryReader(s1);
             rxBuf.LoadData(b1.ReadBytes(17));
-
+            System.Diagnostics.Debug.WriteLine(GetLogMsg(rxBuf));
             if (rxBuf.GetCrc == rxBuf.Crc) {
                 if (NewDataReceived != null) {
                     NewDataReceived(this, EventArgs.Empty);

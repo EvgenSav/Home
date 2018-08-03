@@ -8,7 +8,7 @@
     </ul>
     <!--{{devView.selectedRoom}}-->
     <div ng-model="devView.curLogKey">
-        <div ng-repeat="dev in devView.myFactory.DevBase track by dev.key" ng-show="(dev.room == devView.selectedRoom) || (devView.selectedRoom == 'All')" class="card border-primary mb-3" style="margin:5px;min-height:250px; min-width: 160px; max-width: 160px; display:inline-grid">
+        <div ng-repeat="dev in devView.myFactory.DevBase track by $id(dev)" ng-show="(dev.room == devView.selectedRoom) || (devView.selectedRoom == 'All')" class="card border-primary mb-3" style="margin:5px;min-height:250px; min-width: 160px; max-width: 160px; display:inline-grid">
             <div class="card-header text-center">{{dev.name}} </div>
             <div class="card-body" style="min-height:295px">
                 <p> Key: {{dev.key}}</p>

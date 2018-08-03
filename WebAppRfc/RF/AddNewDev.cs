@@ -43,8 +43,8 @@ namespace RFController {
                             Device.Addr = Mtrf64.rxBuf.AddrF;
                             KeyToAdd = Device.Addr;
                             Device.Key = KeyToAdd;
-                            Status = "Bind accepted";
-                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("ConfirmDevAdd", new JsonResult(Device));
+                            Status = "Bind F-TX accepted";
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", new JsonResult(Device));
                         }
                         break;
                     case NooDevType.Sensor:
@@ -55,7 +55,7 @@ namespace RFController {
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
                             Status = "Bind from sensor accepted";
-                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("ConfirmDevAdd", new JsonResult(Device));
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", new JsonResult(Device));
                         }
                         break;
                     default:
@@ -65,7 +65,7 @@ namespace RFController {
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
                             Status = "Bind from RC accepted";
-                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("ConfirmDevAdd", new JsonResult(Device));
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", new JsonResult(Device));
                         }
                         break;
                 }
@@ -116,8 +116,7 @@ namespace RFController {
                 timer1.Start();
             } else {
                 Mtrf64.SendCmd(FindedChannel, NooMode.Tx, NooCmd.Bind);
-
-                Status = "Waiting for user confirm...";
+                Status = "Bind send!";
                 WaitingBindFlag = true;
                 timer1.Interval = 25000;
                 timer1.Start();
@@ -128,7 +127,7 @@ namespace RFController {
 
 
 
-        public void AddBtnClicked() {
+        public void SendAdd() {
             KeyToAdd = FindedChannel;
             Device.Key = KeyToAdd;
             try {
@@ -136,11 +135,11 @@ namespace RFController {
                 Status = "Device added";
                 AddingOk = true;
             } catch (Exception e){
-                System.Diagnostics.Debug.WriteLine(e.Message);
                 Status = "Device not added\n" + e.Message;
                 AddingOk = false;
             }
             WaitingBindFlag = false;
+            FeedbackHub.GlobalContext.Clients.All.SendAsync("AddNewResult", new JsonResult(Device), Status);
         }
 
         public void RoomSelected(string name, string room, int mode) {
@@ -163,7 +162,7 @@ namespace RFController {
                         break;
                     case NooDevType.PowerUnitF:
                         WaitingBindFlag = false;
-
+                        Status = "Press service button";
                         break;
                     default: //NooDevType.RemController or NooDevType.Sensor     
                         Mtrf64.SendCmd(FindedChannel, NooMode.Rx, 0, MtrfMode: NooCtr.BindModeEnable); //enable bind at finded chnannel

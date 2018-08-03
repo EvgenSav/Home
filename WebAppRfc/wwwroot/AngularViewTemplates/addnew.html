@@ -1,28 +1,28 @@
 ﻿
 
-<div class="panel panel-primary" style="display:inline-block">
-    <h2 class="panel-heading">Adding new device</h2>
-    <div id="addNewDev_controller" ng-controller="addNewDev as new" class="panel-body">
+<div class="card" style="display:inline-block">
+    <h2 class="card-header">Adding new device</h2>
+    <div id="addNewDev_controller" ng-controller="addNewDev as new" class="card-body">
         <div class="form-group">
             <div>
-                <input type="text" ng-model="new.Name" placeholder="Device Name"  class="col-md-10"/>
+                <input type="text" ng-model="new.Name" placeholder="Device Name"  class="bg-light rounded col-md-10"/>
             </div>
             <div>
-                <select ng-model="new.selectedType" ng-options="type.name for type in new.DevTypes" class="col-md-10"> </select>
+                <select ng-model="new.selectedType" ng-options="type.name for type in new.DevTypes" class="bg-light rounded col-md-10"> </select>
             </div>
             <div>
-                <select ng-model="new.selectedRoom" ng-options="room for room in new.myFactory.Rooms" ng-change="new.RoomSelected(new.Name,new.selectedRoom,new.selectedType)" class="col-md-10"> </select>
+                <select ng-model="new.selectedRoom" ng-options="room for room in new.myFactory.Rooms" ng-change="new.RoomSelected(new.Name,new.selectedRoom,new.selectedType)" class="bg-light rounded col-md-10"> </select>
             </div>
 
             <div ng-show="((new.selectedType.id == 1 || new.selectedType.id == 2) && new.selectedRoom != '' && new.selectedRoom != null)">
-                <input type="button" ng-click="new.BindClicked()" value="Send Bind" class="btn-primary col-md-10"/>
+                <input type="button" ng-click="new.BindClicked()" value="Send Bind" class="btn-primary rounded col-md-10"/>
             </div>
 
             <div ng-show="new.Name != '' && new.selectedType != null && new.selectedRoom != ''">
-                <input type="button" value="Add" ng-click="new.Add()" class="col-md-10"/>
+                <input type="button" value="Add" ng-click="new.Add()" class="btn-success rounded col-md-10"/>
             </div>
             <div>
-                <label class="bg-success" ng-model="new.myFactory.Status">{{new.myFactory.Status}}</label>
+                <label class="bg-light rounded d-inline-block align-items-center" ng-model="new.myFactory.Status">{{new.myFactory.Status}}</label>
             </div>
         </div>
     </div>

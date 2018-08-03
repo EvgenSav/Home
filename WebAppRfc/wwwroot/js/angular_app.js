@@ -129,7 +129,11 @@ app.controller("appController", function ($http, myFactory) {
     this.UpdateDevView = function (rfdevice) {
         myFactory.DevBase[rfdevice.key] = rfdevice;
         console.log(`View of ${rfdevice.name} updated!`);
-    };
+    }
+    this.AddNew = function (rfdevice) {
+        myFactory.AddToBase(rfdevice);
+        myFactory.Status = "Ready";
+    }
 });
 
 app.controller("addNewDev", function ($http, myFactory) {
@@ -208,21 +212,22 @@ app.controller("addNewDev", function ($http, myFactory) {
         console.log(myFactory.DevBase);
         $http.get(`http://${myFactory.Host}/NewDevice/Add`).then(
             function successCallback(response) {
-                console.log("Response data:");
-                console.log(response.data);
-                myFactory.AddToBase(response.data.device);
-                myFactory.Status = response.data.status;
-                console.log("myFactory after add:");
-                console.log(myFactory.DevBase);
+                //console.log("Response data:");
+                //console.log(response.data);
+                //myFactory.AddToBase(response.data.device);
+                //myFactory.Status = response.data.status;
+                //console.log("myFactory after add:");
+                //console.log(myFactory.DevBase);
             }, function errorCallback(response) { });
         this.Name = "";
         this.selectedType = {};
         this.selectedRoom = "";
     }
 
-    this.ConfirmAddDev = function (device) {
-        console.log(device);
+    this.BindReceived = function (device) {
+        console.log(`Received bind for ${device.name}`);
     }
+
     this.ShowBaseFromNewDev = function () {
         console.log(myFactory.DevBase);
     }

@@ -29,11 +29,22 @@ connection.on("UpdateDevView", function (rfdevice) {
     console.log(rfdevice.value);
 });
 
-connection.on("ConfirmDevAdd", function (rfdevice) {
+connection.on("BindReceived", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("addNewDev_controller")).scope();
     appCtrlScope.$apply(function () {
-        appCtrlScope.new.ConfirmAddDev(rfdevice.value);
+        appCtrlScope.new.BindReceived(rfdevice.value);
     });
+    console.log(rfdevice.value);
+});
+
+connection.on("AddNewResult", function (rfdevice, status) {
+    var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
+    appCtrlScope.$apply(function () {
+        if (status == "Device added") {
+            appCtrlScope.devView.AddNew(rfdevice.value);
+        }
+    });
+    console.log(status);
     console.log(rfdevice.value);
 });
 
