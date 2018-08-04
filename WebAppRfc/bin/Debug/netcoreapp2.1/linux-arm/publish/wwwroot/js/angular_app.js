@@ -132,6 +132,7 @@ app.controller("appController", function ($http, myFactory) {
     }
     this.AddNew = function (rfdevice) {
         myFactory.AddToBase(rfdevice);
+        myFactory.Status = "Ready";
     }
 });
 

@@ -39,11 +39,21 @@ connection.on("BindReceived", function (rfdevice) {
 
 connection.on("AddNewResult", function (rfdevice, status) {
     var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
-    appCtrlScope.$apply(function () {
-        if (status == "Device added") {
-            appCtrlScope.devView.AddNew(rfdevice.value);
-        }
-    });
+    try {
+        appCtrlScope.$apply(function () {
+            if (status == "Device added") {
+                appCtrlScope.devView.AddNew(rfdevice.value);
+            }
+        });
+    } catch (err) {
+        appCtrlScope = angular.element(document.getElementById("addNewDev_controller")).scope();
+        appCtrlScope.$apply(function () {
+            if (status == "Device added") {
+                appCtrlScope.new.myFactory.AddToBase(rfdevice.value);
+            }
+        });
+    }
+   
     console.log(status);
     console.log(rfdevice.value);
 });
