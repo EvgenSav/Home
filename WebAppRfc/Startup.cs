@@ -19,7 +19,10 @@ namespace WebAppRfc
         {
             Configuration = configuration;
         }
-
+        public void OnShutdown() {
+            Program.DevBase.SaveToFile("devices.json");
+            Program.ActionLog.SaveToFile("log.json");
+        }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -33,7 +36,6 @@ namespace WebAppRfc
 
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSignalR();
@@ -42,6 +44,9 @@ namespace WebAppRfc
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var applicationLifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
+            applicationLifetime.ApplicationStopped.Register(OnShutdown);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

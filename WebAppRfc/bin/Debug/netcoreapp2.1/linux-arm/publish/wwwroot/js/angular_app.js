@@ -38,6 +38,7 @@ app.factory("myFactory", function ($location) {
         Host: window.location.host,
         AddToBase: function (rfdev) {
             this.DevBase[rfdev.key] = rfdev;
+            this.DevCount++;
         },
         AddTest: function () {
             var devItem = this.DevBase[3];

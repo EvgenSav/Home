@@ -35,14 +35,7 @@ namespace WebAppRfc
                 Mtrf64.OpenPort(availableAdapters[0]);
                 Mtrf64.NewDataReceived += Mtrf64_NewDataReceived;
             }
-            IWebHost host = CreateWebHostBuilder(args).Build();
-            Task hostrunning = host.RunAsync();
-            hostrunning.Wait();
-            hostrunning.GetAwaiter().OnCompleted(new Action(() => {
-                DevBase.SaveToFile("devices.json");
-                ActionLog.SaveToFile("log.json");
-            }));
-
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         private async static void Mtrf64_NewDataReceived(object sender, EventArgs e) {
