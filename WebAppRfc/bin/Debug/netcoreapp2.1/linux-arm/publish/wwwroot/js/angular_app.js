@@ -18,6 +18,10 @@ app.config(function ($routeProvider) {
             templateUrl: "/AngularViewTemplates/log.html",
             controller: "logController"
         })
+        .when("/remove", {
+            templateUrl: "/AngularViewTemplates/remmove.html",
+            controller: "removeController"
+        })
 });
 
 app.factory("myFactory", function ($location) {
@@ -83,7 +87,8 @@ app.controller("MainCtrl", function ($http, myFactory) {
         console.log(myFactory.DevBase);
     }
 });
-
+app.controller("removeControlelr", function ($http) {
+});
 app.controller("logController", function (myFactory) {
     this.myFactory = myFactory;
     this.UpdateDevView = function (rfdevice) {

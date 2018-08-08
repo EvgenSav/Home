@@ -18,6 +18,10 @@ app.config(function ($routeProvider) {
             templateUrl: "/AngularViewTemplates/log.html",
             controller: "logController"
         })
+        .when("/remove", {
+            templateUrl: "/AngularViewTemplates/remove.html",
+            controller: "removeController"
+        })
 });
 
 app.factory("myFactory", function ($location) {
@@ -84,6 +88,20 @@ app.controller("MainCtrl", function ($http, myFactory) {
     }
 });
 
+app.controller("removeController", function ($http, myFactory) {
+    this.myFactory = myFactory;
+    this.RemoveDev = function (dev) {
+        $http.post(`http://${myFactory.Host}/RemoveDevice/RemoveDev?devkey=${dev.key}`)
+            .then(
+                function successCallbask(response) {
+                    console.log(`${dev.name} deleted!`);
+                    console.log(response.data);
+                }, function errorCallbask(response) {
+
+                }
+            );
+    };
+});
 app.controller("logController", function (myFactory) {
     this.myFactory = myFactory;
     this.UpdateDevView = function (rfdevice) {

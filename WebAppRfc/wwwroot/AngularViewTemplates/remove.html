@@ -1,0 +1,11 @@
+﻿<div ng-controller="removeController as remove" class="card" style="display:inline-block">
+    <h2 class="card-header">Remove device</h2>
+    <div class="card-body">
+        <div>
+            <select ng-model="remove.selectedDev" ng-options="dev.name for dev in remove.myFactory.DevBase" class="card-body"></select>
+        </div>
+        <div>
+            <input type="button" class="btn btn-danger" ng-click="remove.RemoveDev(remove.selectedDev)" value="Remove" />
+        </div>
+    </div>
+</div>

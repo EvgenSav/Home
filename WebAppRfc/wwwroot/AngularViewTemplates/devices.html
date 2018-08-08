@@ -10,7 +10,7 @@
     <div ng-model="devView.curLogKey">
         <div ng-repeat="dev in devView.myFactory.DevBase track by $id(dev)" ng-show="(dev.room == devView.selectedRoom) || (devView.selectedRoom == 'All')" class="card border-primary mb-3" style="margin:5px;min-height:250px; min-width: 160px; max-width: 160px; display:inline-grid">
             <div class="card-header text-center">{{dev.name}} </div>
-            <div class="card-body" style="min-height:295px">
+            <div class="card-body" style="min-height:250px">
                 <p> Key: {{dev.key}}</p>
                 <p>
                     <div ng-show="dev.type == 1 || dev.type == 2">
@@ -24,10 +24,20 @@
                 <div ng-show="dev.type == 1 || dev.type == 2">
                     <p ng-model="dev.bright"> Bright: {{dev.bright}}</p>
                     <p> <input ng-model="dev.bright" type="range" class="label-success" ng-click="devView.SetBright(dev.key, dev.bright)" /> </p>
-                    <p> <input ng-click="devView.SetSwitch(dev.key)" type="button" title="Switch" value="Switch" class="btn btn-primary center-block" /></p>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" ng-click="devView.SetSwitch(dev.key)">Switch</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#!/log" ng-click="devView.myFactory.CurLogKey = dev.key">Log</a>
+                            <a class="dropdown-item" href="#!/remove">Remove</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
                 </div>
-
-                <a class ="align-bottom" href="#!/log"> <input ng-click="devView.myFactory.CurLogKey = dev.key" type="button" value="Show log" class ="btn btn-primary"/></a>
             </div>
         </div>
     </div>
