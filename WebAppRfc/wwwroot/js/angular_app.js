@@ -90,17 +90,37 @@ app.controller("MainCtrl", function ($http, myFactory) {
 
 app.controller("removeController", function ($http, myFactory) {
     this.myFactory = myFactory;
-    this.RemoveDev = function (dev) {
-        $http.post(`http://${myFactory.Host}/RemoveDevice/RemoveDev?devkey=${dev.key}`)
+    this.SendUnbind = function (dev) {
+        $http.post(`http://${myFactory.Host}/RemoveDevice/Unbind?devkey=${dev.key}`)
             .then(
                 function successCallbask(response) {
-                    console.log(`${dev.name} deleted!`);
+                    //console.log(response.data);
+                }, function errorCallbask(response) {
+
+                }
+            );
+    };
+    this.CheckUnbind = function (dev) {
+        $http.post(`http://${myFactory.Host}/Home/SwitchDev?devkey=${dev.key}`)
+            .then(
+                function successCallbask(response) {
                     console.log(response.data);
                 }, function errorCallbask(response) {
 
                 }
             );
     };
+    this.RemoveDev = function (dev) {
+        $http.post(`http://${myFactory.Host}/RemoveDevice/RemoveDev?devkey=${dev.key}`)
+            .then(
+            function successCallbask(response) {
+                console.log("Response on RemoveDev" + response);
+                }, function errorCallbask(response) {
+
+                }
+            );
+    };
+   
 });
 app.controller("logController", function (myFactory) {
     this.myFactory = myFactory;
@@ -157,25 +177,6 @@ app.controller("appController", function ($http, myFactory) {
 
 app.controller("addNewDev", function ($http, myFactory) {
     this.myFactory = myFactory; //gives possibility to accecc myFactory in html tempplate page
-    this.Init = function () {
-        console.log("myFactory.Devbase before request");
-        console.log(myFactory.DevBase);
-        $http.get(`http://${myFactory.Host}/Home/devbase`).then(
-            function successCallback(response) {
-                console.log("Devbase from request");
-                console.log(response.data);
-                myFactory.DevBase = response.data;
-            }, function errorCallback(response) {
-            });
-        console.log("myFactory.Devbase after request");
-        console.log(myFactory.DevBase);
-        $http.get(`http://${myFactory.Host}/Rooms/GetRooms`).then(
-            function successCallback(response) {
-                myFactory.Rooms = response.data;
-                //console.log(response.data);
-            }, function errorCallback(response) {
-            });
-    }
     this.DevTypes = [
         {
             id: 0,
@@ -209,7 +210,6 @@ app.controller("addNewDev", function ($http, myFactory) {
             }, function errorCallback(response) {
             });
     }
-
     this.RoomSelected = function (name, room, type) {
         $http.get(`http://${myFactory.Host}/NewDevice/RoomSelected?name=${name}&room=${room}&mode=${type.id}`).then(
             function successCallback(response) {
@@ -217,7 +217,6 @@ app.controller("addNewDev", function ($http, myFactory) {
                 myFactory.Status = response.data.status;
             }, function errorCallback(response) { });
     }
-
     this.BindClicked = function () {
         $http.get(`http://${myFactory.Host}/NewDevice/SendBind`).then(
             function successCallback(response) {
@@ -225,7 +224,16 @@ app.controller("addNewDev", function ($http, myFactory) {
             }, function errorCallback(response) {
             });
     }
+    this.BindReceived = function (device) {
+        console.log(`Received bind for ${device.name}`);
+        this.Device = device;
+    };
+    this.ShowBaseFromNewDev = function () {
+        console.log(myFactory.DevBase);
+    }
+    this.CheckBind = function () {
 
+    }
     this.Add = function () {
         console.log("myFactory before add:");
         console.log(myFactory.DevBase);
@@ -241,14 +249,6 @@ app.controller("addNewDev", function ($http, myFactory) {
         this.Name = "";
         this.selectedType = {};
         this.selectedRoom = "";
-    }
-
-    this.BindReceived = function (device) {
-        console.log(`Received bind for ${device.name}`);
-    }
-
-    this.ShowBaseFromNewDev = function () {
-        console.log(myFactory.DevBase);
     }
 });
 

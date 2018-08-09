@@ -19,7 +19,7 @@ app.config(function ($routeProvider) {
             controller: "logController"
         })
         .when("/remove", {
-            templateUrl: "/AngularViewTemplates/remmove.html",
+            templateUrl: "/AngularViewTemplates/remove.html",
             controller: "removeController"
         })
 });
@@ -87,7 +87,40 @@ app.controller("MainCtrl", function ($http, myFactory) {
         console.log(myFactory.DevBase);
     }
 });
-app.controller("removeControlelr", function ($http) {
+
+app.controller("removeController", function ($http, myFactory) {
+    this.myFactory = myFactory;
+    this.SendUnbind = function (dev) {
+        $http.post(`http://${myFactory.Host}/RemoveDevice/Unbind?devkey=${dev.key}`)
+            .then(
+                function successCallbask(response) {
+                    //console.log(response.data);
+                }, function errorCallbask(response) {
+
+                }
+            );
+    };
+    this.CheckUnbind = function (dev) {
+        $http.post(`http://${myFactory.Host}/Home/SwitchDev?devkey=${dev.key}`)
+            .then(
+                function successCallbask(response) {
+                    console.log(response.data);
+                }, function errorCallbask(response) {
+
+                }
+            );
+    };
+    this.RemoveDev = function (dev) {
+        $http.post(`http://${myFactory.Host}/RemoveDevice/RemoveDev?devkey=${dev.key}`)
+            .then(
+            function successCallbask(response) {
+                console.log("Response on RemoveDev" + response);
+                }, function errorCallbask(response) {
+
+                }
+            );
+    };
+   
 });
 app.controller("logController", function (myFactory) {
     this.myFactory = myFactory;

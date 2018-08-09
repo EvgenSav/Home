@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebAppRfc.Hubs;
+using RFController;
 
 namespace WebAppRfc
 {
@@ -28,6 +29,8 @@ namespace WebAppRfc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(typeof(MTRF), Program.Mtrf64);
+            services.AddSingleton(typeof(MyDB<int, RfDevice>), Program.DevBase);
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -37,7 +40,6 @@ namespace WebAppRfc
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             services.AddSignalR();
         }
 

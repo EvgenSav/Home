@@ -41,7 +41,7 @@ namespace RFController {
                 StopBits = StopBits.One,
                 Parity = Parity.None
             };
-            serialPort.DataReceived += new EventHandler<SerialDataReceivedEventArgs>(DataReceivedHandler);
+            
             
             LastTempBuf = new float[64];
             for (int i = 0; i < LastTempBuf.Length; i++) {
@@ -101,10 +101,8 @@ namespace RFController {
 
 
         void DataReceivedHandler(object sender, SerialDataReceivedEventArgs args) {
-            Stream s1 = serialPort;
-            BinaryReader b1 = new BinaryReader(s1);
+            BinaryReader b1 = new BinaryReader(serialPort);
             rxBuf.LoadData(b1.ReadBytes(17));
-            System.Diagnostics.Debug.WriteLine(GetLogMsg(rxBuf));
             if (rxBuf.GetCrc == rxBuf.Crc) {
                 if (NewDataReceived != null) {
                     NewDataReceived(this, EventArgs.Empty);
@@ -118,6 +116,7 @@ namespace RFController {
         public int ClosePort(string pName) {
             if (serialPort.IsOpen) {
                 serialPort.Close();
+                serialPort.DataReceived -= new EventHandler<SerialDataReceivedEventArgs>(DataReceivedHandler);
                 return 0;
             } else {
                 return -1;
@@ -128,6 +127,7 @@ namespace RFController {
                 if (!serialPort.IsOpen) {
                     serialPort.PortName = pName;
                     serialPort.Open();
+                    serialPort.DataReceived += new EventHandler<SerialDataReceivedEventArgs>(DataReceivedHandler);
                 }
                 return 0;
             } else {
@@ -139,6 +139,7 @@ namespace RFController {
                 if (!serialPort.IsOpen) {
                     serialPort.PortName = mtrf.ComPortName;
                     serialPort.Open();
+                    serialPort.DataReceived += new EventHandler<SerialDataReceivedEventArgs>(DataReceivedHandler);
                 }
                 return 0;
             } else {

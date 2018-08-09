@@ -38,13 +38,13 @@ namespace RFController {
             if (WaitingBindFlag) {
                 switch (SelectedType) {
                     case NooDevType.PowerUnitF:
-                        if (Mtrf64.rxBuf.Mode == 2 && Mtrf64.rxBuf.Ctr == 3) {
+                        if (Mtrf64.rxBuf.Mode == NooMode.FTx && Mtrf64.rxBuf.Ctr == NooCtr.BindModeEnable) {
                             WaitingBindFlag = false;
                             Device.Addr = Mtrf64.rxBuf.AddrF;
                             KeyToAdd = Device.Addr;
                             Device.Key = KeyToAdd;
                             Status = "Bind F-TX accepted";
-                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", new JsonResult(Device));
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device);
                         }
                         break;
                     case NooDevType.Sensor:
@@ -55,7 +55,7 @@ namespace RFController {
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
                             Status = "Bind from sensor accepted";
-                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", new JsonResult(Device));
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device);
                         }
                         break;
                     default:
@@ -65,7 +65,7 @@ namespace RFController {
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
                             Status = "Bind from RC accepted";
-                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", new JsonResult(Device));
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device);
                         }
                         break;
                 }

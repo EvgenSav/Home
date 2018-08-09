@@ -1,3 +1,38 @@
-﻿<div ng-controller="removeController as remove">
+﻿
+<div id="remove_controller" ng-controller="removeController as remove" class="card">
+    <h5 class="card-header text-center">Remove device</h5>
+    <div class="card-body">
 
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Choose device</span>
+            </div>
+            <select ng-model="remove.selectedDev" ng-options="dev.name for dev in remove.myFactory.DevBase" class="form-control text-center"></select>
+        </div>
+
+        <!-- RX -->
+        <div ng-show="remove.selectedDev.type == 0">
+
+        </div>
+        <!-- TX -->
+        <div ng-show="remove.selectedDev.type == 1">
+            <label>
+                Press <strong>"Unbind"</strong> to remove device (LED should start blinking)
+                Than u have about 15 sec. to confirm unbind by pressing sevice button on device.
+                Than press any times <strong>"Check bind"</strong>
+            </label>
+            <div class="input-group mb-3">
+                <input type="button" class="btn btn-primary form-control" value="Unbind" ng-click="remove.SendUnbind(remove.selectedDev)"/>
+                <input type="button" class="btn btn-success form-control" value="Check unbind"ng-click="remove.CheckUnbind(remove.selectedDev)" />
+            </div>
+            <label class="text-center">If no reaction on <strong>"Check unbind"</strong>, press <strong>"Remove"</strong> </label>
+        </div>
+        <!--FTX-->
+        <div ng-show="remove.selectedDev.type == 2">
+        </div>
+
+        <div class="input-group mb-3">
+            <input type="button" class="btn btn-danger form-control" ng-click="remove.RemoveDev(remove.selectedDev)" value="Remove" />
+        </div>
+    </div>
 </div>
