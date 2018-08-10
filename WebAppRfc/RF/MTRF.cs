@@ -26,8 +26,8 @@ namespace RFController {
         public float[] LastTempBuf { get; private set; }
 
         Timer CmdQueueTmr;
-        Task task1;
-        Task<List<Mtrf>> task2;
+        Task SeqCmdSend;
+        Task<List<Mtrf>> SearchMtrfTask;
 
         System.Threading.ManualResetEvent AnswerReceived = new System.Threading.ManualResetEvent(true);
         System.Threading.ManualResetEvent AnswerReceived2 = new System.Threading.ManualResetEvent(false);
@@ -41,8 +41,8 @@ namespace RFController {
                 StopBits = StopBits.One,
                 Parity = Parity.None
             };
-            
-            
+
+
             LastTempBuf = new float[64];
             for (int i = 0; i < LastTempBuf.Length; i++) {
                 LastTempBuf[i] = 65535;
@@ -52,8 +52,8 @@ namespace RFController {
             CmdQueueTmr.Elapsed += CmdQueueTmr_Elapsed;
             CmdQueueTmr.AutoReset = false;
 
-            task1 = new Task(new Action(CmdSendTask));
-            task2 = new Task<List<Mtrf>>(new Func<List<Mtrf>>(SearchMtrf));
+            SeqCmdSend = new Task(new Action(CmdSendTask));
+            SearchMtrfTask = new Task<List<Mtrf>>(new Func<List<Mtrf>>(SearchMtrf));
         }
 
 
@@ -67,9 +67,9 @@ namespace RFController {
         }
 
         private void CmdQueueTmr_Elapsed(object sender, ElapsedEventArgs e) {
-            if (task1.Status != TaskStatus.Running) {
-                task1 = new Task(new Action(CmdSendTask));
-                task1.Start();
+            if (SeqCmdSend.Status != TaskStatus.Running) {
+                SeqCmdSend = new Task(new Action(CmdSendTask));
+                SeqCmdSend.Start();
             }
         }
 
@@ -78,38 +78,41 @@ namespace RFController {
             List<Mtrf> connectedMtrfs = new List<Mtrf>();
             foreach (var portName in Ports) {
                 OpenPort(portName);
-                rxBuf = new Buf();
-                SendCmd(0, NooMode.Service, 0, MtrfMode:NooCtr.ReadAnswer);
+                SendCmd(0, NooMode.Service, 0, MtrfMode: NooCtr.ReadAnswer);
                 AnswerReceived2.WaitOne(1000);
                 ClosePort(portName);
-                AnswerReceived2.Reset();
-                if (rxBuf.AddrF != 0) {
-                    connectedMtrfs.Add(new Mtrf(portName, rxBuf.AddrF));
+                if (rxBuf.Length == 17) {
+                    if (rxBuf.AddrF != 0) {
+                        connectedMtrfs.Add(new Mtrf(portName, rxBuf.AddrF));
+                    }
                 }
+                AnswerReceived2.Reset();
             }
             return connectedMtrfs;
         }
 
         public List<Mtrf> GetAvailableComPorts() {
-            if (task2.Status != TaskStatus.Running) {
-                task2 = new Task<List<Mtrf>>(new Func<List<Mtrf>>(SearchMtrf));
+            if (SearchMtrfTask.Status != TaskStatus.Running) {
+                SearchMtrfTask = new Task<List<Mtrf>>(new Func<List<Mtrf>>(SearchMtrf));
             }
-            task2.Start();
-            task2.Wait();
-            return task2.Result;
+            SearchMtrfTask.Start();
+            SearchMtrfTask.Wait();
+            return SearchMtrfTask.Result;
         }
 
 
         void DataReceivedHandler(object sender, SerialDataReceivedEventArgs args) {
             BinaryReader b1 = new BinaryReader(serialPort);
             rxBuf.LoadData(b1.ReadBytes(17));
-            if (rxBuf.GetCrc == rxBuf.Crc) {
-                if (NewDataReceived != null) {
-                    NewDataReceived(this, EventArgs.Empty);
+            if (rxBuf.Length == 17) {
+                if (rxBuf.GetCrc == rxBuf.Crc) {
+                    if (NewDataReceived != null) {
+                        NewDataReceived(this, EventArgs.Empty);
+                    }
+                    System.Threading.Thread.Sleep(25);
+                    AnswerReceived.Set();
+                    AnswerReceived2.Set();
                 }
-                System.Threading.Thread.Sleep(25);
-                AnswerReceived.Set();
-                AnswerReceived2.Set();
             }
         }
 
@@ -134,7 +137,7 @@ namespace RFController {
                 return -1;
             }
         }
-        public int OpenPort(Mtrf mtrf)  {
+        public int OpenPort(Mtrf mtrf) {
             if (mtrf.MtrfAddr != 0) {
                 if (!serialPort.IsOpen) {
                     serialPort.PortName = mtrf.ComPortName;

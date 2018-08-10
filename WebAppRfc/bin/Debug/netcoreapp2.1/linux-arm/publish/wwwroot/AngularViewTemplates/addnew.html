@@ -1,29 +1,56 @@
 ﻿
 
-<div class="card" style="display:inline-block">
-    <h2 class="card-header">Adding new device</h2>
+<div class="card w-75">
+    <h5 class="card-header text-center">Adding new device</h5>
     <div id="addNewDev_controller" ng-controller="addNewDev as new" class="card-body">
-        <div class="form-group">
-            <div>
-                <input type="text" ng-model="new.Name" placeholder="Device Name"  class="bg-light rounded col-md-10"/>
+        <div class="input-group mb-3">
+            <input type="text" ng-model="new.Name" placeholder="Device Name" class="form-control" />
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Choose type</span>
             </div>
-            <div>
-                <select ng-model="new.selectedType" ng-options="type.name for type in new.DevTypes" class="bg-light rounded col-md-10"> </select>
+            <select ng-model="new.selectedType" ng-options="type.name for type in new.DevTypes" class="form-control"> </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Choose room</span>
             </div>
-            <div>
-                <select ng-model="new.selectedRoom" ng-options="room for room in new.myFactory.Rooms" ng-change="new.RoomSelected(new.Name,new.selectedRoom,new.selectedType)" class="bg-light rounded col-md-10"> </select>
-            </div>
+            <select ng-model="new.selectedRoom" ng-options="room for room in new.myFactory.Rooms" ng-change="new.RoomSelected(new.Name,new.selectedRoom,new.selectedType)" class="form-control"> </select>
+        </div>
 
-            <div ng-show="((new.selectedType.id == 1 || new.selectedType.id == 2) && new.selectedRoom != '' && new.selectedRoom != null)">
-                <input type="button" ng-click="new.BindClicked()" value="Send Bind" class="btn-primary rounded col-md-10"/>
+        <div ng-show="((new.selectedType.id == 1 || new.selectedType.id == 2) && new.selectedRoom != '' && new.selectedRoom != null)">
+            <label>
+                    You need to enter bind mode, by pressing sevice button on device (LED should start blinking slowly).
+                Now u have about 15 sec. to send bind comand.
+            </label>
+            <label>
+                Than press <strong>"Bind"</strong> to send bind cmd (LED should start blinking faster).
+                If not - repeat pressing <strong>"Bind"</strong>.
+            </label>
+            <div class="input-group mb-3">
+                <input type="button" ng-click="new.Bind()" value="Bind" class="btn-primary form-control" />
             </div>
+            <label>
+                Than accept binding by double pressing sevice button on device (LED shouldn't blinking).
+                Now u can check binding by pressing any times <strong>"Check bind"</strong>.
+            </label>
+            <div class="input-group mb-3">
+                <input type="button" ng-click="new.CheckBind()" value="Check bind" class="btn-success form-control" />
+            </div>
+            <label>
+                    If u see any reaction on<strong>"Check bind"</strong>, press <strong>"Add"</strong> button.
+            </label>
+            <div class="input-group mb-3" ng-show="new.Name != '' && new.selectedType != null && new.selectedRoom != ''">
+                <input type="button" value="Add" ng-click="new.Add()" class="btn-primary form-control" />
+            </div>
+            <div class="input-group mb-3">
 
-            <div ng-show="new.Name != '' && new.selectedType != null && new.selectedRoom != ''">
-                <input type="button" value="Add" ng-click="new.Add()" class="btn-success rounded col-md-10"/>
             </div>
-            <div>
-                <label class="bg-light rounded d-inline-block align-items-center" ng-model="new.myFactory.Status">{{new.myFactory.Status}}</label>
-            </div>
+        </div>
+
+        <div>
+            <label class="bg-light rounded d-inline-block align-items-center" ng-model="new.myFactory.Status">{{new.myFactory.Status}}</label>
         </div>
     </div>
 </div>

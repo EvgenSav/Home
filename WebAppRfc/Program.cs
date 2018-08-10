@@ -22,15 +22,13 @@ namespace WebAppRfc
         public static MyDB<int, RfDevice> DevBase;
         public static MyDB<int, List<ILogItem>> ActionLog;
         public static List<string> Rooms;
-
         public static void Main(string[] args)
         {
             ActionLog = MyDB<int, List<ILogItem>>.OpenFile("log.json");
             DevBase = MyDB<int, RfDevice>.OpenFile("devices.json");
             Rooms = GetRooms();
             Mtrf64 = new MTRF();
-            
-            List<Mtrf> availableAdapters = Mtrf64.GetAvailableComPorts();
+            List <Mtrf> availableAdapters = Mtrf64.GetAvailableComPorts();
             if (availableAdapters.Count > 0) {
                 Mtrf64.OpenPort(availableAdapters[0]);
                 Mtrf64.NewDataReceived += Mtrf64_NewDataReceived;
@@ -150,7 +148,6 @@ namespace WebAppRfc
                         break;
                     default:
                         break;
-
                 }
                 //foreach (var item in Device.Views) {
                 //    item.Value.UpdateView();

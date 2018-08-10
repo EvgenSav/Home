@@ -32,7 +32,7 @@ connection.on("UpdateDevView", function (rfdevice) {
 connection.on("BindReceived", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("addNewDev_controller")).scope();
     appCtrlScope.$apply(function () {
-        appCtrlScope.new.BindReceived(rfdevice.value);
+        appCtrlScope.new.BindReceived(rfdevice);
     });
     console.log(rfdevice.value);
 });
@@ -57,6 +57,7 @@ connection.on("AddNewResult", function (rfdevice, status) {
     console.log(status);
     console.log(rfdevice.value);
 });
+
 connection.on("RemoveResult", function (devices, status) {
     var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
     try {

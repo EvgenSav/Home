@@ -21,7 +21,7 @@
 
         <div ng-show="((new.selectedType.id == 1 || new.selectedType.id == 2) && new.selectedRoom != '' && new.selectedRoom != null)">
             <label>
-                First of all, u need to enter bind mode, by pressing sevice button on device (LED should start blinking slowly).
+                    You need to enter bind mode, by pressing sevice button on device (LED should start blinking slowly).
                 Now u have about 15 sec. to send bind comand.
             </label>
             <label>
@@ -32,21 +32,23 @@
                 <input type="button" ng-click="new.Bind()" value="Bind" class="btn-primary form-control" />
             </div>
             <label>
-                Than accept binding by double pressing sevice button on device (LED shouldn't blinking)
-                Now u can check binding by pressing any times <strong>"Check bind"</strong>
+                Than accept binding by double pressing sevice button on device (LED shouldn't blinking).
+                Now u can check binding by pressing any times <strong>"Check bind"</strong>.
             </label>
             <div class="input-group mb-3">
                 <input type="button" ng-click="new.CheckBind()" value="Check bind" class="btn-success form-control" />
             </div>
-        </div>
-        <div class="input-group mb-3">
+            <label>
+                    If u see any reaction on<strong>"Check bind"</strong>, press <strong>"Add"</strong> button.
+            </label>
+            <div class="input-group mb-3" ng-show="new.Name != '' && new.selectedType != null && new.selectedRoom != ''">
+                <input type="button" value="Add" ng-click="new.Add()" class="btn-primary form-control" />
+            </div>
+            <div class="input-group mb-3">
 
+            </div>
         </div>
 
-
-        <div class="input-group mb-3" ng-show="new.Name != '' && new.selectedType != null && new.selectedRoom != ''">
-            <input type="button" value="Add" ng-click="new.Add()" class="btn-success form-control" />
-        </div>
         <div>
             <label class="bg-light rounded d-inline-block align-items-center" ng-model="new.myFactory.Status">{{new.myFactory.Status}}</label>
         </div>

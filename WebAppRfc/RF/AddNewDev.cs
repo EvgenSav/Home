@@ -164,7 +164,8 @@ namespace RFController {
                         WaitingBindFlag = false;
                         Status = "Press service button";
                         break;
-                    default: //NooDevType.RemController or NooDevType.Sensor     
+                    default: //NooDevType.RemController or NooDevType.Sensor  
+                        Mtrf64.SendCmd(FindedChannel, NooMode.Rx, 0, MtrfMode: NooCtr.ClearChannel);   //first - clear
                         Mtrf64.SendCmd(FindedChannel, NooMode.Rx, 0, MtrfMode: NooCtr.BindModeEnable); //enable bind at finded chnannel
 
                         Status = "Waiting...";
