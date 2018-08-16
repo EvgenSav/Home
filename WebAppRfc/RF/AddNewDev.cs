@@ -7,10 +7,13 @@ using System.Timers;
 using WebAppRfc.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 
 namespace RFController {
     public class AddNewDev {
+        Hashtable ht = new Hashtable();
+        
         public MyDB<int, RfDevice> Devices { get; private set; }    //device list
         MTRF Mtrf64;                    //MTRF driver
         List<string> Rooms;
@@ -32,6 +35,7 @@ namespace RFController {
             Mtrf64.NewDataReceived += Dev1_NewDataReceived;
 
             timer1.Elapsed += Tmr_Tick;
+            
         }
 
         private async void Dev1_NewDataReceived(object sender, EventArgs e) {
