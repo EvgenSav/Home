@@ -4,20 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RFController;
+using WebAppRfc.Models;
 
 namespace WebAppRfc.Controllers
 {
-    public class NewDeviceController : Controller
+    public class AddDeviceController : Controller
     {
         public static AddNewDev AddNew { get; set; }
-        public NewDeviceController() {
+        public AddDeviceController() {
             if (AddNew == null) {
                 AddNew = new AddNewDev(Program.DevBase, Program.Mtrf64, Program.Rooms);
             }
         }
 
-        public JsonResult RoomSelected(string name, string room, int mode) {
-            AddNew.RoomSelected(name, room, mode);
+        public JsonResult RoomSelected(NewDevModel newDev) {
+            if(newDev != null && newDev.Name != "") {
+                AddNew.RoomSelected(newDev);
+            }
             return new JsonResult(new { Channel = AddNew.FindedChannel, Status = AddNew.Status });
         }
 

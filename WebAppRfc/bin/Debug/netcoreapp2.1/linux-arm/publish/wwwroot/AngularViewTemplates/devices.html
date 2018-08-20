@@ -2,39 +2,44 @@
 <div id="app_controller" ng-controller="appController as devView">
     <h2 class="text-center">My Home ({{devView.myFactory.DevCount}} NooLite devices)</h2>
     <ul class="nav nav-tabs" ng-model="devView.selectedRoom">
-        <li class="nav-item" ng-repeat="room in devView.myFactory.Rooms" >
+        <li class="nav-item" ng-repeat="room in devView.myFactory.Rooms">
             <a class="nav-link" ng-class="{active: (devView.selectedRoom == room)}" href="" ng-click="devView.SetSelectedRoom(room)">{{room}}</a>
         </li>
     </ul>
-    <!--{{devView.selectedRoom}}-->
-    <div ng-model="devView.curLogKey">
-        <div ng-repeat="dev in devView.myFactory.DevBase track by $id(dev)" ng-show="(dev.room == devView.selectedRoom) || (devView.selectedRoom == 'All')" class="card border-primary mb-3" style="margin:5px;min-height:250px; min-width: 160px; max-width: 160px; display:inline-grid">
+    <div ng-model="devView.curLogKey" class="card-columns">
+        <div ng-repeat="dev in devView.myFactory.DevBase track by $id(dev)" ng-show="(dev.room == devView.selectedRoom) || (devView.selectedRoom == 'All')" class="card border-primary mb-3" style="display:inline-block">
             <div class="card-header text-center">{{dev.name}} </div>
-            <div class="card-body" style="min-height:250px">
-                <p> Key: {{dev.key}}</p>
-                <p>
-                    <div ng-show="dev.type == 1 || dev.type == 2">
-                        State: <span class="bg-success" ng-show="(dev.state != 0)"> On </span>
-                        <span ng-show="!(dev.state != 0)"> Off </span>
-                    </div>
-                    <div ng-show="dev.type == 3 && dev.extDevType == 1">
-                        t = {{dev.log[dev.log.length-1].sensVal}}
-                    </div>
-                </p>
+            <div class="card-body" >
+
                 <div ng-show="dev.type == 1 || dev.type == 2">
-                    <p ng-model="dev.bright"> Bright: {{dev.bright}}</p>
-                    <p> <input ng-model="dev.bright" type="range" class="label-success" ng-click="devView.SetBright(dev.key, dev.bright)" /> </p>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary" ng-click="devView.SetSwitch(dev.key)">Switch</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#!/log" ng-click="devView.myFactory.CurLogKey = dev.key">Log</a>
-                            <a class="dropdown-item" href="#!/remove">Remove</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a>
+                    State: <span class="bg-success" ng-show="(dev.state != 0)"> On </span>
+                    <span ng-show="!(dev.state != 0)"> Off </span>
+                </div>
+                <div ng-show="dev.type == 3 && dev.extDevType == 1">
+                    t = {{dev.log[dev.log.length-1].sensVal}}
+                </div>
+
+                <div ng-show="dev.type == 1 || dev.type == 2">
+                    <span ng-model="dev.bright"> Bright: {{dev.bright}}</span>
+                    <div class="input-group my-2">
+                        <div class="input-group-prepend">
+                            <span id="bright" class ="input-group-text">Bright</span>
+                        </div>
+                        <input ng-model="dev.bright" type="range" class="form-control" ng-click="devView.SetBright(dev.key, dev.bright)" aria-describedby="bright" />
+                    </div>
+                    <div class="input-group my-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary form-control" ng-click="devView.SetSwitch(dev.key)">Switch</button>
+                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#!/log" ng-click="devView.myFactory.CurLogKey = dev.key">Log</a>
+                                <a class="dropdown-item" href="#!/remove">Remove</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
                         </div>
                     </div>
                 </div>

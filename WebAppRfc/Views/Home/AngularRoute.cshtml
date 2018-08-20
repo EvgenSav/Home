@@ -1,35 +1,32 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "View";
 }
 <div class="container">
-    <header ng-controller="MainCtrl as main" ng-init="main.GetBase()">
+    <header ng-controller="mainCtrl as main" ng-init="main.GetBase()">
         <ul class="nav nav-tabs">
             <li class="nav-item active">
                 <a ng-class="{ active: main.myFactory.isActive('/')}" class="nav-link" href="#!/">Home</a>
             </li>
-            <li  class="nav-item">
+            <li class="nav-item">
                 <a ng-class="{ active: main.myFactory.isActive('/addnew')}" class="nav-link" href="#!/addnew"> Add new device</a>
             </li>
             <li class="nav-item">
                 <a ng-class="{ active: main.myFactory.isActive('/rooms')}" class="nav-link" href="#!/rooms"> Eddit rooms</a>
             </li>
-            @*<li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Dropdown</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item active" href="">Home</a>
-                    <a class="dropdown-item" href="">Profile</a>
-                    <a class="dropdown-item" href="">Messages</a>
-                </div>
-            </li>*@
         </ul>
     </header>
-<section>
-    <ng-view></ng-view>
-</section>
-<footer></footer>
+    <section>
+        <ng-view></ng-view>
+    </section>
+    <footer></footer>
 </div>
 
 @section Scripts {
-    <script src="~/js/angular_app.js"></script>
+    <script src="~/js/AngularApp/angular_app.js"></script>
+    <script src="~/js/AngularApp/MainController.js"></script>
+    <script src="~/js/AngularApp/DeviceController.js"></script>
+    <script src="~/js/AngularApp/LogController.js"></script>
+    <script src="~/js/AngularApp/NewDevController.js"></script>
+    <script src="~/js/AngularApp/RoomsController.js"></script>
+    <script src="~/js/AngularApp/RemoveController.js"></script>
 }

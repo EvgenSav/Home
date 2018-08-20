@@ -8,6 +8,7 @@ using WebAppRfc.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
+using WebAppRfc.Models;
 
 
 namespace RFController {
@@ -146,17 +147,17 @@ namespace RFController {
             FeedbackHub.GlobalContext.Clients.All.SendAsync("AddNewResult", new JsonResult(Device), Status);
         }
 
-        public void RoomSelected(string name, string room, int mode) {
-            SelectedType = mode;
+        public void RoomSelected(NewDevModel newDev) {
+            SelectedType = newDev.DevType;
             Mtrf64.SendCmd(0, 0, 0, MtrfMode: NooCtr.BindModeDisable); //send disable bind if enabled
 
             FindedChannel = FindEmptyChannel(SelectedType);    //find empty channel
             if (FindedChannel != -1) {
                 Device = new RfDevice {
-                    Name = name,
+                    Name = newDev.Name,
                     Type = SelectedType,
                     Channel = FindedChannel,
-                    Room = room
+                    Room = newDev.Room
                 };
 
                 switch (SelectedType) {

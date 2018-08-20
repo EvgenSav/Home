@@ -7,7 +7,7 @@
         </li>
     </ul>
     <div ng-model="devView.curLogKey" class="card-columns">
-        <div ng-repeat="dev in devView.myFactory.DevBase track by $id(dev)" ng-show="(dev.room == devView.selectedRoom) || (devView.selectedRoom == 'All')" class="card border-primary mb-3">
+        <div ng-repeat="dev in devView.myFactory.DevBase track by $id(dev)" ng-show="(dev.room == devView.selectedRoom) || (devView.selectedRoom == 'All')" class="card border-primary mb-3" style="display:inline-block">
             <div class="card-header text-center">{{dev.name}} </div>
             <div class="card-body" >
 
@@ -43,9 +43,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer">
-                State?
             </div>
         </div>
     </div>

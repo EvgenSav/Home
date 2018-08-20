@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1/linux-arm",
-    "signature": "13dcd573d609b416e5ae432ac4cd7542cb10c06f"
+    "signature": "16f762775ced014ef80f495b5910c667ccf85b8e"
   },
   "compilationOptions": {
     "defines": [
@@ -25,8 +25,8 @@
       "WebAppRfc/1.0.0": {
         "dependencies": {
           "AngularJS.Intellisense": "1.0.3",
-          "Microsoft.AspNetCore.App": "2.1.2",
-          "Microsoft.NETCore.App": "2.1.2",
+          "Microsoft.AspNetCore.App": "2.1.1",
+          "Microsoft.NETCore.App": "2.1.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.1",
           "SerialPortStream": "2.1.4",
           "angularjs": "1.7.2"
@@ -51,15 +51,15 @@
           "lib/netstandard2.0/System.Net.Http.Formatting.dll": {}
         }
       },
-      "Microsoft.AspNetCore/2.1.2": {
+      "Microsoft.AspNetCore/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics": "2.1.1",
           "Microsoft.AspNetCore.HostFiltering": "2.1.1",
           "Microsoft.AspNetCore.Hosting": "2.1.1",
           "Microsoft.AspNetCore.Routing": "2.1.1",
           "Microsoft.AspNetCore.Server.IISIntegration": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.2",
+          "Microsoft.AspNetCore.Server.Kestrel": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.1",
           "Microsoft.Extensions.Configuration.CommandLine": "2.1.1",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "2.1.1",
           "Microsoft.Extensions.Configuration.FileExtensions": "2.1.1",
@@ -86,10 +86,10 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.Antiforgery.dll": {}
         }
       },
-      "Microsoft.AspNetCore.App/2.1.2": {
+      "Microsoft.AspNetCore.App/2.1.1": {
         "dependencies": {
           "Microsoft.AspNet.WebApi.Client": "5.2.6",
-          "Microsoft.AspNetCore": "2.1.2",
+          "Microsoft.AspNetCore": "2.1.1",
           "Microsoft.AspNetCore.Antiforgery": "2.1.1",
           "Microsoft.AspNetCore.Authentication": "2.1.1",
           "Microsoft.AspNetCore.Authentication.Abstractions": "2.1.1",
@@ -105,7 +105,7 @@
           "Microsoft.AspNetCore.Authentication.WsFederation": "2.1.1",
           "Microsoft.AspNetCore.Authorization": "2.1.1",
           "Microsoft.AspNetCore.Authorization.Policy": "2.1.1",
-          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.CookiePolicy": "2.1.1",
           "Microsoft.AspNetCore.Cors": "2.1.1",
           "Microsoft.AspNetCore.Cryptography.Internal": "2.1.1",
@@ -123,15 +123,15 @@
           "Microsoft.AspNetCore.Html.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.Http": "2.1.1",
           "Microsoft.AspNetCore.Http.Abstractions": "2.1.1",
-          "Microsoft.AspNetCore.Http.Connections": "1.0.2",
-          "Microsoft.AspNetCore.Http.Connections.Common": "1.0.2",
+          "Microsoft.AspNetCore.Http.Connections": "1.0.1",
+          "Microsoft.AspNetCore.Http.Connections.Common": "1.0.1",
           "Microsoft.AspNetCore.Http.Extensions": "2.1.1",
           "Microsoft.AspNetCore.Http.Features": "2.1.1",
           "Microsoft.AspNetCore.HttpOverrides": "2.1.1",
           "Microsoft.AspNetCore.HttpsPolicy": "2.1.1",
-          "Microsoft.AspNetCore.Identity": "2.1.2",
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.1.2",
-          "Microsoft.AspNetCore.Identity.UI": "2.1.2",
+          "Microsoft.AspNetCore.Identity": "2.1.1",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.1.1",
+          "Microsoft.AspNetCore.Identity.UI": "2.1.1",
           "Microsoft.AspNetCore.JsonPatch": "2.1.1",
           "Microsoft.AspNetCore.Localization": "2.1.1",
           "Microsoft.AspNetCore.Localization.Routing": "2.1.1",
@@ -166,16 +166,16 @@
           "Microsoft.AspNetCore.Routing.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.Server.HttpSys": "2.1.1",
           "Microsoft.AspNetCore.Server.IISIntegration": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "2.1.2",
+          "Microsoft.AspNetCore.Server.Kestrel": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "2.1.1",
           "Microsoft.AspNetCore.Session": "2.1.1",
-          "Microsoft.AspNetCore.SignalR": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Common": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Core": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Protocols.Json": "1.0.2",
+          "Microsoft.AspNetCore.SignalR": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Common": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Core": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Protocols.Json": "1.0.1",
           "Microsoft.AspNetCore.SpaServices": "2.1.1",
           "Microsoft.AspNetCore.SpaServices.Extensions": "2.1.1",
           "Microsoft.AspNetCore.StaticFiles": "2.1.1",
@@ -215,8 +215,8 @@
           "Microsoft.Extensions.Hosting": "2.1.1",
           "Microsoft.Extensions.Hosting.Abstractions": "2.1.1",
           "Microsoft.Extensions.Http": "2.1.1",
-          "Microsoft.Extensions.Identity.Core": "2.1.2",
-          "Microsoft.Extensions.Identity.Stores": "2.1.2",
+          "Microsoft.Extensions.Identity.Core": "2.1.1",
+          "Microsoft.Extensions.Identity.Stores": "2.1.1",
           "Microsoft.Extensions.Localization": "2.1.1",
           "Microsoft.Extensions.Localization.Abstractions": "2.1.1",
           "Microsoft.Extensions.Logging": "2.1.1",
@@ -363,7 +363,7 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.Authorization.Policy.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Connections.Abstractions/2.1.2": {
+      "Microsoft.AspNetCore.Connections.Abstractions/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Features": "2.1.1",
           "System.IO.Pipelines": "4.5.0"
@@ -546,12 +546,12 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Http.Connections/1.0.2": {
+      "Microsoft.AspNetCore.Http.Connections/1.0.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Authorization.Policy": "2.1.1",
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.Http": "2.1.1",
-          "Microsoft.AspNetCore.Http.Connections.Common": "1.0.2",
+          "Microsoft.AspNetCore.Http.Connections.Common": "1.0.1",
           "Microsoft.AspNetCore.Routing": "2.1.1",
           "Microsoft.AspNetCore.WebSockets": "2.1.1",
           "Newtonsoft.Json": "11.0.2"
@@ -560,9 +560,9 @@
           "lib/netcoreapp2.1/Microsoft.AspNetCore.Http.Connections.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Http.Connections.Common/1.0.2": {
+      "Microsoft.AspNetCore.Http.Connections.Common/1.0.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1",
           "Newtonsoft.Json": "11.0.2",
           "System.Buffers": "4.5.0"
         },
@@ -611,34 +611,34 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.HttpsPolicy.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Identity/2.1.2": {
+      "Microsoft.AspNetCore.Identity/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.Cookies": "2.1.1",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.1.1",
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.1.1",
-          "Microsoft.Extensions.Identity.Core": "2.1.2"
+          "Microsoft.Extensions.Identity.Core": "2.1.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Identity.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Identity.EntityFrameworkCore/2.1.2": {
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore/2.1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Identity": "2.1.2",
+          "Microsoft.AspNetCore.Identity": "2.1.1",
           "Microsoft.EntityFrameworkCore.Relational": "2.1.1",
-          "Microsoft.Extensions.Identity.Stores": "2.1.2"
+          "Microsoft.Extensions.Identity.Stores": "2.1.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Identity.UI/2.1.2": {
+      "Microsoft.AspNetCore.Identity.UI/2.1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Identity": "2.1.2",
+          "Microsoft.AspNetCore.Identity": "2.1.1",
           "Microsoft.AspNetCore.Mvc": "2.1.1",
           "Microsoft.AspNetCore.StaticFiles": "2.1.1",
           "Microsoft.Extensions.FileProviders.Embedded": "2.1.1",
-          "Microsoft.Extensions.Identity.Stores": "2.1.2"
+          "Microsoft.Extensions.Identity.Stores": "2.1.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Identity.UI.Views.dll": {},
@@ -989,21 +989,21 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.IISIntegration.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "2.1.2"
+          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "2.1.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.Kestrel.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel.Core/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel.Core/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.WebUtilities": "2.1.1",
           "Microsoft.Extensions.Configuration.Binder": "2.1.1",
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
@@ -1019,27 +1019,27 @@
           "lib/netcoreapp2.1/Microsoft.AspNetCore.Server.Kestrel.Core.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel.Https/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel.Https/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Abstractions": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.2"
+          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.1"
         },
         "compile": {
           "lib/netcoreapp2.1/Microsoft.AspNetCore.Server.Kestrel.Https.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions/2.1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.2"
+          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.1",
           "Microsoft.Extensions.Options": "2.1.1"
         },
         "compile": {
@@ -1058,18 +1058,18 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.Session.dll": {}
         }
       },
-      "Microsoft.AspNetCore.SignalR/1.0.2": {
+      "Microsoft.AspNetCore.SignalR/1.0.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Http.Connections": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Core": "1.0.2"
+          "Microsoft.AspNetCore.Http.Connections": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Core": "1.0.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.SignalR.dll": {}
         }
       },
-      "Microsoft.AspNetCore.SignalR.Common/1.0.2": {
+      "Microsoft.AspNetCore.SignalR.Common/1.0.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1",
           "Microsoft.Extensions.Options": "2.1.1",
           "Newtonsoft.Json": "11.0.2",
           "System.Buffers": "4.5.0"
@@ -1078,11 +1078,11 @@
           "lib/netcoreapp2.1/Microsoft.AspNetCore.SignalR.Common.dll": {}
         }
       },
-      "Microsoft.AspNetCore.SignalR.Core/1.0.2": {
+      "Microsoft.AspNetCore.SignalR.Core/1.0.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Authorization": "2.1.1",
-          "Microsoft.AspNetCore.SignalR.Common": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Protocols.Json": "1.0.2",
+          "Microsoft.AspNetCore.SignalR.Common": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Protocols.Json": "1.0.1",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "2.1.1",
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
           "System.Reflection.Emit": "4.3.0",
@@ -1092,9 +1092,9 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.SignalR.Core.dll": {}
         }
       },
-      "Microsoft.AspNetCore.SignalR.Protocols.Json/1.0.2": {
+      "Microsoft.AspNetCore.SignalR.Protocols.Json/1.0.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.SignalR.Common": "1.0.2",
+          "Microsoft.AspNetCore.SignalR.Common": "1.0.1",
           "Newtonsoft.Json": "11.0.2"
         },
         "compile": {
@@ -1546,7 +1546,7 @@
           "lib/netstandard2.0/Microsoft.Extensions.Http.dll": {}
         }
       },
-      "Microsoft.Extensions.Identity.Core/2.1.2": {
+      "Microsoft.Extensions.Identity.Core/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.1.1",
           "Microsoft.Extensions.Logging": "2.1.1",
@@ -1557,9 +1557,9 @@
           "lib/netstandard2.0/Microsoft.Extensions.Identity.Core.dll": {}
         }
       },
-      "Microsoft.Extensions.Identity.Stores/2.1.2": {
+      "Microsoft.Extensions.Identity.Stores/2.1.1": {
         "dependencies": {
-          "Microsoft.Extensions.Identity.Core": "2.1.2",
+          "Microsoft.Extensions.Identity.Core": "2.1.1",
           "Microsoft.Extensions.Logging": "2.1.1",
           "System.ComponentModel.Annotations": "4.5.0"
         },
@@ -1786,13 +1786,13 @@
           "lib/netstandard2.0/Microsoft.Net.Http.Headers.dll": {}
         }
       },
-      "Microsoft.NETCore.App/2.1.2": {
+      "Microsoft.NETCore.App/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostPolicy": "2.1.2",
+          "Microsoft.NETCore.DotNetHostPolicy": "2.1.1",
           "Microsoft.NETCore.Platforms": "2.1.0",
           "Microsoft.NETCore.Targets": "2.0.0",
           "NETStandard.Library": "2.0.3",
-          "runtime.linux-arm.Microsoft.NETCore.App": "2.1.2"
+          "runtime.linux-arm.Microsoft.NETCore.App": "2.1.1"
         },
         "compile": {
           "ref/netcoreapp2.1/Microsoft.CSharp.dll": {},
@@ -1940,21 +1940,21 @@
           "ref/netcoreapp2.1/netstandard.dll": {}
         }
       },
-      "Microsoft.NETCore.DotNetAppHost/2.1.2": {
+      "Microsoft.NETCore.DotNetAppHost/2.1.1": {
         "dependencies": {
-          "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost": "2.1.2"
+          "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost": "2.1.1"
         }
       },
-      "Microsoft.NETCore.DotNetHostPolicy/2.1.2": {
+      "Microsoft.NETCore.DotNetHostPolicy/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostResolver": "2.1.2",
-          "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy": "2.1.2"
+          "Microsoft.NETCore.DotNetHostResolver": "2.1.1",
+          "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy": "2.1.1"
         }
       },
-      "Microsoft.NETCore.DotNetHostResolver/2.1.2": {
+      "Microsoft.NETCore.DotNetHostResolver/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetAppHost": "2.1.2",
-          "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver": "2.1.2"
+          "Microsoft.NETCore.DotNetAppHost": "2.1.1",
+          "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver": "2.1.1"
         }
       },
       "Microsoft.NETCore.Platforms/2.1.0": {},
@@ -2088,16 +2088,16 @@
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
-      "runtime.linux-arm.Microsoft.NETCore.App/2.1.2": {},
-      "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost/2.1.2": {},
-      "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy/2.1.2": {
+      "runtime.linux-arm.Microsoft.NETCore.App/2.1.1": {},
+      "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost/2.1.1": {},
+      "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostResolver": "2.1.2"
+          "Microsoft.NETCore.DotNetHostResolver": "2.1.1"
         }
       },
-      "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver/2.1.2": {
+      "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetAppHost": "2.1.2"
+          "Microsoft.NETCore.DotNetAppHost": "2.1.1"
         }
       },
       "runtime.native.System/4.3.0": {
@@ -3145,8 +3145,8 @@
       "WebAppRfc/1.0.0": {
         "dependencies": {
           "AngularJS.Intellisense": "1.0.3",
-          "Microsoft.AspNetCore.App": "2.1.2",
-          "Microsoft.NETCore.App": "2.1.2",
+          "Microsoft.AspNetCore.App": "2.1.1",
+          "Microsoft.NETCore.App": "2.1.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.1",
           "SerialPortStream": "2.1.4",
           "angularjs": "1.7.2"
@@ -3174,15 +3174,15 @@
           }
         }
       },
-      "Microsoft.AspNetCore/2.1.2": {
+      "Microsoft.AspNetCore/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics": "2.1.1",
           "Microsoft.AspNetCore.HostFiltering": "2.1.1",
           "Microsoft.AspNetCore.Hosting": "2.1.1",
           "Microsoft.AspNetCore.Routing": "2.1.1",
           "Microsoft.AspNetCore.Server.IISIntegration": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.2",
+          "Microsoft.AspNetCore.Server.Kestrel": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.1",
           "Microsoft.Extensions.Configuration.CommandLine": "2.1.1",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "2.1.1",
           "Microsoft.Extensions.Configuration.FileExtensions": "2.1.1",
@@ -3195,8 +3195,8 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
@@ -3215,10 +3215,10 @@
           }
         }
       },
-      "Microsoft.AspNetCore.App/2.1.2": {
+      "Microsoft.AspNetCore.App/2.1.1": {
         "dependencies": {
           "Microsoft.AspNet.WebApi.Client": "5.2.6",
-          "Microsoft.AspNetCore": "2.1.2",
+          "Microsoft.AspNetCore": "2.1.1",
           "Microsoft.AspNetCore.Antiforgery": "2.1.1",
           "Microsoft.AspNetCore.Authentication": "2.1.1",
           "Microsoft.AspNetCore.Authentication.Abstractions": "2.1.1",
@@ -3234,7 +3234,7 @@
           "Microsoft.AspNetCore.Authentication.WsFederation": "2.1.1",
           "Microsoft.AspNetCore.Authorization": "2.1.1",
           "Microsoft.AspNetCore.Authorization.Policy": "2.1.1",
-          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.CookiePolicy": "2.1.1",
           "Microsoft.AspNetCore.Cors": "2.1.1",
           "Microsoft.AspNetCore.Cryptography.Internal": "2.1.1",
@@ -3252,15 +3252,15 @@
           "Microsoft.AspNetCore.Html.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.Http": "2.1.1",
           "Microsoft.AspNetCore.Http.Abstractions": "2.1.1",
-          "Microsoft.AspNetCore.Http.Connections": "1.0.2",
-          "Microsoft.AspNetCore.Http.Connections.Common": "1.0.2",
+          "Microsoft.AspNetCore.Http.Connections": "1.0.1",
+          "Microsoft.AspNetCore.Http.Connections.Common": "1.0.1",
           "Microsoft.AspNetCore.Http.Extensions": "2.1.1",
           "Microsoft.AspNetCore.Http.Features": "2.1.1",
           "Microsoft.AspNetCore.HttpOverrides": "2.1.1",
           "Microsoft.AspNetCore.HttpsPolicy": "2.1.1",
-          "Microsoft.AspNetCore.Identity": "2.1.2",
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.1.2",
-          "Microsoft.AspNetCore.Identity.UI": "2.1.2",
+          "Microsoft.AspNetCore.Identity": "2.1.1",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.1.1",
+          "Microsoft.AspNetCore.Identity.UI": "2.1.1",
           "Microsoft.AspNetCore.JsonPatch": "2.1.1",
           "Microsoft.AspNetCore.Localization": "2.1.1",
           "Microsoft.AspNetCore.Localization.Routing": "2.1.1",
@@ -3295,16 +3295,16 @@
           "Microsoft.AspNetCore.Routing.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.Server.HttpSys": "2.1.1",
           "Microsoft.AspNetCore.Server.IISIntegration": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "2.1.2",
+          "Microsoft.AspNetCore.Server.Kestrel": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "2.1.1",
           "Microsoft.AspNetCore.Session": "2.1.1",
-          "Microsoft.AspNetCore.SignalR": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Common": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Core": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Protocols.Json": "1.0.2",
+          "Microsoft.AspNetCore.SignalR": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Common": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Core": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Protocols.Json": "1.0.1",
           "Microsoft.AspNetCore.SpaServices": "2.1.1",
           "Microsoft.AspNetCore.SpaServices.Extensions": "2.1.1",
           "Microsoft.AspNetCore.StaticFiles": "2.1.1",
@@ -3344,8 +3344,8 @@
           "Microsoft.Extensions.Hosting": "2.1.1",
           "Microsoft.Extensions.Hosting.Abstractions": "2.1.1",
           "Microsoft.Extensions.Http": "2.1.1",
-          "Microsoft.Extensions.Identity.Core": "2.1.2",
-          "Microsoft.Extensions.Identity.Stores": "2.1.2",
+          "Microsoft.Extensions.Identity.Core": "2.1.1",
+          "Microsoft.Extensions.Identity.Stores": "2.1.1",
           "Microsoft.Extensions.Localization": "2.1.1",
           "Microsoft.Extensions.Localization.Abstractions": "2.1.1",
           "Microsoft.Extensions.Logging": "2.1.1",
@@ -3534,15 +3534,15 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Connections.Abstractions/2.1.2": {
+      "Microsoft.AspNetCore.Connections.Abstractions/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Features": "2.1.1",
           "System.IO.Pipelines": "4.5.0"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Connections.Abstractions.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
@@ -3771,33 +3771,33 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Http.Connections/1.0.2": {
+      "Microsoft.AspNetCore.Http.Connections/1.0.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Authorization.Policy": "2.1.1",
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.Http": "2.1.1",
-          "Microsoft.AspNetCore.Http.Connections.Common": "1.0.2",
+          "Microsoft.AspNetCore.Http.Connections.Common": "1.0.1",
           "Microsoft.AspNetCore.Routing": "2.1.1",
           "Microsoft.AspNetCore.WebSockets": "2.1.1",
           "Newtonsoft.Json": "11.0.2"
         },
         "runtime": {
           "lib/netcoreapp2.1/Microsoft.AspNetCore.Http.Connections.dll": {
-            "assemblyVersion": "1.0.2.0",
-            "fileVersion": "1.0.2.18180"
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.Http.Connections.Common/1.0.2": {
+      "Microsoft.AspNetCore.Http.Connections.Common/1.0.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1",
           "Newtonsoft.Json": "11.0.2",
           "System.Buffers": "4.5.0"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Http.Connections.Common.dll": {
-            "assemblyVersion": "1.0.2.0",
-            "fileVersion": "1.0.2.18180"
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.18157"
           }
         }
       },
@@ -3854,49 +3854,49 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Identity/2.1.2": {
+      "Microsoft.AspNetCore.Identity/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.Cookies": "2.1.1",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.1.1",
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.1.1",
-          "Microsoft.Extensions.Identity.Core": "2.1.2"
+          "Microsoft.Extensions.Identity.Core": "2.1.1"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Identity.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.Identity.EntityFrameworkCore/2.1.2": {
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore/2.1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Identity": "2.1.2",
+          "Microsoft.AspNetCore.Identity": "2.1.1",
           "Microsoft.EntityFrameworkCore.Relational": "2.1.1",
-          "Microsoft.Extensions.Identity.Stores": "2.1.2"
+          "Microsoft.Extensions.Identity.Stores": "2.1.1"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.Identity.UI/2.1.2": {
+      "Microsoft.AspNetCore.Identity.UI/2.1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Identity": "2.1.2",
+          "Microsoft.AspNetCore.Identity": "2.1.1",
           "Microsoft.AspNetCore.Mvc": "2.1.1",
           "Microsoft.AspNetCore.StaticFiles": "2.1.1",
           "Microsoft.Extensions.FileProviders.Embedded": "2.1.1",
-          "Microsoft.Extensions.Identity.Stores": "2.1.2"
+          "Microsoft.Extensions.Identity.Stores": "2.1.1"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Identity.UI.Views.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           },
           "lib/netstandard2.0/Microsoft.AspNetCore.Identity.UI.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
@@ -4337,24 +4337,24 @@
           }
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.2",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "2.1.2"
+          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Https": "2.1.1",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "2.1.1"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.Kestrel.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel.Core/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel.Core/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.1",
           "Microsoft.AspNetCore.WebUtilities": "2.1.1",
           "Microsoft.Extensions.Configuration.Binder": "2.1.1",
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
@@ -4368,44 +4368,44 @@
         },
         "runtime": {
           "lib/netcoreapp2.1/Microsoft.AspNetCore.Server.Kestrel.Core.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel.Https/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel.Https/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Abstractions": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.2"
+          "Microsoft.AspNetCore.Server.Kestrel.Core": "2.1.1"
         },
         "runtime": {
           "lib/netcoreapp2.1/Microsoft.AspNetCore.Server.Kestrel.Https.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions/2.1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.2"
+          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets/2.1.2": {
+      "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.1.1",
-          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions": "2.1.1",
           "Microsoft.Extensions.Options": "2.1.1"
         },
         "runtime": {
           "lib/netcoreapp2.1/Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
@@ -4424,37 +4424,37 @@
           }
         }
       },
-      "Microsoft.AspNetCore.SignalR/1.0.2": {
+      "Microsoft.AspNetCore.SignalR/1.0.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Http.Connections": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Core": "1.0.2"
+          "Microsoft.AspNetCore.Http.Connections": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Core": "1.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.SignalR.dll": {
-            "assemblyVersion": "1.0.2.0",
-            "fileVersion": "1.0.2.18180"
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.SignalR.Common/1.0.2": {
+      "Microsoft.AspNetCore.SignalR.Common/1.0.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.2",
+          "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1",
           "Microsoft.Extensions.Options": "2.1.1",
           "Newtonsoft.Json": "11.0.2",
           "System.Buffers": "4.5.0"
         },
         "runtime": {
           "lib/netcoreapp2.1/Microsoft.AspNetCore.SignalR.Common.dll": {
-            "assemblyVersion": "1.0.2.0",
-            "fileVersion": "1.0.2.18180"
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.SignalR.Core/1.0.2": {
+      "Microsoft.AspNetCore.SignalR.Core/1.0.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Authorization": "2.1.1",
-          "Microsoft.AspNetCore.SignalR.Common": "1.0.2",
-          "Microsoft.AspNetCore.SignalR.Protocols.Json": "1.0.2",
+          "Microsoft.AspNetCore.SignalR.Common": "1.0.1",
+          "Microsoft.AspNetCore.SignalR.Protocols.Json": "1.0.1",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "2.1.1",
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
           "System.Reflection.Emit": "4.3.0",
@@ -4462,20 +4462,20 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.SignalR.Core.dll": {
-            "assemblyVersion": "1.0.2.0",
-            "fileVersion": "1.0.2.18180"
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.18157"
           }
         }
       },
-      "Microsoft.AspNetCore.SignalR.Protocols.Json/1.0.2": {
+      "Microsoft.AspNetCore.SignalR.Protocols.Json/1.0.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.SignalR.Common": "1.0.2",
+          "Microsoft.AspNetCore.SignalR.Common": "1.0.1",
           "Newtonsoft.Json": "11.0.2"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.SignalR.Protocols.Json.dll": {
-            "assemblyVersion": "1.0.2.0",
-            "fileVersion": "1.0.2.18180"
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.18157"
           }
         }
       },
@@ -5053,7 +5053,7 @@
           }
         }
       },
-      "Microsoft.Extensions.Identity.Core/2.1.2": {
+      "Microsoft.Extensions.Identity.Core/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.1.1",
           "Microsoft.Extensions.Logging": "2.1.1",
@@ -5062,21 +5062,21 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.Identity.Core.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
-      "Microsoft.Extensions.Identity.Stores/2.1.2": {
+      "Microsoft.Extensions.Identity.Stores/2.1.1": {
         "dependencies": {
-          "Microsoft.Extensions.Identity.Core": "2.1.2",
+          "Microsoft.Extensions.Identity.Core": "2.1.1",
           "Microsoft.Extensions.Logging": "2.1.1",
           "System.ComponentModel.Annotations": "4.5.0"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.Identity.Stores.dll": {
-            "assemblyVersion": "2.1.2.0",
-            "fileVersion": "2.1.2.18180"
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
           }
         }
       },
@@ -5365,30 +5365,30 @@
           }
         }
       },
-      "Microsoft.NETCore.App/2.1.2": {
+      "Microsoft.NETCore.App/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostPolicy": "2.1.2",
+          "Microsoft.NETCore.DotNetHostPolicy": "2.1.1",
           "Microsoft.NETCore.Platforms": "2.1.0",
           "Microsoft.NETCore.Targets": "2.0.0",
           "NETStandard.Library": "2.0.3",
-          "runtime.linux-arm.Microsoft.NETCore.App": "2.1.2"
+          "runtime.linux-arm.Microsoft.NETCore.App": "2.1.1"
         }
       },
-      "Microsoft.NETCore.DotNetAppHost/2.1.2": {
+      "Microsoft.NETCore.DotNetAppHost/2.1.1": {
         "dependencies": {
-          "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost": "2.1.2"
+          "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost": "2.1.1"
         }
       },
-      "Microsoft.NETCore.DotNetHostPolicy/2.1.2": {
+      "Microsoft.NETCore.DotNetHostPolicy/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostResolver": "2.1.2",
-          "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy": "2.1.2"
+          "Microsoft.NETCore.DotNetHostResolver": "2.1.1",
+          "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy": "2.1.1"
         }
       },
-      "Microsoft.NETCore.DotNetHostResolver/2.1.2": {
+      "Microsoft.NETCore.DotNetHostResolver/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetAppHost": "2.1.2",
-          "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver": "2.1.2"
+          "Microsoft.NETCore.DotNetAppHost": "2.1.1",
+          "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver": "2.1.1"
         }
       },
       "Microsoft.NETCore.Platforms/2.1.0": {},
@@ -5561,7 +5561,7 @@
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
-      "runtime.linux-arm.Microsoft.NETCore.App/2.1.2": {
+      "runtime.linux-arm.Microsoft.NETCore.App/2.1.1": {
         "runtime": {
           "runtimes/linux-arm/lib/netcoreapp2.1/Microsoft.CSharp.dll": {
             "assemblyVersion": "4.0.4.0",
@@ -6149,7 +6149,7 @@
           },
           "runtimes/linux-arm/lib/netcoreapp2.1/mscorlib.dll": {
             "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.6.26629.1"
+            "fileVersion": "4.6.26606.5"
           },
           "runtimes/linux-arm/lib/netcoreapp2.1/netstandard.dll": {
             "assemblyVersion": "2.0.0.0",
@@ -6223,16 +6223,16 @@
           }
         }
       },
-      "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost/2.1.2": {
+      "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost/2.1.1": {
         "native": {
           "runtimes/linux-arm/native/apphost": {
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy/2.1.2": {
+      "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostResolver": "2.1.2"
+          "Microsoft.NETCore.DotNetHostResolver": "2.1.1"
         },
         "native": {
           "runtimes/linux-arm/native/libhostpolicy.so": {
@@ -6240,9 +6240,9 @@
           }
         }
       },
-      "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver/2.1.2": {
+      "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver/2.1.1": {
         "dependencies": {
-          "Microsoft.NETCore.DotNetAppHost": "2.1.2"
+          "Microsoft.NETCore.DotNetAppHost": "2.1.1"
         },
         "native": {
           "runtimes/linux-arm/native/libhostfxr.so": {
@@ -7416,12 +7416,12 @@
       "path": "microsoft.aspnet.webapi.client/5.2.6",
       "hashPath": "microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512"
     },
-    "Microsoft.AspNetCore/2.1.2": {
+    "Microsoft.AspNetCore/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-FtWRvifuZrZFg5/2x2/TTajpKpZjk4sbV+as3uXgtqIoPwFT+qkAF/GkAjQCXcBUsYStdx/Xg9QEwQPGFi/qaQ==",
-      "path": "microsoft.aspnetcore/2.1.2",
-      "hashPath": "microsoft.aspnetcore.2.1.2.nupkg.sha512"
+      "sha512": "sha512-YN6f5seFJb8EzODtccEnSW73q7yS6kgozun/TDAJQK4vbWG/PK9WKR2dPO1pXkrDlau3f/8yTRzof+j3hsDLOw==",
+      "path": "microsoft.aspnetcore/2.1.1",
+      "hashPath": "microsoft.aspnetcore.2.1.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Antiforgery/2.1.1": {
       "type": "package",
@@ -7430,12 +7430,12 @@
       "path": "microsoft.aspnetcore.antiforgery/2.1.1",
       "hashPath": "microsoft.aspnetcore.antiforgery.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.App/2.1.2": {
+    "Microsoft.AspNetCore.App/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-DsHyif+dLyytghS8VsInB/LTs+kj5esqONFioOyAe101H1EQS+4TZ5cQBkAS2TAgcqYo0YIfvJ8BS0albYYQvw==",
-      "path": "microsoft.aspnetcore.app/2.1.2",
-      "hashPath": "microsoft.aspnetcore.app.2.1.2.nupkg.sha512"
+      "sha512": "sha512-PR5ozWADVe9vPfJj5gbp+JRMKu/6q8Mc6Sq0S1wLJITXDcVzsXYEvmVVS+bBXkJtlIqenNPsEcDSX2oKBJsvsQ==",
+      "path": "microsoft.aspnetcore.app/2.1.1",
+      "hashPath": "microsoft.aspnetcore.app.2.1.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication/2.1.1": {
       "type": "package",
@@ -7535,12 +7535,12 @@
       "path": "microsoft.aspnetcore.authorization.policy/2.1.1",
       "hashPath": "microsoft.aspnetcore.authorization.policy.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Connections.Abstractions/2.1.2": {
+    "Microsoft.AspNetCore.Connections.Abstractions/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-O/dAVpldQyJEzzrY1f6Ki+s4DeAk8qtvcSK8Pk+zJLYB9tZKdWMQ68ob+fy7CsYCdLyhbT/vro0TSBK1teit7g==",
-      "path": "microsoft.aspnetcore.connections.abstractions/2.1.2",
-      "hashPath": "microsoft.aspnetcore.connections.abstractions.2.1.2.nupkg.sha512"
+      "sha512": "sha512-F3+HhBB2Xh9EbJDLJq9PqKIvLiiFHWwoSU/LLjltbV/p0ch7fXCvmQqZV+p+Od/Gji2QsSwsr2EhVEA9FCZh1g==",
+      "path": "microsoft.aspnetcore.connections.abstractions/2.1.1",
+      "hashPath": "microsoft.aspnetcore.connections.abstractions.2.1.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.CookiePolicy/2.1.1": {
       "type": "package",
@@ -7661,19 +7661,19 @@
       "path": "microsoft.aspnetcore.http.abstractions/2.1.1",
       "hashPath": "microsoft.aspnetcore.http.abstractions.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Http.Connections/1.0.2": {
+    "Microsoft.AspNetCore.Http.Connections/1.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-uWt6+blWfD837am7JC/cNCzMi0xXKZtH71oCe8H5PEQoAyL3aIE1YTc5+ce4Nhv5A+SS/foHvFaZrj4YfLGmjQ==",
-      "path": "microsoft.aspnetcore.http.connections/1.0.2",
-      "hashPath": "microsoft.aspnetcore.http.connections.1.0.2.nupkg.sha512"
+      "sha512": "sha512-VpNZjRdXDjiIb+ZmpjYChFWLYEv6344JjOHFjafq7Q2cQtXVC242BAvBuM+o3LeovPfMyZr3LSS54mRHXDpqxg==",
+      "path": "microsoft.aspnetcore.http.connections/1.0.1",
+      "hashPath": "microsoft.aspnetcore.http.connections.1.0.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Http.Connections.Common/1.0.2": {
+    "Microsoft.AspNetCore.Http.Connections.Common/1.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-4s7EGp6qvYxWs7Eu/gMMBqsWHLB7UIlZsSSCVkB/oFRnnuYpwFSRCgC4SmvkTstz9wfwgd93u0iCzyvqkVEBjA==",
-      "path": "microsoft.aspnetcore.http.connections.common/1.0.2",
-      "hashPath": "microsoft.aspnetcore.http.connections.common.1.0.2.nupkg.sha512"
+      "sha512": "sha512-bWPi3xZNxTzobUldHtCixRwkJ3uCyCAMO7PVdtzVP3Sq1q5krRYM1EOR2d7h0AUT5uktRnpGz2yxqUYtb79fXg==",
+      "path": "microsoft.aspnetcore.http.connections.common/1.0.1",
+      "hashPath": "microsoft.aspnetcore.http.connections.common.1.0.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Http.Extensions/2.1.1": {
       "type": "package",
@@ -7703,26 +7703,26 @@
       "path": "microsoft.aspnetcore.httpspolicy/2.1.1",
       "hashPath": "microsoft.aspnetcore.httpspolicy.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Identity/2.1.2": {
+    "Microsoft.AspNetCore.Identity/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-CenL5JCP/DKAHtzQDIJj747LXqcScB5Ky2BEBM0L7yHUXerBk7MSsNoQSQLTKepkkRLNxgbF4CPx3SHTToaHeA==",
-      "path": "microsoft.aspnetcore.identity/2.1.2",
-      "hashPath": "microsoft.aspnetcore.identity.2.1.2.nupkg.sha512"
+      "sha512": "sha512-bTnsTimS6tFwZXDWPgexZo9gzr2jLuCEHRV8ib8gjMzR6TzQ/3/tl5lxP72Db446PJl1s479Qj1rnflQc6+PSw==",
+      "path": "microsoft.aspnetcore.identity/2.1.1",
+      "hashPath": "microsoft.aspnetcore.identity.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Identity.EntityFrameworkCore/2.1.2": {
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ofYHAOc8vo21yljBvemwP4lBXpVQI92haXUYacCj8Tqxax3yXtbFCyaW689XG7MLuRpKS5RLHLRaztW+numkHw==",
-      "path": "microsoft.aspnetcore.identity.entityframeworkcore/2.1.2",
-      "hashPath": "microsoft.aspnetcore.identity.entityframeworkcore.2.1.2.nupkg.sha512"
+      "sha512": "sha512-0Xd+Q8uwwPnj7rt95h5p1FQFClwLMHwnGxZykK/GM9Wkttw5AE47yXvNKlkgM+GPyDhhB6JWd+w+aiOwLfG0jA==",
+      "path": "microsoft.aspnetcore.identity.entityframeworkcore/2.1.1",
+      "hashPath": "microsoft.aspnetcore.identity.entityframeworkcore.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Identity.UI/2.1.2": {
+    "Microsoft.AspNetCore.Identity.UI/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-7RaT6LV/c3qGLQCbS9ZoEAqh0yN9Sb/GcbB3gPblBGNFOZBB3Ul8EI2oAZGSxQW0S2wfpX2nUXz9iVy5CsWVaQ==",
-      "path": "microsoft.aspnetcore.identity.ui/2.1.2",
-      "hashPath": "microsoft.aspnetcore.identity.ui.2.1.2.nupkg.sha512"
+      "sha512": "sha512-Mw+WI+OUhgSvatpqYZY0FJx2ri1THLFHQZsYlOfNa1AB4j/Qx6RpkV9iFB9iopNM1I+iviHeiHY0Nw6WqQXIUA==",
+      "path": "microsoft.aspnetcore.identity.ui/2.1.1",
+      "hashPath": "microsoft.aspnetcore.identity.ui.2.1.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.JsonPatch/2.1.1": {
       "type": "package",
@@ -7962,40 +7962,40 @@
       "path": "microsoft.aspnetcore.server.iisintegration/2.1.1",
       "hashPath": "microsoft.aspnetcore.server.iisintegration.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Server.Kestrel/2.1.2": {
+    "Microsoft.AspNetCore.Server.Kestrel/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ol4rQS7QpGBtfcHY39ecVnAg1Fe0MXTIZN/hm4ldJAXE2+PmH7BnLl1yJrZB5MMeXHYsU+v1N0+iSkX5jJm2uw==",
-      "path": "microsoft.aspnetcore.server.kestrel/2.1.2",
-      "hashPath": "microsoft.aspnetcore.server.kestrel.2.1.2.nupkg.sha512"
+      "sha512": "sha512-nHJ7DAcZUYIgTpqs5GKlsEo16uGlEk73LO2fX7YQDvF/L1zX1Fe7f5KyynepGorIenzJHvAJEtfTHpqFFSPNsA==",
+      "path": "microsoft.aspnetcore.server.kestrel/2.1.1",
+      "hashPath": "microsoft.aspnetcore.server.kestrel.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Server.Kestrel.Core/2.1.2": {
+    "Microsoft.AspNetCore.Server.Kestrel.Core/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-tig0vQgH1hvY3We458hCRBjJfu0zc+sqGZxTboXde8pT932MdsxxUzimxPCHdg3RBRRzVct1E1KtMb6c6M5Pxw==",
-      "path": "microsoft.aspnetcore.server.kestrel.core/2.1.2",
-      "hashPath": "microsoft.aspnetcore.server.kestrel.core.2.1.2.nupkg.sha512"
+      "sha512": "sha512-lJHti9K7nUoFdx3czli+ITiTOOT1GBgKZxhe5dT0K/6lIniyDZAHZ+s9n4JGej2fUEFBZvfSxIGBWZUGe1ffmw==",
+      "path": "microsoft.aspnetcore.server.kestrel.core/2.1.1",
+      "hashPath": "microsoft.aspnetcore.server.kestrel.core.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Server.Kestrel.Https/2.1.2": {
+    "Microsoft.AspNetCore.Server.Kestrel.Https/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Z+GhgasOk1tr3g5NVkUmVqHpbi+ORqkTenErnBTF1DjgXileomxweijL2StNvmv1dtJhxhclZpIGePpWIKAAfA==",
-      "path": "microsoft.aspnetcore.server.kestrel.https/2.1.2",
-      "hashPath": "microsoft.aspnetcore.server.kestrel.https.2.1.2.nupkg.sha512"
+      "sha512": "sha512-7DtRvE3ffWAqa2zyOt2pKKmi9xToQCP/WFBmujTZTfB8FX+1sEHc0/2h2WuaCZTmXC+jwLdO95HZx8Bu0XctSQ==",
+      "path": "microsoft.aspnetcore.server.kestrel.https/2.1.1",
+      "hashPath": "microsoft.aspnetcore.server.kestrel.https.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions/2.1.2": {
+    "Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-wtlxVAdrp6BsBi3/A3yeIOygZl1m2Wn2GOYBjngp5tTbhMJZm0bVO+xPcw2bOKUL1eQHUQwRsJB5kabPKphotg==",
-      "path": "microsoft.aspnetcore.server.kestrel.transport.abstractions/2.1.2",
-      "hashPath": "microsoft.aspnetcore.server.kestrel.transport.abstractions.2.1.2.nupkg.sha512"
+      "sha512": "sha512-118KSszFP/b81+AS+h1M3Tm6pSL3Py8y65UjEzM9BE3S5qlTRC+w/ExHqy5avZOkvunfAlEFKu8Gyl9IJQFdXw==",
+      "path": "microsoft.aspnetcore.server.kestrel.transport.abstractions/2.1.1",
+      "hashPath": "microsoft.aspnetcore.server.kestrel.transport.abstractions.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets/2.1.2": {
+    "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-PHCpMsg8aSuNFkgXX9f+HIkYNpWMDj5l+hFni4Zyuv3hv2xfRdehqvEZTAsYPRbRWy5hyewCSZ3Kh/fifLQc7g==",
-      "path": "microsoft.aspnetcore.server.kestrel.transport.sockets/2.1.2",
-      "hashPath": "microsoft.aspnetcore.server.kestrel.transport.sockets.2.1.2.nupkg.sha512"
+      "sha512": "sha512-Q2obTqdWPxLqSm8RVLNq+RWRNiMNXkckVnHvM6UwHryw7KCDOW8TiBh52hTBNVmuRjZQ2bTeqYO1luSGYKpcPQ==",
+      "path": "microsoft.aspnetcore.server.kestrel.transport.sockets/2.1.1",
+      "hashPath": "microsoft.aspnetcore.server.kestrel.transport.sockets.2.1.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Session/2.1.1": {
       "type": "package",
@@ -8004,33 +8004,33 @@
       "path": "microsoft.aspnetcore.session/2.1.1",
       "hashPath": "microsoft.aspnetcore.session.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.SignalR/1.0.2": {
+    "Microsoft.AspNetCore.SignalR/1.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Wmg5+Rq6OFa2lHi/qfIm9s2nBki6LY9GwmijWMPiPckk0ljk0jnZc15z/w1cGh7Ax0lA3cztHfoqGeFOIHoMQg==",
-      "path": "microsoft.aspnetcore.signalr/1.0.2",
-      "hashPath": "microsoft.aspnetcore.signalr.1.0.2.nupkg.sha512"
+      "sha512": "sha512-UqXok7HEQrR6OIIYA4NEYHL5LM/xtTue1NR6irXxglfaP/IZwfPz64OGechQJ+GDZ/tzR6U+nvZR9ggnegCxQg==",
+      "path": "microsoft.aspnetcore.signalr/1.0.1",
+      "hashPath": "microsoft.aspnetcore.signalr.1.0.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.SignalR.Common/1.0.2": {
+    "Microsoft.AspNetCore.SignalR.Common/1.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-D/hQQMoGUDvuDxJmfRqSkpg4yuFrN2lFirQwj6zMN+dx/ZTAs7Ip2bGPM/Ht8cTKlKx/uXwT4SReDVaT/9xq5w==",
-      "path": "microsoft.aspnetcore.signalr.common/1.0.2",
-      "hashPath": "microsoft.aspnetcore.signalr.common.1.0.2.nupkg.sha512"
+      "sha512": "sha512-6zUQE2tROCr2Lh6HprHdX5sY+mmD6EGtdnUW5vJ4zDyWOYIbzb7xgzBMx+GUxF/acl+ffhGX9kk5omRYmmXjOQ==",
+      "path": "microsoft.aspnetcore.signalr.common/1.0.1",
+      "hashPath": "microsoft.aspnetcore.signalr.common.1.0.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.SignalR.Core/1.0.2": {
+    "Microsoft.AspNetCore.SignalR.Core/1.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-qLhOGK8qbcGzhIZQHko53qD2O0BXtWAyayahiOGElE/uFWQ3BxApwO+D8za1HXdJ/4Sy57x518w/kXLRNAuWJQ==",
-      "path": "microsoft.aspnetcore.signalr.core/1.0.2",
-      "hashPath": "microsoft.aspnetcore.signalr.core.1.0.2.nupkg.sha512"
+      "sha512": "sha512-yJVbHWRwI2lu0h7D58V8kxUAyg63bf84BW5xv0i9KFE9I3BGE/OChQKuQsPc02qSTAb3YfT7n4s5guCGvfXefA==",
+      "path": "microsoft.aspnetcore.signalr.core/1.0.1",
+      "hashPath": "microsoft.aspnetcore.signalr.core.1.0.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.SignalR.Protocols.Json/1.0.2": {
+    "Microsoft.AspNetCore.SignalR.Protocols.Json/1.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-5CUIGbl8e118SVn3cF33VFhRk+anwt5Msp7nHYQAOARc6KbPMuqRKDBUtMC1uZ0amsl+52JTOol8ffN77kXOag==",
-      "path": "microsoft.aspnetcore.signalr.protocols.json/1.0.2",
-      "hashPath": "microsoft.aspnetcore.signalr.protocols.json.1.0.2.nupkg.sha512"
+      "sha512": "sha512-FT+l9BokJmQnvuXBWcFPC/EciP3h3KvUzlvq+dLwIf8lDw82ndcX6DzjUxkjR1PSvRbEblW8TekfOrmz+7blDw==",
+      "path": "microsoft.aspnetcore.signalr.protocols.json/1.0.1",
+      "hashPath": "microsoft.aspnetcore.signalr.protocols.json.1.0.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.SpaServices/2.1.1": {
       "type": "package",
@@ -8361,19 +8361,19 @@
       "path": "microsoft.extensions.http/2.1.1",
       "hashPath": "microsoft.extensions.http.2.1.1.nupkg.sha512"
     },
-    "Microsoft.Extensions.Identity.Core/2.1.2": {
+    "Microsoft.Extensions.Identity.Core/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-XnmvEFQLHKTjpVAN0FcrfLkdOnLVfKF2OjGxZWSficTBniBpIb6W+TyCV1SCKAkybWwE4W1f9bbAwdHyvaGc4A==",
-      "path": "microsoft.extensions.identity.core/2.1.2",
-      "hashPath": "microsoft.extensions.identity.core.2.1.2.nupkg.sha512"
+      "sha512": "sha512-Ob9ms69b2qhQhi3SMNhE3SPsCIWhyC4e3IZWSRWxWXwfVLcOfrjaC3qJDPiTOE6Gs7QB/A7jM16i86v6TZ2g5A==",
+      "path": "microsoft.extensions.identity.core/2.1.1",
+      "hashPath": "microsoft.extensions.identity.core.2.1.1.nupkg.sha512"
     },
-    "Microsoft.Extensions.Identity.Stores/2.1.2": {
+    "Microsoft.Extensions.Identity.Stores/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-5xX1WzfzmzwG776Np2VmqQNw1cQSOKdmdVAJOFPYKB7prVowCeeE5gG9VLqlM8h5gptRVs14/z/VVFF+pLOpcA==",
-      "path": "microsoft.extensions.identity.stores/2.1.2",
-      "hashPath": "microsoft.extensions.identity.stores.2.1.2.nupkg.sha512"
+      "sha512": "sha512-SYqJ9R96S27fv7gWmnUFW+YF5Rd6mKYTETZo+j5WVXXxowojwsn9lkm/6EvyhIwKFbhR5SLw7Y+ajnzlVRua3g==",
+      "path": "microsoft.extensions.identity.stores/2.1.1",
+      "hashPath": "microsoft.extensions.identity.stores.2.1.1.nupkg.sha512"
     },
     "Microsoft.Extensions.Localization/2.1.1": {
       "type": "package",
@@ -8529,33 +8529,33 @@
       "path": "microsoft.net.http.headers/2.1.1",
       "hashPath": "microsoft.net.http.headers.2.1.1.nupkg.sha512"
     },
-    "Microsoft.NETCore.App/2.1.2": {
+    "Microsoft.NETCore.App/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-USLlQ4i0budd5mZio0vUIZYf2bYRPxXQcJ1SoCXoL78j1TadP2kzWUmjI71FnRKoHiObW18WouulEwK6HazzTw==",
-      "path": "microsoft.netcore.app/2.1.2",
-      "hashPath": "microsoft.netcore.app.2.1.2.nupkg.sha512"
+      "sha512": "sha512-PpxWvhwEHWdXhGjJpYPZaShBOihPFhH+TkMNte8DgyfNY2NECLFNDOC6TqMruXWIHOCMOu4g6fCGj1/zsQLBnQ==",
+      "path": "microsoft.netcore.app/2.1.1",
+      "hashPath": "microsoft.netcore.app.2.1.1.nupkg.sha512"
     },
-    "Microsoft.NETCore.DotNetAppHost/2.1.2": {
+    "Microsoft.NETCore.DotNetAppHost/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-KdbCZOusPTtrGaVZzG4KXeBFLXTuCg8AC0GonZwIl9xWfTtorC1xYLfIWsal2ZAEIgPfkMc45UV0jvLLCX+qMg==",
-      "path": "microsoft.netcore.dotnetapphost/2.1.2",
-      "hashPath": "microsoft.netcore.dotnetapphost.2.1.2.nupkg.sha512"
+      "sha512": "sha512-dOC2eGalN34B4KI/33EdVWNRBWFjOmDAPPvx82+TgeUgeORJBVrXXrR15Ho5g70Vnlei5+LaUOXOaOo2cz7FTA==",
+      "path": "microsoft.netcore.dotnetapphost/2.1.1",
+      "hashPath": "microsoft.netcore.dotnetapphost.2.1.1.nupkg.sha512"
     },
-    "Microsoft.NETCore.DotNetHostPolicy/2.1.2": {
+    "Microsoft.NETCore.DotNetHostPolicy/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-IGbWcnbh10vdBX0Qgnc404mZ1YbMOYi45AY5k5FYHvJzWpbAPFxH3IUQ+wFXhT5pad2rZpCfNmFELVuOJj0yFA==",
-      "path": "microsoft.netcore.dotnethostpolicy/2.1.2",
-      "hashPath": "microsoft.netcore.dotnethostpolicy.2.1.2.nupkg.sha512"
+      "sha512": "sha512-KfcY3mVOdYGGn8zE6ReoiiDwxdR5gEtHkljgcGa8xd9rQQYisxLposNENTZzVkuZUjK8ewmISWEnElMB7oKRnQ==",
+      "path": "microsoft.netcore.dotnethostpolicy/2.1.1",
+      "hashPath": "microsoft.netcore.dotnethostpolicy.2.1.1.nupkg.sha512"
     },
-    "Microsoft.NETCore.DotNetHostResolver/2.1.2": {
+    "Microsoft.NETCore.DotNetHostResolver/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-m+Bb1HLiOkIkEMpGJZBKv+bLPXTglmrFKJwjtXM0DInqIVL6768jKeh5urhpdRhMdTlzjOpZ8N/5FrGcjIjl+w==",
-      "path": "microsoft.netcore.dotnethostresolver/2.1.2",
-      "hashPath": "microsoft.netcore.dotnethostresolver.2.1.2.nupkg.sha512"
+      "sha512": "sha512-jMvMw1WipFS5BPpR9xZvxduEGT5ZskfR2MrVB5Dh9DLS2C4L20zuqvwOYqGbOsrgYSC0x7GMPJDywJtLa1s9Ig==",
+      "path": "microsoft.netcore.dotnethostresolver/2.1.1",
+      "hashPath": "microsoft.netcore.dotnethostresolver.2.1.1.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/2.1.0": {
       "type": "package",
@@ -8690,33 +8690,33 @@
       "path": "runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "hashPath": "runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
     },
-    "runtime.linux-arm.Microsoft.NETCore.App/2.1.2": {
+    "runtime.linux-arm.Microsoft.NETCore.App/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-YlsLvZmf4nj7NojLNQwVHXbn1xKPXhMdPCCv0VaGfJRABi8Pe8wF2Nxlu/eN1gsnbW/Ff0QQHOIuWDl95Snvug==",
-      "path": "runtime.linux-arm.microsoft.netcore.app/2.1.2",
-      "hashPath": "runtime.linux-arm.microsoft.netcore.app.2.1.2.nupkg.sha512"
+      "sha512": "sha512-yT3Agj1ZP+9nsDi8BvHD+J4Xv42nvAmTsphO3Peds0aAw2AK+4XKO5xieQmk1Qwd3KxwB/RnE3/Q5MtLGhC39Q==",
+      "path": "runtime.linux-arm.microsoft.netcore.app/2.1.1",
+      "hashPath": "runtime.linux-arm.microsoft.netcore.app.2.1.1.nupkg.sha512"
     },
-    "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost/2.1.2": {
+    "runtime.linux-arm.Microsoft.NETCore.DotNetAppHost/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-pumZjRlRGrmAeAH6Usv+UcNiRReLgugUdK/prcPPYIU8kYqHLRMxg4cYIWI7HIa4LLV8M1/NVw9hwTNJdRqz2w==",
-      "path": "runtime.linux-arm.microsoft.netcore.dotnetapphost/2.1.2",
-      "hashPath": "runtime.linux-arm.microsoft.netcore.dotnetapphost.2.1.2.nupkg.sha512"
+      "sha512": "sha512-PVBptHzHHKIMT9M2apR8nCssBf5BjNx8EMs8UU4+jnzGC5piY5NnVJ/6OQocKUd1MltKobqMzvcufcOt68OlWw==",
+      "path": "runtime.linux-arm.microsoft.netcore.dotnetapphost/2.1.1",
+      "hashPath": "runtime.linux-arm.microsoft.netcore.dotnetapphost.2.1.1.nupkg.sha512"
     },
-    "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy/2.1.2": {
+    "runtime.linux-arm.Microsoft.NETCore.DotNetHostPolicy/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-AuXiWY2DGdKJuZflXlQMlcWrd8sZinR1xY/xFSdBFmaQqLVFRiWsX9Un/dAVggtcfl52QChp29RbRbitKktdAw==",
-      "path": "runtime.linux-arm.microsoft.netcore.dotnethostpolicy/2.1.2",
-      "hashPath": "runtime.linux-arm.microsoft.netcore.dotnethostpolicy.2.1.2.nupkg.sha512"
+      "sha512": "sha512-6bQDw1RThqrdTl9+EWQcvoTeikATJUW2dZ2zFtyhKtCNx35zLS8M3N6MGEeyEIpXvm4AlTYuhOj9dl0VtMANvw==",
+      "path": "runtime.linux-arm.microsoft.netcore.dotnethostpolicy/2.1.1",
+      "hashPath": "runtime.linux-arm.microsoft.netcore.dotnethostpolicy.2.1.1.nupkg.sha512"
     },
-    "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver/2.1.2": {
+    "runtime.linux-arm.Microsoft.NETCore.DotNetHostResolver/2.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-3JqT0T6GU+DQj2mbBCiyXpf+65kSQiVABrddrw8Nmqi8s2tfL7gPSR6YzLQF+vl9qj+02EfXHPUPASbzCPwkEA==",
-      "path": "runtime.linux-arm.microsoft.netcore.dotnethostresolver/2.1.2",
-      "hashPath": "runtime.linux-arm.microsoft.netcore.dotnethostresolver.2.1.2.nupkg.sha512"
+      "sha512": "sha512-Nyb5AbHHbADFbOHe0EOgWXPNIFZDQbK/4Ec/3/sxVVlFnhEGE/mkOUP59IDEyK3o+iKDEw/hB5bYPN/h0/etNQ==",
+      "path": "runtime.linux-arm.microsoft.netcore.dotnethostresolver/2.1.1",
+      "hashPath": "runtime.linux-arm.microsoft.netcore.dotnethostresolver.2.1.1.nupkg.sha512"
     },
     "runtime.native.System/4.3.0": {
       "type": "package",
