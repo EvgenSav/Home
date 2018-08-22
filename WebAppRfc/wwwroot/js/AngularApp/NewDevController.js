@@ -27,6 +27,7 @@ app.controller("newDevController", function ($http, myFactory) {
             id: 2,
             name: "F-Tx"
         }];
+    let devToBind = {};
     this.GetRooms = function () {
         $http.get(`http://${myFactory.Host}/Rooms/GetRooms`).then(
             function successCallback(response) {
@@ -42,37 +43,42 @@ app.controller("newDevController", function ($http, myFactory) {
             DevType: type.id
         };
         console.log(newDev);
-        $http({
-            url: `http://${myFactory.Host}/AddDevice/RoomSelected`,
-            method: 'POST',
-            data: newDev,
-            headers: {
-                'Accept': 'application/x-www-form-urlencoded',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(
+        $http.post(`http://${myFactory.Host}/AddDevice/RoomSelected`, newDev).then(
             function successCallback(response) {
                 console.log(response.data);
                 myFactory.Status = response.data.status;
             }, function errorCallback(response) { });
     }
-    this.BindClicked = function () {
+
+    this.Bind = function () {
         $http.get(`http://${myFactory.Host}/AddDevice/SendBind`).then(
             function successCallback(response) {
                 myFactory.Status = response.data.status;
             }, function errorCallback(response) {
             });
     }
-    this.BindReceived = function (device) {
-        console.log(`Received bind for ${device.name}`);
-        this.Device = device;
-    };
-    this.ShowBaseFromNewDev = function () {
-        console.log(myFactory.DevBase);
-    }
-    this.CheckBind = function () {
 
+    this.BindReceived = function (device, status) {
+        myFactory.Status = status;
+        console.log(`Received bind for ${device.name}`);
+        console.log(status);
+        devToBind = device;
+    };
+
+    this.CheckBind = function () {
+        $http.post(`http://${myFactory.Host}/AddDevice/CheckBind`, devToBind).then(
+            function successCallback(response) {
+            }, function errorCallback(response) {
+
+            });
     }
+    this.CancelBind = function () {
+        $http.post(`http://${myFactory.Host}/AddDevice/CancelBind`, devToBind).then(
+            function successCallback(response) {
+            }, function errorCallback(response) {
+
+            });
+    };
     this.Add = function () {
         console.log("myFactory before add:");
         console.log(myFactory.DevBase);

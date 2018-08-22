@@ -9,7 +9,6 @@ using RFController;
 
 namespace WebAppRfc.Controllers
 {
-   
     public class RemoveDeviceController : Controller
     {
         public string RemoveDev(int devKey) {

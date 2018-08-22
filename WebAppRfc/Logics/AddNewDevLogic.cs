@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using WebAppRfc.Models;
+using RFController;
 
 
-namespace RFController {
-    public class AddNewDev {
-        Hashtable ht = new Hashtable();
-        
+namespace WebAppRfc.Logics {
+    public class AddNewDevLogic {
+
         public MyDB<int, RfDevice> Devices { get; private set; }    //device list
         MTRF Mtrf64;                    //MTRF driver
         List<string> Rooms;
@@ -29,19 +29,25 @@ namespace RFController {
         public bool AddingOk { get; private set; }
         public string Status { get; private set; }
 
-        public AddNewDev(MyDB<int, RfDevice> devList, MTRF dev, List<string> rooms) {
+        public AddNewDevLogic(MyDB<int, RfDevice> devList, MTRF dev, List<string> rooms) {
             Devices = devList;
             Mtrf64 = dev;
             Rooms = rooms;
             Mtrf64.NewDataReceived += Dev1_NewDataReceived;
 
             timer1.Elapsed += Tmr_Tick;
-            
         }
 
         private async void Dev1_NewDataReceived(object sender, EventArgs e) {
             if (WaitingBindFlag) {
                 switch (SelectedType) {
+                    case NooDevType.PowerUnit:
+                        if (Mtrf64.rxBuf.Cmd == NooCmd.Bind && FindedChannel == Mtrf64.rxBuf.Ch &&
+                            Mtrf64.rxBuf.Mode == NooMode.Tx) {
+                            Status = "Bind to TX device send!";
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device, Status);
+                        }
+                        break;
                     case NooDevType.PowerUnitF:
                         if (Mtrf64.rxBuf.Mode == NooMode.FTx && Mtrf64.rxBuf.Ctr == NooCtr.BindModeEnable) {
                             WaitingBindFlag = false;
@@ -49,18 +55,18 @@ namespace RFController {
                             KeyToAdd = Device.Addr;
                             Device.Key = KeyToAdd;
                             Status = "Bind F-TX accepted";
-                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device);
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
                         break;
                     case NooDevType.Sensor:
                         if (Mtrf64.rxBuf.Cmd == NooCmd.Bind && Mtrf64.rxBuf.Fmt == 1 &&
-                            FindedChannel == Mtrf64.rxBuf.Ch && Mtrf64.rxBuf.Mode == 1) {
+                            FindedChannel == Mtrf64.rxBuf.Ch && Mtrf64.rxBuf.Mode == NooMode.Rx) {
                             WaitingBindFlag = false;
                             Device.ExtDevType = Mtrf64.rxBuf.D0;
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
                             Status = "Bind from sensor accepted";
-                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device);
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
                         break;
                     default:
@@ -70,7 +76,7 @@ namespace RFController {
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
                             Status = "Bind from RC accepted";
-                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device);
+                            await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
                         break;
                 }
@@ -86,8 +92,6 @@ namespace RFController {
                 AddingOk = false;
             }
         }
-
-
 
         public int FindEmptyChannel(int mode) {
             int FAddrCount = 0;
@@ -112,6 +116,20 @@ namespace RFController {
             }
         }
 
+        public void CancelBind() {
+            switch (SelectedType) {
+                case NooDevType.PowerUnit:
+                    Mtrf64.Unbind(FindedChannel, NooMode.Tx);
+                    break;
+                case NooDevType.PowerUnitF:
+                    Mtrf64.Unbind(FindedChannel, NooMode.FTx, addrF: Device.Addr);
+                    break;
+                default:
+                    Mtrf64.Unbind(FindedChannel, NooMode.Rx);
+                    break;
+            }
+        }
+
         public void SendBind() {
             if (SelectedType == NooDevType.PowerUnitF) {
                 Mtrf64.SendCmd(0, NooMode.FTx, NooCmd.Bind);
@@ -121,16 +139,11 @@ namespace RFController {
                 timer1.Start();
             } else {
                 Mtrf64.SendCmd(FindedChannel, NooMode.Tx, NooCmd.Bind);
-                Status = "Bind send!";
                 WaitingBindFlag = true;
                 timer1.Interval = 25000;
                 timer1.Start();
             }
         }
-
-
-
-
 
         public void SendAdd() {
             KeyToAdd = FindedChannel;
@@ -139,12 +152,12 @@ namespace RFController {
                 Devices.Data.Add(FindedChannel, Device);
                 Status = "Device added";
                 AddingOk = true;
-            } catch (Exception e){
+            } catch (Exception e) {
                 Status = "Device not added\n" + e.Message;
                 AddingOk = false;
             }
             WaitingBindFlag = false;
-            FeedbackHub.GlobalContext.Clients.All.SendAsync("AddNewResult", new JsonResult(Device), Status);
+            //FeedbackHub.GlobalContext.Clients.All.SendAsync("AddNewResult", Device, Status);
         }
 
         public void RoomSelected(NewDevModel newDev) {
@@ -170,11 +183,8 @@ namespace RFController {
                         Status = "Press service button";
                         break;
                     default: //NooDevType.RemController or NooDevType.Sensor  
-                        Mtrf64.SendCmd(FindedChannel, NooMode.Rx, 0, MtrfMode: NooCtr.ClearChannel);   //first - clear
                         Mtrf64.SendCmd(FindedChannel, NooMode.Rx, 0, MtrfMode: NooCtr.BindModeEnable); //enable bind at finded chnannel
-
-                        Status = "Waiting...";
-
+                        Status = "Press service button  on RC/sensor";
                         WaitingBindFlag = true;
                         timer1.Interval = 25000;
                         timer1.Start();

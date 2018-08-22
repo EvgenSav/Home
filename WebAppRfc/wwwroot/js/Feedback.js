@@ -29,12 +29,11 @@ connection.on("UpdateDevView", function (rfdevice) {
     console.log(rfdevice.value);
 });
 
-connection.on("BindReceived", function (rfdevice) {
+connection.on("BindReceived", function (rfdevice, status) {
     var appCtrlScope = angular.element(document.getElementById("addNewDev_controller")).scope();
     appCtrlScope.$apply(function () {
-        appCtrlScope.new.BindReceived(rfdevice);
+        appCtrlScope.new.BindReceived(rfdevice, status);
     });
-    console.log(rfdevice.value);
 });
 
 connection.on("AddNewResult", function (rfdevice, status) {

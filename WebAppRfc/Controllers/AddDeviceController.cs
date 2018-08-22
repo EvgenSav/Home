@@ -5,19 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RFController;
 using WebAppRfc.Models;
+using WebAppRfc.Logics;
 
 namespace WebAppRfc.Controllers
 {
     public class AddDeviceController : Controller
     {
-        public static AddNewDev AddNew { get; set; }
+        public static AddNewDevLogic AddNew { get; set; }
         public AddDeviceController() {
             if (AddNew == null) {
-                AddNew = new AddNewDev(Program.DevBase, Program.Mtrf64, Program.Rooms);
+                AddNew = new AddNewDevLogic(Program.DevBase, Program.Mtrf64, Program.Rooms);
             }
         }
 
-        public JsonResult RoomSelected(NewDevModel newDev) {
+        public JsonResult RoomSelected([FromBody] NewDevModel newDev) {
             if(newDev != null && newDev.Name != "") {
                 AddNew.RoomSelected(newDev);
             }
@@ -32,6 +33,14 @@ namespace WebAppRfc.Controllers
         public JsonResult Add() {
             AddNew.SendAdd();
             return new JsonResult( new { Device = AddNew.Device, Status = AddNew.Status });
+        }
+
+        public OkResult CheckBind([FromBody] RfDevice dev) {
+            dev.SetSwitch(Program.Mtrf64);
+            return new OkResult();
+        }
+        public OkResult CancelBind() {
+            return new OkResult();
         }
 
         

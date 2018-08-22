@@ -102,4 +102,3 @@ C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Deb
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\WebAppRfc.dll
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\WebAppRfc.pdb
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\WebAppRfc.csproj.CopyComplete
-C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\WebAppRfc.csprojAssemblyReference.cache

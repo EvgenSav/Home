@@ -16,7 +16,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Choose room</span>
             </div>
-            <select ng-model="new.selectedRoom" ng-options="room for room in new.myFactory.Rooms" ng-change="new.RoomSelected(new.Name,new.selectedRoom,new.selectedType)" class="form-control"> </select>
+            <select ng-model="new.selectedRoom" ng-options="room for room in new.myFactory.Rooms" ng-change="new.RoomSelected(new.Name, new.selectedRoom, new.selectedType)" class="form-control"> </select>
         </div>
 
         <div ng-show="((new.selectedType.id == 1 || new.selectedType.id == 2) && new.selectedRoom != '' && new.selectedRoom != null)">
@@ -43,6 +43,7 @@
             </label>
             <div class="input-group mb-3" ng-show="new.Name != '' && new.selectedType != null && new.selectedRoom != ''">
                 <input type="button" value="Add" ng-click="new.Add()" class="btn-primary form-control" />
+                <input type="button" value="Cancel" ng-click="new.CancelBind()" class="btn-danger form-control" />
             </div>
             <div class="input-group mb-3">
 
