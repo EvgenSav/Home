@@ -13311,23 +13311,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Evgen\\.nuget\\packages\\": {},
+    "C:\\Users\\w1shl\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
+      "projectUniqueName": "C:\\Users\\w1shl\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
       "projectName": "WebAppRfc",
-      "projectPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
-      "packagesPath": "C:\\Users\\Evgen\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\obj\\",
+      "projectPath": "C:\\Users\\w1shl\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
+      "packagesPath": "C:\\Users\\w1shl\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\w1shl\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Evgen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\w1shl\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

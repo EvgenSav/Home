@@ -18,9 +18,9 @@ namespace WebAppRfc.Controllers
             }
         }
 
-        public JsonResult RoomSelected([FromBody] NewDevModel newDev) {
+        public JsonResult StartBind([FromBody] NewDevModel newDev) {
             if(newDev != null && newDev.Name != "") {
-                AddNew.RoomSelected(newDev);
+                AddNew.StartBind(newDev);
             }
             return new JsonResult(new { Channel = AddNew.FindedChannel, Status = AddNew.Status });
         }

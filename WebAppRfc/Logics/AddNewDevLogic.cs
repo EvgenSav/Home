@@ -160,7 +160,7 @@ namespace WebAppRfc.Logics {
             //FeedbackHub.GlobalContext.Clients.All.SendAsync("AddNewResult", Device, Status);
         }
 
-        public void RoomSelected(NewDevModel newDev) {
+        public void StartBind(NewDevModel newDev) {
             SelectedType = newDev.DevType;
             Mtrf64.SendCmd(0, 0, 0, MtrfMode: NooCtr.BindModeDisable); //send disable bind if enabled
 
