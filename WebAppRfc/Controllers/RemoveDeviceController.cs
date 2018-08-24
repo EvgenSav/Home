@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using WebAppRfc.Hubs;
-using RFController;
+using WebAppRfc.RF;
 
 namespace WebAppRfc.Controllers
 {

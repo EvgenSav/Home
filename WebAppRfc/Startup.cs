@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebAppRfc.Hubs;
-using RFController;
+using WebAppRfc.RF;
 
 namespace WebAppRfc
 {

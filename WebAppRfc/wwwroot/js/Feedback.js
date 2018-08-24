@@ -41,15 +41,17 @@ connection.on("AddNewResult", function (rfdevice, status) {
     try {
         appCtrlScope.$apply(function () {
             if (status == "Device added") {
-                appCtrlScope.devView.AddNew(rfdevice.value);
+                appCtrlScope.devView.AddNew(rfdevice);
             }
+            appCtrlScope.devView.myFactory.Status = status;
         });
     } catch (err) {
         appCtrlScope = angular.element(document.getElementById("addNewDev_controller")).scope();
         appCtrlScope.$apply(function () {
             if (status == "Device added") {
-                appCtrlScope.new.myFactory.AddToBase(rfdevice.value);
+                appCtrlScope.new.myFactory.AddToBase(rfdevice);
             }
+            appCtrlScope.new.myFactory.Status = status;
         });
     }
 

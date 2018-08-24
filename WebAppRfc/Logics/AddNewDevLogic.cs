@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using WebAppRfc.Models;
-using RFController;
+using WebAppRfc.RF;
 
 
 namespace WebAppRfc.Logics {
@@ -44,6 +44,8 @@ namespace WebAppRfc.Logics {
                     case NooDevType.PowerUnit:
                         if (Mtrf64.rxBuf.Cmd == NooCmd.Bind && FindedChannel == Mtrf64.rxBuf.Ch &&
                             Mtrf64.rxBuf.Mode == NooMode.Tx) {
+                            KeyToAdd = FindedChannel;
+                            Device.Key = KeyToAdd;
                             Status = "Bind to TX device send!";
                             await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
@@ -83,7 +85,6 @@ namespace WebAppRfc.Logics {
             }
         }
 
-
         private void Tmr_Tick(object sender, EventArgs e) {
             timer1.Stop();
             if (WaitingBindFlag) {
@@ -119,26 +120,36 @@ namespace WebAppRfc.Logics {
         public void CancelBind() {
             switch (SelectedType) {
                 case NooDevType.PowerUnit:
-                    Mtrf64.Unbind(FindedChannel, NooMode.Tx);
+                    Mtrf64.UnbindTx(Device.Key);
+                    Status = "Device TX wil be deleted after confirmation of unbind by pressing service button";
                     break;
                 case NooDevType.PowerUnitF:
-                    Mtrf64.Unbind(FindedChannel, NooMode.FTx, addrF: Device.Addr);
+                    Mtrf64.UnbindFTx(Device.Addr);
+                    Status = "Device FTx deleted!";
+                    break;
+                case NooDevType.RemController:
+                    Mtrf64.UnbindSingleRx(Device.Key);
+                    Status = "Device RX(RC) deleted!";
+                    break;
+                case NooDevType.Sensor:
+                    Mtrf64.UnbindSingleRx(Device.Key);
+                    Status = "Device RX(sensor) deleted!";
                     break;
                 default:
-                    Mtrf64.Unbind(FindedChannel, NooMode.Rx);
                     break;
             }
         }
 
         public void SendBind() {
             if (SelectedType == NooDevType.PowerUnitF) {
-                Mtrf64.SendCmd(0, NooMode.FTx, NooCmd.Bind);
-                Status = "Waiting...";
+                Mtrf64.BindFTx(); //send bind cmd FTx
+                Status = "Bind sent. Waiting device's answer...";
                 WaitingBindFlag = true;
                 timer1.Interval = 1000;
                 timer1.Start();
-            } else {
-                Mtrf64.SendCmd(FindedChannel, NooMode.Tx, NooCmd.Bind);
+            } else if (SelectedType == NooDevType.PowerUnit) {
+                Mtrf64.BindTx(FindedChannel); //send bind cmd Tx
+                Status = "Bind sent!";
                 WaitingBindFlag = true;
                 timer1.Interval = 25000;
                 timer1.Start();
@@ -146,10 +157,9 @@ namespace WebAppRfc.Logics {
         }
 
         public void SendAdd() {
-            KeyToAdd = FindedChannel;
             Device.Key = KeyToAdd;
             try {
-                Devices.Data.Add(FindedChannel, Device);
+                Devices.Data.Add(Device.Key, Device);
                 Status = "Device added";
                 AddingOk = true;
             } catch (Exception e) {
@@ -157,13 +167,12 @@ namespace WebAppRfc.Logics {
                 AddingOk = false;
             }
             WaitingBindFlag = false;
-            //FeedbackHub.GlobalContext.Clients.All.SendAsync("AddNewResult", Device, Status);
+            FeedbackHub.GlobalContext.Clients.All.SendAsync("AddNewResult", Device, Status);
         }
 
         public void StartBind(NewDevModel newDev) {
             SelectedType = newDev.DevType;
-            Mtrf64.SendCmd(0, 0, 0, MtrfMode: NooCtr.BindModeDisable); //send disable bind if enabled
-
+            Mtrf64.BindModeOff(); //send disable bind
             FindedChannel = FindEmptyChannel(SelectedType);    //find empty channel
             if (FindedChannel != -1) {
                 Device = new RfDevice {
@@ -172,24 +181,34 @@ namespace WebAppRfc.Logics {
                     Channel = FindedChannel,
                     Room = newDev.Room
                 };
-
                 switch (SelectedType) {
                     case NooDevType.PowerUnit:
                         WaitingBindFlag = false;
-                        Status = "Press Send Bind";
+                        Status = "Enter service mode";
                         break;
                     case NooDevType.PowerUnitF:
                         WaitingBindFlag = false;
-                        Status = "Press service button";
+                        Status = "Enter service mode";
                         break;
-                    default: //NooDevType.RemController or NooDevType.Sensor  
-                        Mtrf64.SendCmd(FindedChannel, NooMode.Rx, 0, MtrfMode: NooCtr.BindModeEnable); //enable bind at finded chnannel
-                        Status = "Press service button  on RC/sensor";
+                    case NooDevType.Sensor: 
+                        Mtrf64.BindRxOn(FindedChannel); //enable bind at finded chnannel
+                        Status = "Press sensor's service button";
                         WaitingBindFlag = true;
                         timer1.Interval = 25000;
                         timer1.Start();
                         break;
+                    case NooDevType.RemController:
+                        Mtrf64.BindRxOn(FindedChannel); //enable bind at finded chnannel
+                        Status = "Press RC's service button";
+                        WaitingBindFlag = true;
+                        timer1.Interval = 25000;
+                        timer1.Start();
+                        break;
+                    default:
+                        break;
                 }
+            } else {
+                Status = "Memory is full";
             }
         }
     }

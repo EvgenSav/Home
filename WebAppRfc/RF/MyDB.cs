@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace RFController {
+namespace WebAppRfc.RF {
     [Serializable]
     public class MyDB<TKey, TValue> where TKey : struct /*where TValue : class*/ {
         public SortedDictionary<TKey, TValue> Data;

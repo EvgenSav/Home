@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RFController;
+using WebAppRfc.RF;
 using WebAppRfc.Models;
 using WebAppRfc.Logics;
 
@@ -22,7 +22,7 @@ namespace WebAppRfc.Controllers
             if(newDev != null && newDev.Name != "") {
                 AddNew.StartBind(newDev);
             }
-            return new JsonResult(new { Channel = AddNew.FindedChannel, Status = AddNew.Status });
+            return new JsonResult(new { Status = AddNew.Status });
         }
 
         public JsonResult SendBind() {
@@ -39,19 +39,9 @@ namespace WebAppRfc.Controllers
             dev.SetSwitch(Program.Mtrf64);
             return new OkResult();
         }
-        public OkResult CancelBind() {
+        public OkResult CancelBind([FromBody] RfDevice dev) {
+            dev.Unbind(Program.Mtrf64);
             return new OkResult();
-        }
-
-        
-
-        
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        
+        } 
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebAppRfc;
 
-namespace RFController {
+namespace WebAppRfc.RF {
     [Serializable]
     public class RfDevice {
         public int Channel { get; set; }
@@ -46,28 +46,28 @@ namespace RFController {
             Redirect.Add(devid);
             return 0;
         }
-        public void SetOn(MTRF mtrfDev) {
+        public void SetOn(MTRF mtrf) {
             if (Type == NooDevType.PowerUnitF) {
-                mtrfDev.SendCmd(Channel, NooMode.FTx, NooCmd.On, addrF: Addr, MtrfMode: NooCtr.SendByAdr);
+                mtrf.SendCmd(Channel, NooMode.FTx, NooCmd.On, addrF: Addr, MtrfMode: NooCtr.SendByAdr);
             } else if (Type == NooDevType.PowerUnit) {
-                mtrfDev.SendCmd(Channel, NooMode.Tx, NooCmd.On);
+                mtrf.SendCmd(Channel, NooMode.Tx, NooCmd.On);
             }
         }
-        public void SetOff(MTRF mtrfDev) {
+        public void SetOff(MTRF mtrf) {
             if (Type == NooDevType.PowerUnitF) {
-                mtrfDev.SendCmd(Channel, NooMode.FTx, NooCmd.Off, addrF: Addr, MtrfMode: NooCtr.SendByAdr);
+                mtrf.SendCmd(Channel, NooMode.FTx, NooCmd.Off, addrF: Addr, MtrfMode: NooCtr.SendByAdr);
             } else if (Type == NooDevType.PowerUnit) {
-                mtrfDev.SendCmd(Channel, NooMode.Tx, NooCmd.Off);
+                mtrf.SendCmd(Channel, NooMode.Tx, NooCmd.Off);
             }
         }
-        public void SetSwitch(MTRF mtrfDev) {
+        public void SetSwitch(MTRF mtrf) {
             if (Type == NooDevType.PowerUnitF) {
-                mtrfDev.SendCmd(Channel, NooMode.FTx, NooCmd.Switch, addrF: Addr, MtrfMode: NooCtr.SendByAdr);
+                mtrf.SendCmd(Channel, NooMode.FTx, NooCmd.Switch, addrF: Addr, MtrfMode: NooCtr.SendByAdr);
             } else if (Type == NooDevType.PowerUnit) {
                 if (State != 0) {
-                    mtrfDev.SendCmd(Channel, NooMode.Tx, NooCmd.Off);
+                    mtrf.SendCmd(Channel, NooMode.Tx, NooCmd.Off);
                 } else {
-                    mtrfDev.SendCmd(Channel, NooMode.Tx, NooCmd.On);
+                    mtrf.SendCmd(Channel, NooMode.Tx, NooCmd.On);
                 }
             }
         }
@@ -75,21 +75,21 @@ namespace RFController {
             if ((val - (int)val) > 0.5) return (int)val + 1;
             else return (int)val;
         }
-        public void SetBright(MTRF mtrfDev, int brightLvl) {
+        public void SetBright(MTRF mtrf, int brightLvl) {
             int devBrightLvl = 0;
             if (Type == NooDevType.PowerUnitF) {
                 devBrightLvl = Round(((float)brightLvl / 100) * 255);
-                mtrfDev.SendCmd(Channel, NooMode.FTx, NooCmd.SetBrightness, addrF: Addr, d0: devBrightLvl, MtrfMode: NooCtr.SendByAdr);
+                mtrf.SendCmd(Channel, NooMode.FTx, NooCmd.SetBrightness, addrF: Addr, d0: devBrightLvl, MtrfMode: NooCtr.SendByAdr);
             } else if (Type == NooDevType.PowerUnit) {
                 devBrightLvl = Round(28 + ((float)brightLvl / 100) * 128);
-                mtrfDev.SendCmd(Channel, NooMode.Tx, NooCmd.SetBrightness, fmt: 1, d0: devBrightLvl);
+                mtrf.SendCmd(Channel, NooMode.Tx, NooCmd.SetBrightness, fmt: 1, d0: devBrightLvl);
             }
         }
-        public void ReadSetBrightAnswer(MTRF mtrfDev) {
+        public void ReadSetBrightAnswer(MTRF mtrf) {
             if (Type == NooDevType.PowerUnit) {
-                if (mtrfDev.rxBuf.D0 >= 28) {
-                    Bright = Round((((float)mtrfDev.rxBuf.D0 - 28) / 128) * 100);
-                    if (mtrfDev.rxBuf.D0 > 28) {
+                if (mtrf.rxBuf.D0 >= 28) {
+                    Bright = Round((((float)mtrf.rxBuf.D0 - 28) / 128) * 100);
+                    if (mtrf.rxBuf.D0 > 28) {
                         State = 1;
                     } else {
                         Bright = 0;
@@ -101,57 +101,32 @@ namespace RFController {
                 }
             }
         }
-        public void ReadState(MTRF mtrfDev) {
+
+        public void ReadState(MTRF mtrf) {
             if (Type == NooDevType.PowerUnitF) {
-                ExtDevType = mtrfDev.rxBuf.D0;
-                FirmwareVer = mtrfDev.rxBuf.D1;
-                State = mtrfDev.rxBuf.D2;
-                Bright = Round(((float)mtrfDev.rxBuf.D3 / 255) * 100);
+                ExtDevType = mtrf.rxBuf.D0;
+                FirmwareVer = mtrf.rxBuf.D1;
+                State = mtrf.rxBuf.D2;
+                Bright = Round(((float)mtrf.rxBuf.D3 / 255) * 100);
             }
         }
-        public void Unbind(MTRF mtrfDev) {
-            switch (this.Type) {
-                case NooDevType.PowerUnit:
-                    mtrfDev.SendCmd(this.Channel, NooMode.Tx, NooCmd.Unbind);
-                    break;
 
-                //case NooDevType.PowerUnitF:
-                //    DialogResult step21 = MessageBox.Show("Delete device?", "Warning!", MessageBoxButtons.YesNo);
-                //    if (step21 == DialogResult.Yes) {
-                //        Mtrf64.SendCmd(0, NooMode.FTx, NooCmd.Service, addrF: devToRemove.Addr, d0: 1, MtrfMode: NooCtr.SendByAdr);
-                //        Mtrf64.SendCmd(0, NooMode.FTx, NooCmd.Unbind, addrF: devToRemove.Addr, MtrfMode: NooCtr.SendByAdr);
-                //        //delete controls of device in each room
-                //        foreach (string roomToRemove in roomsToRemove) {
-                //            RemoveControl(devKey, roomToRemove);
-                //        }
-                //        //Remove device from base
-                //        DevBase.Data.Remove(devKey);
-                //    }
-                //    break;
-                //case NooDevType.RemController:
-                //    DialogResult step31 = MessageBox.Show("Delete device?", "Warning!", MessageBoxButtons.YesNo);
-                //    if (step31 == DialogResult.Yes) {
-                //        Mtrf64.Unbind(devToRemove.Channel, NooMode.Rx);
-                //        //delete controls of device in each room
-                //        foreach (string roomToRemove in roomsToRemove) {
-                //            RemoveControl(devKey, roomToRemove);
-                //        }
-                //        //Remove device from base
-                //        DevBase.Data.Remove(devKey);
-                //    }
-                //    break;
-                //case NooDevType.Sensor:
-                //    DialogResult step41 = MessageBox.Show("Delete device?", "Warning!", MessageBoxButtons.YesNo);
-                //    if (step41 == DialogResult.Yes) {
-                //        Mtrf64.Unbind(devToRemove.Channel, NooMode.Rx);
-                //        //delete controls of device in each room
-                //        foreach (string roomToRemove in roomsToRemove) {
-                //            RemoveControl(devKey, roomToRemove);
-                //        }
-                //        //Remove device from base
-                //        DevBase.Data.Remove(devKey);
-                //    }
-                //    break;
+        public void Unbind(MTRF mtrf) {
+            switch (Type) {
+                case NooDevType.PowerUnit:
+                    mtrf.UnbindTx(Channel);
+                    break;
+                case NooDevType.PowerUnitF:
+                    mtrf.UnbindFTx(Addr);
+                    break;
+                case NooDevType.Sensor:
+                    mtrf.UnbindSingleRx(Channel);
+                    break;
+                case NooDevType.RemController:
+                    mtrf.UnbindSingleRx(Channel);
+                    break;
+                default:
+                    break;
             }
         }
 
