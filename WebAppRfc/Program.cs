@@ -42,9 +42,7 @@ namespace WebAppRfc
             int devKey = Mtrf64.rxBuf.Mode == NooMode.FTx ? Mtrf64.rxBuf.AddrF : Mtrf64.rxBuf.Ch;
             if (DevBase.Data.ContainsKey(devKey)) {
                 if (FeedbackHub.GlobalContext != null) {
-                    await FeedbackHub.GlobalContext.Clients.All.SendAsync("UpdateDevView", new JsonResult(
-                        DevBase.Data[devKey]
-                    ));
+                    await FeedbackHub.GlobalContext.Clients.All.SendAsync("UpdateDevView", DevBase.Data[devKey]);
                 }
             }
         }

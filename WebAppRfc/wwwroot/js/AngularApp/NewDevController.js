@@ -36,7 +36,9 @@ app.controller("newDevController", function ($http, myFactory) {
         );
         this.bindingStep = 1;
     };
-
+    this.EnterService = function () {
+        this.bindingStep = 2;
+    };
     this.Bind = function () {
         $http.get(`http://${myFactory.Host}/AddDevice/SendBind`).then(
             function successCallback(response) {
@@ -44,7 +46,7 @@ app.controller("newDevController", function ($http, myFactory) {
             }, function errorCallback(response) {
             }
         );
-        this.bindingStep = 2;
+        this.bindingStep = 3;
     };
 
     //calls by server

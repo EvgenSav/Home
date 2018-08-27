@@ -11,22 +11,20 @@ connection.on("UpdateDevView", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
     try {
         appCtrlScope.$apply(function () {
-            appCtrlScope.devView.UpdateDevView(rfdevice.value);
+            appCtrlScope.devView.UpdateDevView(rfdevice);
         });
     } catch (err) {
         appCtrlScope = angular.element(document.getElementById("log_controller")).scope();
         try {
             appCtrlScope.$apply(function () {
-                appCtrlScope.devLog.UpdateDevView(rfdevice.value);
+                appCtrlScope.devLog.UpdateDevView(rfdevice);
             });
         } catch (err) {
         };
     } finally {
+        console.log(rfdevice);
         console.log("Device info updated!");
     }
-
-
-    console.log(rfdevice.value);
 });
 
 connection.on("BindReceived", function (rfdevice, status) {

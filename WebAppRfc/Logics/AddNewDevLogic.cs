@@ -71,9 +71,9 @@ namespace WebAppRfc.Logics {
                             await FeedbackHub.GlobalContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
                         break;
-                    default:
+                    case NooDevType.RemController:
                         if (Mtrf64.rxBuf.Cmd == NooCmd.Bind && FindedChannel == Mtrf64.rxBuf.Ch
-                            && Mtrf64.rxBuf.Mode == 1) {
+                            && Mtrf64.rxBuf.Mode == NooMode.Rx) {
                             WaitingBindFlag = false;
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;

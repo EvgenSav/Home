@@ -22,7 +22,11 @@ namespace WebAppRfc.Controllers
             if(newDev != null && newDev.Name != "") {
                 AddNew.StartBind(newDev);
             }
-            return new JsonResult(new { Status = AddNew.Status });
+            return new JsonResult(
+                new BindModel(
+                AddNew.Device,
+                Status.BindStarted
+                ));
         }
 
         public JsonResult SendBind() {

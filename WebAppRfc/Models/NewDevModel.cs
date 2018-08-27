@@ -11,6 +11,10 @@ namespace WebAppRfc.Models {
         public string Room { get; set; }
     }
     public class BindModel {
+        public BindModel(RfDevice devicce, BindStatus status) {
+            Device = devicce != null ? devicce : new RfDevice();
+            Status = status != null ? status : new BindStatus();
+        }
         public RfDevice Device { get; set; }
         public BindStatus Status { get; set; }
     }

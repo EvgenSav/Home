@@ -22,13 +22,13 @@
         <div ng-show="new.Dev.Name != null && new.Dev.Name != '' && new.Dev.SelectedType != null && new.Dev.SelectedRoom != null" class="input-group mb-3">
             <input type="button" ng-model="new.bindingStep" ng-click="new.StartBind(new.Dev)" class="form-control btn-success" value="Start binding" />
         </div>
-        <!--Enter Service(for Tx and FTx)
+        <!--Enter Service(for Tx and FTx)-->
         <div ng-show="((new.Dev.SelectedType.id === 1) || (new.Dev.SelectedType.id === 2)) && new.bindingStep > 0">
             <label>
                 You need to enter bind mode, by pressing service button on device (LED should start blinking slowly).
             </label>
             <div class="input-group">
-                <input type="button" class="form-control btn-dark" value="I press service button, LED start blinking" ng-click="new.bindingStep=2" />
+                <input type="button" class="form-control btn-dark" value="I press service button, LED start blinking" ng-click="new.EnterService()" />
             </div>
         </div>
         <div ng-show="new.bindingStep > 1">
@@ -49,7 +49,7 @@
                 <div class="input-group mb-3">
                     <input type="button" ng-click="new.CheckBind()" value="Check bind" class="btn-success form-control" />
                 </div>
-            </div>-->
+            </div>
         <div ng-show="(new.Dev.SelectedType === 1 || new.Dev.SelectedType === 2) && new.bindingStep > 1">
             <label>
                 Now u have about 15 sec. to press <strong>"Bind"</strong>(LED should start blinking faster).
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div ng-show="new.bindingStep > 0">
+        <div ng-show="new.bindingStep > 2">
             <label>
                 <label class="bg-light rounded d-inline-block align-items-center font-weight-bold">{{new.myFactory.Status}}</label>
             </label>
