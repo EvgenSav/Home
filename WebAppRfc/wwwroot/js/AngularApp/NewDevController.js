@@ -3,7 +3,7 @@
 app.controller("newDevController", function ($http, myFactory) {
     this.myFactory = myFactory; //gives possibility to accecc myFactory in html tempplate page
     this.bindingStep = 0;
-    let devToBind = {};
+    let BindModel = {};
     let NewDev = {};
     this.GetRooms = function () {
         $http.get(`http://${myFactory.Host}/Rooms/GetRooms`).then(
@@ -18,6 +18,9 @@ app.controller("newDevController", function ($http, myFactory) {
         console.log(newdev);
     };
 
+    let SuccCallb = function () {
+        
+    };
     this.StartBind = function (newdev) {
         let newDev = {
             Name: newdev.Name,
@@ -27,17 +30,30 @@ app.controller("newDevController", function ($http, myFactory) {
         NewDev = newDev;
         console.log('Start bind:');
         console.log(newDev);
+
         $http.post(`http://${myFactory.Host}/AddDevice/StartBind`, newDev).then(
             function successCallback(response) {
                 console.log(response.data);
-                myFactory.Status = response.data.status;
+                myFactory.BindStatus = response.data.status;
+                if (response.data.status === 1) {
+                    BindModel = response.data.device;
+                }
+                switch (myFactory.BindStatus) {
+                    case 1:
+                        myFactory.BindingStep = 1;
+                        myFactory.BindStatusMsg = "Binding started!";
+                        break;
+                    case 2:
+                        myFactory.BindStatusMsg = "Binding FAIL (MTRF64 memory full)";
+                        break;
+                }
             }, function errorCallback(response) {
             }
         );
-        this.bindingStep = 1;
     };
+
     this.EnterService = function () {
-        this.bindingStep = 2;
+        myFactory.BindingStep = 2;
     };
     this.Bind = function () {
         $http.get(`http://${myFactory.Host}/AddDevice/SendBind`).then(
@@ -46,35 +62,36 @@ app.controller("newDevController", function ($http, myFactory) {
             }, function errorCallback(response) {
             }
         );
-        this.bindingStep = 3;
+        myFactory.BindingStep = 3;
     };
 
     //calls by server
-    this.BindReceived = function (device, status) {
+    this.BindReceived = function (bindModel) {
+        myFactory.
         myFactory.Status = status;
         console.log(`Received bind for:`);
         console.log(device);
         console.log(status);
-        devToBind = device;
+        bindModel = device;
     };
 
     this.CheckBind = function () {
-        $http.post(`http://${myFactory.Host}/AddDevice/CheckBind`, devToBind).then(
+        $http.post(`http://${myFactory.Host}/AddDevice/CheckBind`, BindModel).then(
             function successCallback(response) {
             }, function errorCallback(response) {
             }
         );
-        this.bindingStep = 4;
+        myFactory.BindingStep = 4;
     };
 
     this.CancelBind = function () {
-        $http.post(`http://${myFactory.Host}/AddDevice/CancelBind`, devToBind).then(
+        $http.post(`http://${myFactory.Host}/AddDevice/CancelBind`, BindModel).then(
             function successCallback(response) {
             }, function errorCallback(response) {
 
             }
         );
-        this.bindingStep = 0;
+        myFactory.BindingStep = 0;
     };
     this.Add = function () {
         $http.get(`http://${myFactory.Host}/AddDevice/Add`).then(
@@ -85,6 +102,6 @@ app.controller("newDevController", function ($http, myFactory) {
         this.Dev.Name = "";
         this.Dev.SelectedType = {};
         this.Dev.SelectedRoom = "";
-        this.bindingStep = 0;
+        myFactory.BindingStep = 0;
     };
 });

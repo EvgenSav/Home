@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebAppRfc.Logics
 {
-    public class RemoveDevLogic
+    public class RemoveDeviceLogic
     {
     }
 }

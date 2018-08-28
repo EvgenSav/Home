@@ -21,7 +21,7 @@ app.config(function ($routeProvider) {
         .when("/remove", {
             templateUrl: "/AngularViewTemplates/remove.html",
             controller: "removeController"
-        })
+        });
 });
 
 app.factory("myFactory", function ($location) {
@@ -53,7 +53,9 @@ app.factory("myFactory", function ($location) {
         }];
 
     return {
-        Status: "Nothing yet...",
+        BindStatus: 0,
+        BindStatusMsg: "",
+        BindingStep: 0,
         CurLogKey: 0,
         Key: 999,
         get DevBase() {
@@ -83,7 +85,7 @@ app.factory("myFactory", function ($location) {
             this.DevBase[rfdevice.key] = rfdevice;
             console.log(`View of ${rfdevice.name} updated!`);
         }
-    }
+    };
 });
 
 

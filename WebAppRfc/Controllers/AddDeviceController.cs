@@ -11,32 +11,23 @@ namespace WebAppRfc.Controllers
 {
     public class AddDeviceController : Controller
     {
-        public static AddNewDevLogic AddNew { get; set; }
+        public static AddDeviceLogic AddDevice { get; set; }
         public AddDeviceController() {
-            if (AddNew == null) {
-                AddNew = new AddNewDevLogic(Program.DevBase, Program.Mtrf64, Program.Rooms);
+            if (AddDevice == null) {
+                AddDevice = new AddDeviceLogic(Program.DevBase, Program.Mtrf64, Program.Rooms);
             }
         }
 
         public JsonResult StartBind([FromBody] NewDevModel newDev) {
-            if(newDev != null && newDev.Name != "") {
-                AddNew.StartBind(newDev);
-            }
-            return new JsonResult(
-                new BindModel(
-                AddNew.Device,
-                Status.BindStarted
-                ));
+            return Json(AddDevice.StartBind(newDev));
         }
 
         public JsonResult SendBind() {
-            AddNew.SendBind();
-            return new JsonResult(new { Status = AddNew.Status });
+            return Json(AddDevice.SendBind());
         }
 
         public JsonResult Add() {
-            AddNew.SendAdd();
-            return new JsonResult( new { Device = AddNew.Device, Status = AddNew.Status });
+            return Json(AddDevice.SendAdd());
         }
 
         public OkResult CheckBind([FromBody] RfDevice dev) {

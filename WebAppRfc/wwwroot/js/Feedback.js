@@ -7,6 +7,7 @@ const connection = new signalR.HubConnectionBuilder()
     .withUrl("/chatHub")
     .build();
 
+//called on device updates
 connection.on("UpdateDevView", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
     try {
@@ -20,7 +21,7 @@ connection.on("UpdateDevView", function (rfdevice) {
                 appCtrlScope.devLog.UpdateDevView(rfdevice);
             });
         } catch (err) {
-        };
+        }
     } finally {
         console.log(rfdevice);
         console.log("Device info updated!");
