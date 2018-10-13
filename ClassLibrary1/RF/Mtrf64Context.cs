@@ -199,62 +199,33 @@ namespace RF {
             }
         }
 
-        #region Noo Cmd code
-        //public void BindOn(int channel, int mode, bool bindOff = false) {
-        //    Buf txBuf = new Buf();
-        //    txBuf.St = 171;
-        //    txBuf.Mode = mode;
-        //    if (bindOff) { //Send Bind Off
-        //        txBuf.Ctr = 4;
-        //    } else {
-        //        if (mode == NooMode.Tx || mode == NooMode.FTx) {   //Send Bind Cmd
-        //            txBuf.Ctr = 0;
-        //            txBuf.Cmd = NooCmd.Bind;
-        //        } else {                        //Send Enable Bind at channel
-        //            txBuf.Ctr = 3;
-        //            txBuf.Cmd = 0;
-        //        }
-        //    }
+       
+        public void BindTx(int channel) {
+            SendCmd(channel, NooMode.Tx, NooCmd.Bind, MtrfMode: NooCtr.SendCmd);
+        }
+        public void UnbindTx(int channel) {
+            SendCmd(channel, NooMode.Tx, NooCmd.Unbind, MtrfMode: NooCtr.SendCmd);
+        }
 
-        //    txBuf.Ch = channel;
-        //    txBuf.Crc = txBuf.GetCrc;
-        //    txBuf.Sp = 172;
+        public void BindFTx(int channel = 0) {
+            SendCmd(channel, NooMode.FTx, NooCmd.Bind, MtrfMode: NooCtr.SendCmd);
+        }
+        public void UnbindFTx(int devFtxAddr, int channel = 0) {
+            SendCmd(channel, NooMode.FTx, NooCmd.Service, addrF: devFtxAddr, d0: 1, MtrfMode: NooCtr.SendByAdr);
+            SendCmd(channel, NooMode.FTx, NooCmd.Unbind, addrF: devFtxAddr, MtrfMode: NooCtr.SendByAdr);
+        }
 
-        //    AnswerReceived.Set();
-        //    //AddCmdToQueue(txBuf);
-        //    SendData(txBuf);
-        //}
-        public void Unbind(int channel, int mode, int addrF = 0, bool unbindAll = false) {
-            Buf txBuf = new Buf();
-            txBuf.St = 171;
-            txBuf.Mode = mode;
-            if (!unbindAll) { //clear all MTRF64 memory
-                if (mode == NooMode.Rx || mode == NooMode.FRx) {
-                    txBuf.Ctr = 5;
-                } else {
-                    txBuf.Ctr = 0;
-                }
-            } else {
-                txBuf.Ctr = 6;
-                txBuf.D0 = 170;
-                txBuf.D1 = 85;
-                txBuf.D2 = 170;
-                txBuf.D3 = 85;
-            }
-            if (addrF != 0) {
-                txBuf.Ch = 0;
-                txBuf.AddrF = addrF;
-            } else {
-                txBuf.Ch = channel;
-                txBuf.AddrF = 0;
-            }
-            txBuf.Cmd = NooCmd.Unbind;
-            txBuf.Crc = txBuf.GetCrc;
-            txBuf.Sp = 172;
-
-            AnswerReceived.Set();
-            AddCmdToQueue(txBuf);
-            SendData(txBuf);
+        public void BindRxOn(int channel) {
+            SendCmd(channel, NooMode.Rx, cmd: 0, MtrfMode: NooCtr.BindModeEnable);
+        }
+        public void BindModeOff() {
+            SendCmd(0,0,0, MtrfMode: NooCtr.BindModeDisable);
+        }
+        public void UnbindSingleRx(int channel) {
+            SendCmd(channel, NooMode.Rx, cmd: 0, MtrfMode: NooCtr.ClearChannel);
+        }
+        public void UnbindAllRx() {
+            SendCmd(0, NooMode.Rx, cmd: 0, MtrfMode: NooCtr.ClearAllChannel, d0: 170, d1: 85, d2: 170, d3: 85);
         }
 
         public void SendCmd(int channel, int mode, int cmd, int addrF = 0,
@@ -280,7 +251,6 @@ namespace RF {
                 SendData(txBuf);
             }
         }
-        #endregion
     }
 
 }
@@ -299,7 +269,6 @@ public struct MtrfModel {
         }
     }
 }
-
 public static class NooCtr {
     public const int SendCmd = 0;
     public const int SendBroadcastCmd = 1;
@@ -319,13 +288,24 @@ public static class NooMode {
     public const int Service = 4;
     public const int FirmwUpd = 5;
 }
+public struct NooData {
+    public NooData(int d0=0,int d1=0,int d2=0,int d3=0) {
+        D0 = d0;
+        D1 = d1;
+        D2 = d2;
+        D3 = d3;
+    }
+    public int D0 { get; set; }
+    public int D1 { get; set; }
+    public int D2 { get; set; }
+    public int D3 { get; set; }
+}
 public static class NooDevType {
     public const int RemController = 0;
     public const int PowerUnit = 1;
     public const int PowerUnitF = 2;
     public const int Sensor = 3;
 }
-
 public static class NooCmd {
     public const int Off = 0;
     public const int BrightDown = 1;

@@ -2,56 +2,76 @@
 
 <div class="card w-75">
     <h5 class="card-header text-center">Adding new device</h5>
-    <div id="addNewDev_controller" ng-controller="newDevController as new" class="card-body">
+    <div id="addNewDev_controller" ng-controller="newDevController as new" class="card-body" ng-model="new.Dev">
         <div class="input-group mb-3">
-            <input type="text" ng-model="new.Name" placeholder="Device Name" class="form-control" />
+            <input type="text" ng-model="new.Dev.Name" placeholder="Device Name" class="form-control" />
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">Choose type</span>
             </div>
-            <select ng-model="new.selectedType" ng-options="type.name for type in new.DevTypes" class="form-control"> </select>
+            <select ng-model="new.Dev.SelectedType" ng-options="type.name for type in new.myFactory.DevTypes" class="form-control"> </select>
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">Choose room</span>
             </div>
-            <select ng-model="new.selectedRoom" ng-options="room for room in new.myFactory.Rooms" ng-change="new.RoomSelected(new.Name, new.selectedRoom, new.selectedType)" class="form-control"> </select>
+            <select ng-model="new.Dev.SelectedRoom" ng-options="room for room in new.myFactory.Rooms" ng-change="new.RoomSelected(new.Dev)" class="form-control"> </select>
         </div>
 
-        <div ng-show="((new.selectedType.id == 1 || new.selectedType.id == 2) && new.selectedRoom != '' && new.selectedRoom != null)">
+        <div ng-show="new.Dev.Name != null && new.Dev.Name != '' && new.Dev.SelectedType != null && new.Dev.SelectedRoom != null" class="input-group mb-3">
+            <input type="button" ng-click="new.StartBind(new.Dev)" class="form-control btn-success" value="Start binding" />
+        </div>
+        <!--Enter Service(for Tx and FTx)-->
+        <div ng-show="((new.Dev.SelectedType.id === 1) || (new.Dev.SelectedType.id === 2)) && new.myFactory.BindingStep > 0">
             <label>
-                    You need to enter bind mode, by pressing sevice button on device (LED should start blinking slowly).
-                Now u have about 15 sec. to send bind comand.
+                You need to enter bind mode, by pressing service button on device (LED should start blinking slowly).
             </label>
+            <div class="input-group">
+                <input type="button" class="form-control btn-dark" value="I press service button, LED start blinking" ng-click="new.EnterService()" />
+            </div>
+        </div>
+        <div ng-show="new.myFactory.BindingStep > 1">
+                <label>
+                    Now u have about 15 sec. to send bind by
+                    pressing <strong>"Bind"</strong>(LED should start blinking faster).
+                    If not - repeat pressing <strong>"Bind"</strong>.
+                </label>
+                <div class="input-group mb-3">
+                    <input type="button" ng-click="new.Bind()" value="Bind" class="btn-primary form-control" />
+                </div>
+            </div>
+
+            <div ng-show="new.myFactory.BindingStep > 2">
+                <label>
+                    Now u can check binding by pressing any times <strong>"Check bind"</strong>.
+                </label>
+                <div class="input-group mb-3">
+                    <input type="button" ng-click="new.CheckBind()" value="Check bind" class="btn-success form-control" />
+                </div>
+            </div>
+        <div ng-show="(new.Dev.SelectedType === 1 || new.Dev.SelectedType === 2) && new.myFactory.BindingStep > 1">
             <label>
-                Than press <strong>"Bind"</strong> to send bind cmd (LED should start blinking faster).
+                Now u have about 15 sec. to press <strong>"Bind"</strong>(LED should start blinking faster).
                 If not - repeat pressing <strong>"Bind"</strong>.
             </label>
             <div class="input-group mb-3">
                 <input type="button" ng-click="new.Bind()" value="Bind" class="btn-primary form-control" />
             </div>
+        </div>
+
+        <div ng-show="new.myFactory.BindingStep > 2">
             <label>
-                Than accept binding by double pressing sevice button on device (LED shouldn't blinking).
-                Now u can check binding by pressing any times <strong>"Check bind"</strong>.
+                <label class="bg-light rounded d-inline-block align-items-center font-weight-bold">{{new.myFactory.BindStatusMsg}}</label>
             </label>
             <div class="input-group mb-3">
-                <input type="button" ng-click="new.CheckBind()" value="Check bind" class="btn-success form-control" />
-            </div>
-            <label>
-                    If u see any reaction on<strong>"Check bind"</strong>, press <strong>"Add"</strong> button.
-            </label>
-            <div class="input-group mb-3" ng-show="new.Name != '' && new.selectedType != null && new.selectedRoom != ''">
                 <input type="button" value="Add" ng-click="new.Add()" class="btn-primary form-control" />
-                <input type="button" value="Cancel" ng-click="new.CancelBind()" class="btn-danger form-control" />
+                <input type="button" value="Retry" ng-click="new.CancelBind()" class="btn-danger form-control" />
             </div>
-            <div class="input-group mb-3">
+            <!--<div class="input-group mb-3">
 
-            </div>
+            </div>-->
         </div>
 
-        <div>
-            <label class="bg-light rounded d-inline-block align-items-center" ng-model="new.myFactory.Status">{{new.myFactory.Status}}</label>
-        </div>
     </div>
 </div>
