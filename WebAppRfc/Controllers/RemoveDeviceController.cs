@@ -5,33 +5,44 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using WebAppRfc.Hubs;
+using WebAppRfc.Services;
 using RFController;
 
 namespace WebAppRfc.Controllers
 {
     public class RemoveDeviceController : Controller
     {
+        private readonly DevicesService devicesService;
+        private readonly Mtrf64Context mtrf64Context;
+        private readonly IHubContext<FeedbackHub> hubContext;
+
+        public RemoveDeviceController(DevicesService devicesService, Mtrf64Context mtrf64Context, IHubContext<FeedbackHub> hubContext) {
+            this.devicesService = devicesService;
+            this.mtrf64Context = mtrf64Context;
+            this.hubContext = hubContext;
+        }
+
         public string RemoveDev(int devKey) {
-            if (Program.DevBase.Data.ContainsKey(devKey)) {
-                Program.DevBase.Data.Remove(devKey);
-                FeedbackHub.GlobalContext.Clients.All.SendAsync("RemoveResult", Program.DevBase.Data,"ok");
+            if (devicesService.Devices.ContainsKey(devKey)) {
+                devicesService.Devices.Remove(devKey);
+                hubContext.Clients.All.SendAsync("RemoveResult", devicesService.Devices, "ok");
             }
             return "ok";
         }
-        public JsonResult Unbind(int devKey) {
-            if(Program.DevBase.Data.ContainsKey(devKey)) {
-                switch(Program.DevBase.Data[devKey].Type) {
+        public IActionResult Unbind(int devKey) {
+            if(devicesService.Devices.ContainsKey(devKey)) {
+                switch(devicesService.Devices[devKey].Type) {
                     case NooDevType.PowerUnit:
-                        Program.DevBase.Data[devKey].Unbind(Program.Mtrf64);
+                        devicesService.Devices[devKey].Unbind(mtrf64Context);
                         break;
                     case NooDevType.PowerUnitF:
                         break;
                 }
             }
-            return new JsonResult(String.Format("backend Unbind worked. Dev: {0}", devKey));
+            return Ok(string.Format("backend Unbind worked. Dev: {0}", devKey));
         }
-        public JsonResult Check(int devKey) {
-            return new JsonResult(String.Format("backend Check worked. Dev: {0}", devKey));
+        public IActionResult Check(int devKey) {
+           return Ok(string.Format("backend Check worked. Dev: {0}", devKey));
         }
     }
 }

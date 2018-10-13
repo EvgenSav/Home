@@ -1,27 +1,32 @@
 ﻿@{
-    ViewBag.DevCount = Program.DevBase.Data.Count;
+    ViewData["Title"] = "View";
 }
-
-
-<div>
-    <div id="app_controller" ng-controller="appController as devView" ng-init="devView.GetDevBase()">
-        <h1>NooLite Controller for Web</h1>
-
-        <h2>There are {{devView.myFactory.DevCount}} NooLite devices</h2>
-        <div style="margin-left:auto; margin-right:auto">
-            <div ng-model="devView.myFactory.DevBase" ng-repeat="dev in devView.myFactory.DevBase track by dev.key" class="panel panel-default" style="min-width: 150px; max-width: 150px; display:inline-grid">
-                <div class="panel-heading text-center">{{dev.name}} </div>
-                <div class="panel-body">
-                    <p> Key: {{dev.key}}</p>
-                    <p>
-                        State: <span class="label-success" ng-show="(dev.state != 0)"> On </span>
-                        <span ng-show="!(dev.state != 0)"> Off </span>
-                    </p>
-                    <p ng-model="dev.bright"> Bright: {{dev.bright}}</p>
-                    <p> <input ng-model="dev.bright" type="range" class="label-success" ng-click="devView.SetBright(dev.key, dev.bright)" /> </p>
-                    <p> <input ng-click="devView.SetSwitch(dev.key)" type="button" title="Switch" value="Switch" class="btn btn-primary center-block" /></p>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container">
+    <header ng-controller="mainCtrl as main" ng-init="main.GetBase()">
+        <ul class="nav nav-tabs">
+            <li class="nav-item active">
+                <a ng-class="{ active: main.myFactory.isActive('/')}" class="nav-link" href="#!/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a ng-class="{ active: main.myFactory.isActive('/addnew')}" class="nav-link" href="#!/addnew"> Add new device</a>
+            </li>
+            <li class="nav-item">
+                <a ng-class="{ active: main.myFactory.isActive('/rooms')}" class="nav-link" href="#!/rooms"> Eddit rooms</a>
+            </li>
+        </ul>
+    </header>
+    <section>
+        <ng-view></ng-view>
+    </section>
+    <footer></footer>
 </div>
+
+@section Scripts {
+    <script src="~/js/AngularApp/angular_app.js"></script>
+    <script src="~/js/AngularApp/MainController.js"></script>
+    <script src="~/js/AngularApp/DeviceController.js"></script>
+    <script src="~/js/AngularApp/LogController.js"></script>
+    <script src="~/js/AngularApp/NewDevController.js"></script>
+    <script src="~/js/AngularApp/RoomsController.js"></script>
+    <script src="~/js/AngularApp/RemoveController.js"></script>
+}

@@ -3,55 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RFController;
+using RF;
 using WebAppRfc.Models;
-using WebAppRfc.Logics;
+using WebAppRfc.Services;
 
 namespace WebAppRfc.Controllers
 {
     public class AddDeviceController : Controller
     {
-        public static AddNewDevLogic AddNew { get; set; }
-        public AddDeviceController() {
-            if (AddNew == null) {
-                AddNew = new AddNewDevLogic(Program.DevBase, Program.Mtrf64, Program.Rooms);
-            }
+        private readonly Mtrf64Context mtrf64Context;
+        private readonly BindingService bindingService;
+        public static DevicesService devService { get; set; }
+        public AddDeviceController(Mtrf64Context mtrf64Context, BindingService bindingService) {
+            this.mtrf64Context = mtrf64Context;
+            this.bindingService = bindingService;
         }
 
-        public JsonResult RoomSelected([FromBody] NewDevModel newDev) {
+        public IActionResult RoomSelected([FromBody] NewDevModel newDev) {
             if(newDev != null && newDev.Name != "") {
-                AddNew.RoomSelected(newDev);
+                bindingService.RoomSelected(newDev);
             }
-            return new JsonResult(new { Channel = AddNew.FindedChannel, Status = AddNew.Status });
+            return Ok(new { Channel = bindingService.FindedChannel, Status = bindingService.Status });
         }
 
-        public JsonResult SendBind() {
-            AddNew.SendBind();
-            return new JsonResult(new { Status = AddNew.Status });
+        public IActionResult SendBind() {
+            bindingService.SendBind();
+            return Ok(new { Status = bindingService.Status });
         }
 
-        public JsonResult Add() {
-            AddNew.SendAdd();
-            return new JsonResult( new { Device = AddNew.Device, Status = AddNew.Status });
+        public IActionResult Add() {
+            bindingService.SendAdd();
+            return Ok( new { Device = bindingService.Device, Status = bindingService.Status });
         }
 
         public OkResult CheckBind([FromBody] RfDevice dev) {
-            dev.SetSwitch(Program.Mtrf64);
+            dev.SetSwitch(mtrf64Context);
             return new OkResult();
         }
         public OkResult CancelBind() {
             return new OkResult();
         }
-
-        
-
-        
-
         public IActionResult Index()
         {
             return View();
-        }
-
-        
+        }        
     }
 }

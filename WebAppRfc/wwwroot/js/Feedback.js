@@ -2,31 +2,28 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/chatHub")
+    .configureLogging(signalR.LogLevel.Information)
     .build();
-
 connection.on("UpdateDevView", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
     try {
         appCtrlScope.$apply(function () {
-            appCtrlScope.devView.UpdateDevView(rfdevice.value);
+            appCtrlScope.devView.UpdateDevView(rfdevice);
         });
     } catch (err) {
         appCtrlScope = angular.element(document.getElementById("log_controller")).scope();
         try {
             appCtrlScope.$apply(function () {
-                appCtrlScope.devLog.UpdateDevView(rfdevice.value);
+                appCtrlScope.devLog.UpdateDevView(rfdevice);
             });
         } catch (err) {
         };
     } finally {
         console.log("Device info updated!");
     }
-
-
-    console.log(rfdevice.value);
+    console.log(rfdevice);
 });
 
 connection.on("BindReceived", function (rfdevice, status) {
@@ -41,20 +38,20 @@ connection.on("AddNewResult", function (rfdevice, status) {
     try {
         appCtrlScope.$apply(function () {
             if (status == "Device added") {
-                appCtrlScope.devView.AddNew(rfdevice.value);
+                appCtrlScope.devView.AddNew(rfdevice);
             }
         });
     } catch (err) {
         appCtrlScope = angular.element(document.getElementById("addNewDev_controller")).scope();
         appCtrlScope.$apply(function () {
             if (status == "Device added") {
-                appCtrlScope.new.myFactory.AddToBase(rfdevice.value);
+                appCtrlScope.new.myFactory.AddToBase(rfdevice);
             }
         });
     }
 
     console.log(status);
-    console.log(rfdevice.value);
+    console.log(rfdevice);
 });
 
 connection.on("RemoveResult", function (devices, status) {

@@ -6,8 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Hubs\FeedbackHub.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="angularjs" Version="1.7.2" />
     <PackageReference Include="AngularJS.Intellisense" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.0-preview1-20180920-03" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="SerialPortStream" Version="2.1.4" />
@@ -21,6 +26,10 @@
   <ItemGroup>
     <None Include="wwwroot\AngularViewTemplates\addnew.html" />
     <None Include="wwwroot\AngularViewTemplates\devices.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\RF.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

@@ -3,23 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebAppRfc.Services;
 
 namespace WebAppRfc.Controllers
 {
     public class RoomsController : Controller
     {
-        public JsonResult AddRoom(string roomName) {
-            Program.Rooms.Add(roomName);
-            return new JsonResult(Program.Rooms);
+        private readonly HomeService homeService;
+        public RoomsController(HomeService homeService) {
+            this.homeService = homeService;
+        }
+        public IActionResult AddRoom(string roomName) {
+            homeService.Rooms.Add(roomName);
+            return Ok(homeService.Rooms);
         }
 
-        public JsonResult RemoveRoom(string roomName) {
-            Program.Rooms.Remove(roomName);
-            return new JsonResult(Program.Rooms);
+        public IActionResult RemoveRoom(string roomName) {
+            homeService.Rooms.Remove(roomName);
+            return Ok(homeService.Rooms);
         }
 
-        public JsonResult GetRooms() {
-            return new JsonResult(Program.Rooms);
+        public IActionResult GetRooms() {
+            return Ok(homeService.Rooms);
         }
     }
 }

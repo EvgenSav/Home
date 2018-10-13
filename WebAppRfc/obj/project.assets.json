@@ -14,6 +14,9 @@
           "AngularJS.Core": "[1.3.0, 1.4.0)"
         }
       },
+      "Microsoft.AspNet.SignalR/2.4.0-preview1-20180920-03": {
+        "type": "package"
+      },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
         "type": "package",
         "dependencies": {
@@ -4718,6 +4721,15 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "RF/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/RF.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RF.dll": {}
+        }
       }
     }
   },
@@ -5533,6 +5545,16 @@
         "angularjs.intellisense.nuspec",
         "content/scripts/_references.js",
         "content/scripts/angular.intellisense.js"
+      ]
+    },
+    "Microsoft.AspNet.SignalR/2.4.0-preview1-20180920-03": {
+      "sha512": "NoX8tGj1UuQc268uImeTvAQmDt2TiuTOkXWhPAYYXnniWlfppYvSHBgMbz/lsGg8rMtnOwSySRC3whQXGgc9RQ==",
+      "type": "package",
+      "path": "microsoft.aspnet.signalr/2.4.0-preview1-20180920-03",
+      "files": [
+        ".signature.p7s",
+        "microsoft.aspnet.signalr.2.4.0-preview1-20180920-03.nupkg.sha512",
+        "microsoft.aspnet.signalr.nuspec"
       ]
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -10535,10 +10557,11 @@
       ]
     },
     "System.Net.Http/4.3.0": {
-      "sha512": "sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
+      "sha512": "Z1UfSF6dlpCdZdxh6LeoGlYH+q6ptG/iiIWgUUeKhE3DbQACmZkU7Sz2nOX0qdHjz72MOdYRbkSJ5Qwl6sZgvg==",
       "type": "package",
       "path": "system.net.http/4.3.0",
       "files": [
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/Xamarinmac20/_._",
@@ -13298,14 +13321,21 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "RF/1.0.0": {
+      "type": "project",
+      "path": "../ClassLibrary1/RF.csproj",
+      "msbuildProject": "../ClassLibrary1/RF.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
       "AngularJS.Intellisense >= 1.0.3",
+      "Microsoft.AspNet.SignalR >= 2.4.0-preview1-20180920-03",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.NETCore.App >= 2.1.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.1",
+      "RF >= 1.0.0",
       "SerialPortStream >= 2.1.4",
       "angularjs >= 1.7.2"
     ]
@@ -13339,7 +13369,11 @@
       },
       "frameworks": {
         "netcoreapp2.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\ClassLibrary1\\RF.csproj": {
+              "projectPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\ClassLibrary1\\RF.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -13354,6 +13388,10 @@
           "AngularJS.Intellisense": {
             "target": "Package",
             "version": "[1.0.3, )"
+          },
+          "Microsoft.AspNet.SignalR": {
+            "target": "Package",
+            "version": "[2.4.0-preview1-20180920-03, )"
           },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",

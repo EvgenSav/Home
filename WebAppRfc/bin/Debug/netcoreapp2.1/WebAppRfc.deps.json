@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "16f72fd1007d2b2c13fbc837fe49bf763a071f21"
+    "signature": "50d9bbead7634a73e38721eead912522eb3fcf00"
   },
   "compilationOptions": {
     "defines": [
@@ -25,6 +25,7 @@
       "WebAppRfc/1.0.0": {
         "dependencies": {
           "AngularJS.Intellisense": "1.0.3",
+          "Microsoft.AspNet.SignalR": "2.4.0-preview1-20180920-03",
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.NETCore.App": "2.1.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.1",
@@ -45,6 +46,7 @@
           "AngularJS.Core": "1.3.0"
         }
       },
+      "Microsoft.AspNet.SignalR/2.4.0-preview1-20180920-03": {},
       "Microsoft.CodeAnalysis.CSharp.Workspaces/2.8.0": {
         "dependencies": {
           "Microsoft.CodeAnalysis.CSharp": "2.8.0",
@@ -3572,6 +3574,13 @@
       "path": "angularjs.intellisense/1.0.3",
       "hashPath": "angularjs.intellisense.1.0.3.nupkg.sha512"
     },
+    "Microsoft.AspNet.SignalR/2.4.0-preview1-20180920-03": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NoX8tGj1UuQc268uImeTvAQmDt2TiuTOkXWhPAYYXnniWlfppYvSHBgMbz/lsGg8rMtnOwSySRC3whQXGgc9RQ==",
+      "path": "microsoft.aspnet.signalr/2.4.0-preview1-20180920-03",
+      "hashPath": "microsoft.aspnet.signalr.2.4.0-preview1-20180920-03.nupkg.sha512"
+    },
     "Microsoft.CodeAnalysis.CSharp.Workspaces/2.8.0": {
       "type": "package",
       "serviceable": true,
@@ -5276,7 +5285,7 @@
     "System.Net.Http/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
+      "sha512": "sha512-Z1UfSF6dlpCdZdxh6LeoGlYH+q6ptG/iiIWgUUeKhE3DbQACmZkU7Sz2nOX0qdHjz72MOdYRbkSJ5Qwl6sZgvg==",
       "path": "system.net.http/4.3.0",
       "hashPath": "system.net.http.4.3.0.nupkg.sha512"
     },

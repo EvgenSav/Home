@@ -11,28 +11,43 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebAppRfc.Hubs;
 using RFController;
+using WebAppRfc.Services;
 
-namespace WebAppRfc
-{
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
+namespace WebAppRfc {
+    public class Startup {
+        IServiceProvider serviceProvider;
+        public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
+        public void OnStart() {
+        }
+
+
         public void OnShutdown() {
-            Program.DevBase.SaveToFile("devices.json");
-            Program.ActionLog.SaveToFile("log.json");
+            var devicesService = serviceProvider.GetService<DevicesService>();
+            var actionLogService = serviceProvider.GetService<ActionLogService>();
+            var homeService = serviceProvider.GetService<HomeService>();
+            devicesService.SaveToFile("devices.json");
+            actionLogService.SaveToFile("log.json");
         }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton(typeof(MTRF), Program.Mtrf64);
-            services.AddSingleton(typeof(MyDB<int, RfDevice>), Program.DevBase);
-            services.Configure<CookiePolicyOptions>(options =>
-            {
+        public  void ConfigureServices(IServiceCollection services) {
+            services.AddSingleton<DevicesService>();
+            services.AddSingleton<ActionLogService>();
+            var mtrf = new Mtrf64Context();
+            var connected = new List<MtrfModel>();
+            connected = mtrf.GetAvailableComPorts().Result;
+            if (connected.Count > 0) {
+                mtrf.OpenPort(connected[0]);
+            }
+            services.AddSingleton<Mtrf64Context>(mtrf);
+            services.AddSingleton<ActionHandlerService>();
+            services.AddSingleton<BindingService>();
+            services.AddSingleton<HomeService>();
+
+            services.Configure<CookiePolicyOptions>(options => {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
@@ -41,34 +56,30 @@ namespace WebAppRfc
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSignalR();
+            serviceProvider = services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             var applicationLifetime = app.ApplicationServices.GetRequiredService<IApplicationLifetime>();
             applicationLifetime.ApplicationStopped.Register(OnShutdown);
-
-            if (env.IsDevelopment())
-            {
+            applicationLifetime.ApplicationStarted.Register(OnStart);
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
+            } else {
                 app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseWebSockets();
-            app.UseSignalR(routes=> {
+            app.UseSignalR(routes => {
                 routes.MapHub<FeedbackHub>("/chatHub");
             });
-            app.UseMvc(routes =>
-            {
+            app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=AngularRoute}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
