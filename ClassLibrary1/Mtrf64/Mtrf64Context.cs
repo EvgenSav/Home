@@ -5,7 +5,7 @@ using RJCP.IO.Ports;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RF {
+namespace Driver.Mtrf64 {
     public class Mtrf64Context {
         Queue<Buf> queue = new Queue<Buf>();
         public event EventHandler DataReceived;
@@ -265,7 +265,7 @@ public struct MtrfModel {
     public int MtrfAddr { get; }
     public string Info {
         get {
-            return String.Format("{0}, MTRF64: {1}", ComPortName, MtrfAddr);
+            return string.Format("{0}, MTRF64: {1}", ComPortName, MtrfAddr);
         }
     }
 }

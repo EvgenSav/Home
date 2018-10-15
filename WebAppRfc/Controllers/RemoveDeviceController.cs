@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using WebAppRfc.Hubs;
 using WebAppRfc.Services;
-using RFController;
+using Driver.Mtrf64;
 
 namespace WebAppRfc.Controllers
 {
-    public class RemoveDeviceController : Controller
+    public class RemoveDeviceController : ControllerBase
     {
         private readonly DevicesService devicesService;
         private readonly Mtrf64Context mtrf64Context;

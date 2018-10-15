@@ -9,8 +9,6 @@ using WebAppRfc.Hubs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using RFController;
-using System.Timers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

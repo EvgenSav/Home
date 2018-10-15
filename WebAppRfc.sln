@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppRfc", "WebAppRfc\WebAppRfc.csproj", "{D915661F-D27D-4C5A-A991-74E107EBB996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RF", "ClassLibrary1\RF.csproj", "{8D4AF911-04A6-4F4A-8C85-0085C6113019}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver", "ClassLibrary1\Driver.csproj", "{8D4AF911-04A6-4F4A-8C85-0085C6113019}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Db", "Db\Db.csproj", "{73D94584-5E18-4103-9BDC-3F755C2CDF47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8D4AF911-04A6-4F4A-8C85-0085C6113019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D4AF911-04A6-4F4A-8C85-0085C6113019}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D4AF911-04A6-4F4A-8C85-0085C6113019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D94584-5E18-4103-9BDC-3F755C2CDF47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D94584-5E18-4103-9BDC-3F755C2CDF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D94584-5E18-4103-9BDC-3F755C2CDF47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D94584-5E18-4103-9BDC-3F755C2CDF47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

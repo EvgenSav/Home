@@ -97,3 +97,7 @@ C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Deb
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\WebAppRfc.pdb
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\WebAppRfc.csproj.CopyComplete
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\obj\Debug\netcoreapp2.1\WebAppRfc.csprojAssemblyReference.cache
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\bin\Debug\netcoreapp2.1\Db.dll
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\bin\Debug\netcoreapp2.1\RfDriver.dll
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\bin\Debug\netcoreapp2.1\RfDriver.pdb
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\WebAppRfc\bin\Debug\netcoreapp2.1\Db.pdb

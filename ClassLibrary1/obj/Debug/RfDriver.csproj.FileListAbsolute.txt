@@ -1,0 +1,4 @@
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\ClassLibrary1\obj\Debug\RfDriver.csprojAssemblyReference.cache
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\ClassLibrary1\obj\Debug\RfDriver.csproj.CoreCompileInputs.cache
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\ClassLibrary1\obj\Debug\ClassLibrary1.pdb

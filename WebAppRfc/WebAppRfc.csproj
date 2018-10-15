@@ -29,7 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\RF.csproj" />
+    <ProjectReference Include="..\ClassLibrary1\Driver.csproj" />
+    <ProjectReference Include="..\Db\Db.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

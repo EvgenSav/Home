@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RFController;
+using Db;
+using WebAppRfc.Models;
 
 namespace WebAppRfc.Services {
     public class ActionLogService {

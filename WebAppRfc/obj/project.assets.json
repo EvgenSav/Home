@@ -4722,13 +4722,22 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "RF/1.0.0": {
+      "Db/1.0.0": {
         "type": "project",
         "compile": {
-          "bin/placeholder/RF.dll": {}
+          "bin/placeholder/Db.dll": {}
         },
         "runtime": {
-          "bin/placeholder/RF.dll": {}
+          "bin/placeholder/Db.dll": {}
+        }
+      },
+      "Driver/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/Driver.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Driver.dll": {}
         }
       }
     }
@@ -13322,42 +13331,48 @@
         "system.xml.xpath.xdocument.nuspec"
       ]
     },
-    "RF/1.0.0": {
+    "Db/1.0.0": {
       "type": "project",
-      "path": "../ClassLibrary1/RF.csproj",
-      "msbuildProject": "../ClassLibrary1/RF.csproj"
+      "path": "../Db/Db.csproj",
+      "msbuildProject": "../Db/Db.csproj"
+    },
+    "Driver/1.0.0": {
+      "type": "project",
+      "path": "../ClassLibrary1/Driver.csproj",
+      "msbuildProject": "../ClassLibrary1/Driver.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
       "AngularJS.Intellisense >= 1.0.3",
+      "Db >= 1.0.0",
+      "Driver >= 1.0.0",
       "Microsoft.AspNet.SignalR >= 2.4.0-preview1-20180920-03",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.NETCore.App >= 2.1.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.1",
-      "RF >= 1.0.0",
       "SerialPortStream >= 2.1.4",
       "angularjs >= 1.7.2"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\w1shl\\.nuget\\packages\\": {},
+    "C:\\Users\\Evgen\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\w1shl\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
+      "projectUniqueName": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
       "projectName": "WebAppRfc",
-      "projectPath": "C:\\Users\\w1shl\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
-      "packagesPath": "C:\\Users\\w1shl\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\w1shl\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\obj\\",
+      "projectPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\WebAppRfc.csproj",
+      "packagesPath": "C:\\Users\\Evgen\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\WebAppRfc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\w1shl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Evgen\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13370,8 +13385,11 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\ClassLibrary1\\RF.csproj": {
-              "projectPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\ClassLibrary1\\RF.csproj"
+            "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\ClassLibrary1\\Driver.csproj": {
+              "projectPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\ClassLibrary1\\Driver.csproj"
+            },
+            "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\Db\\Db.csproj": {
+              "projectPath": "C:\\Users\\Evgen\\Dropbox\\VisualStudioProjects\\Projects\\WebAppRfc\\Db\\Db.csproj"
             }
           }
         }

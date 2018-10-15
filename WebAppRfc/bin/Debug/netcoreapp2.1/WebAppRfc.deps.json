@@ -25,6 +25,8 @@
       "WebAppRfc/1.0.0": {
         "dependencies": {
           "AngularJS.Intellisense": "1.0.3",
+          "Db": "1.0.0",
+          "Driver": "1.0.0",
           "Microsoft.AspNet.SignalR": "2.4.0-preview1-20180920-03",
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.NETCore.App": "2.1.0",
@@ -600,6 +602,22 @@
         "dependencies": {
           "System.Runtime": "4.3.0",
           "System.Runtime.Handles": "4.3.0"
+        }
+      },
+      "Db/1.0.0": {
+        "runtime": {
+          "Db.dll": {}
+        },
+        "compile": {
+          "Db.dll": {}
+        }
+      },
+      "Driver/1.0.0": {
+        "runtime": {
+          "RfDriver.dll": {}
+        },
+        "compile": {
+          "RfDriver.dll": {}
         }
       },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -3783,6 +3801,16 @@
       "sha512": "sha512-k/+g4b7vjdd4aix83sTgC9VG6oXYKAktSfNIJUNGxPEj7ryEOfzHHhfnmsZvjxawwcD9HyWXKCXmPjX8U4zeSw==",
       "path": "system.threading.threadpool/4.3.0",
       "hashPath": "system.threading.threadpool.4.3.0.nupkg.sha512"
+    },
+    "Db/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Driver/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "type": "package",

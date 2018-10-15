@@ -1,6 +1,6 @@
 ﻿
 
-namespace RF {
+namespace Driver.Mtrf64 {
     public enum CmdByteIdx {
         St, Mode, Ctr, Res, Ch, Cmd, Fmt,
         D0, D1, D2, D3, Id0, Id1, Id2, Id3, Crc, Sp

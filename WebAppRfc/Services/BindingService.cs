@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RFController;
 using System.Timers;
 using Microsoft.AspNetCore.SignalR;
 using WebAppRfc.Hubs;
 using WebAppRfc.Models;
+using Driver.Mtrf64;
+
 
 namespace WebAppRfc.Services {
     public class BindingService {
@@ -111,13 +112,13 @@ namespace WebAppRfc.Services {
         public void CancelBind() {
             switch (SelectedType) {
                 case NooDevType.PowerUnit:
-                    mtrf64Context.Unbind(FindedChannel, NooMode.Tx);
+                    mtrf64Context.UnbindTx(FindedChannel);
                     break;
                 case NooDevType.PowerUnitF:
-                    mtrf64Context.Unbind(FindedChannel, NooMode.FTx, addrF: Device.Addr);
+                    mtrf64Context.UnbindFTx(Device.Addr);
                     break;
                 default:
-                    mtrf64Context.Unbind(FindedChannel, NooMode.Rx);
+                    mtrf64Context.UnbindSingleRx(FindedChannel);
                     break;
             }
         }

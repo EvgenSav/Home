@@ -21,41 +21,14 @@ app.config(function ($routeProvider) {
         .when("/remove", {
             templateUrl: "/AngularViewTemplates/remove.html",
             controller: "removeController"
-        });
+        })
 });
 
 app.factory("myFactory", function ($location) {
     let devBase = {};
-    const devTypes = [
-        {
-            id: 0,
-            name: "Пульт"
-        }, {
-            id: 1,
-            name: "Силовой блок"
-        }, {
-            id: 2,
-            name: "Силовой блок с обр. св."
-        }, {
-            id: 3,
-            name: "Датчик"
-        }];
-    const nooMods = [
-        {
-            id: 0,
-            name: "Tx"
-        }, {
-            id: 1,
-            name: "Rx"
-        }, {
-            id: 2,
-            name: "F-Tx"
-        }];
 
     return {
-        BindStatus: 0,
-        BindStatusMsg: "",
-        BindingStep: 0,
+        Status: "Nothing yet...",
         CurLogKey: 0,
         Key: 999,
         get DevBase() {
@@ -64,12 +37,6 @@ app.factory("myFactory", function ($location) {
         set DevBase(value) {
             devBase = value;
         },
-        get DevTypes() {
-            return devTypes;
-        },
-        get NooMods() {
-            return nooMods;
-        },
         Rooms: [],
         DevCount: 0,
         Host: window.location.host,
@@ -77,7 +44,13 @@ app.factory("myFactory", function ($location) {
             this.DevBase[rfdev.key] = rfdev;
             this.DevCount++;
         },
-
+        AddTest: function () {
+            var devItem = this.DevBase[3];
+            var newDev = Object.create(devItem);
+            newDev.key = this.Key;
+            this.DevBase[this.Key] = newDev;
+            this.Key++;
+        },
         isActive: function (viewlocation) {
             return viewlocation === $location.path();
         },
@@ -85,7 +58,7 @@ app.factory("myFactory", function ($location) {
             this.DevBase[rfdevice.key] = rfdevice;
             console.log(`View of ${rfdevice.name} updated!`);
         }
-    };
+    }
 });
 
 

@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebAppRfc.Hubs;
-using RFController;
 using WebAppRfc.Services;
+using Driver.Mtrf64;
 
 namespace WebAppRfc {
     public class Startup {

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Driver.Mtrf64;
 
-namespace RF {
+namespace WebAppRfc.Models {
     [Serializable]
     public class RfDevice {
         public int Channel { get; set; }

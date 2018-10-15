@@ -1,0 +1,9 @@
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\bin\Debug\Db.dll
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\bin\Debug\Db.pdb
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\obj\Debug\Db.csprojAssemblyReference.cache
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\obj\Debug\Db.csproj.CoreCompileInputs.cache
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\obj\Debug\Db.csproj.CopyComplete
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\obj\Debug\Db.dll
+C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\obj\Debug\Db.pdb
