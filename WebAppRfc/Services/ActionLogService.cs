@@ -7,12 +7,12 @@ using WebAppRfc.Models;
 
 namespace WebAppRfc.Services {
     public class ActionLogService {
-        private MyDB<int, List<ILogItem>> ActionLogBase;
+        private MyDb<int, List<ILogItem>> ActionLogBase;
 
         public SortedDictionary<int, List<ILogItem>> ActionLog => ActionLogBase.Data;
         public void SaveToFile(string path) => ActionLogBase.SaveToFile(path);
         public ActionLogService() {
-            ActionLogBase = MyDB<int, List<ILogItem>>.OpenFile("log.json");
+            ActionLogBase = MyDb<int, List<ILogItem>>.OpenFile("log.json");
         }
     }
 }

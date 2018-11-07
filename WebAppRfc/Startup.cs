@@ -43,9 +43,11 @@ namespace WebAppRfc {
                 mtrf.OpenPort(connected[0]);
             }
             services.AddSingleton<Mtrf64Context>(mtrf);
+            services.AddSingleton<NotificationService>();
             services.AddSingleton<ActionHandlerService>();
             services.AddSingleton<BindingService>();
             services.AddSingleton<HomeService>();
+            
 
             services.Configure<CookiePolicyOptions>(options => {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

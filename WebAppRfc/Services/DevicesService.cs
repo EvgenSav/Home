@@ -18,12 +18,12 @@ namespace WebAppRfc.Services {
     public class DevicesService {
         private readonly Mtrf64Context mtrf64Context;
 
-        private MyDB<int, RfDevice> DevicesBase { get; set; }
+        private MyDb<int, RfDevice> DevicesBase { get; set; }
         public SortedDictionary<int, RfDevice> Devices => DevicesBase.Data;
         public void SaveToFile(string path) => DevicesBase.SaveToFile(path);
 
         public DevicesService(Mtrf64Context mtrf64Context) {
-            DevicesBase = MyDB<int, RfDevice>.OpenFile("devices.json");
+            DevicesBase = MyDb<int, RfDevice>.OpenFile("devices.json");
             this.mtrf64Context = mtrf64Context;
         }
     }

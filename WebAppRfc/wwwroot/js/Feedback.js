@@ -6,7 +6,8 @@ const connection = new signalR.HubConnectionBuilder()
     .withUrl("/chatHub")
     .configureLogging(signalR.LogLevel.Information)
     .build();
-connection.on("UpdateDevView", function (rfdevice) {
+    
+connection.on("UpdateDevice", function (rfdevice) {
     var appCtrlScope = angular.element(document.getElementById("app_controller")).scope();
     try {
         appCtrlScope.$apply(function () {
