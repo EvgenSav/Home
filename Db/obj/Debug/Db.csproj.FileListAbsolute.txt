@@ -7,3 +7,11 @@ C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\obj\Debug\Db.c
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\obj\Debug\Db.csproj.CopyComplete
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\obj\Debug\Db.dll
 C:\Users\Evgen\Dropbox\VisualStudioProjects\Projects\WebAppRfc\Db\obj\Debug\Db.pdb
+C:\work\WebAppRfc\Db\bin\Debug\Db.dll
+C:\work\WebAppRfc\Db\bin\Debug\Db.pdb
+C:\work\WebAppRfc\Db\bin\Debug\Newtonsoft.Json.dll
+C:\work\WebAppRfc\Db\obj\Debug\Db.csprojAssemblyReference.cache
+C:\work\WebAppRfc\Db\obj\Debug\Db.csproj.CoreCompileInputs.cache
+C:\work\WebAppRfc\Db\obj\Debug\Db.csproj.CopyComplete
+C:\work\WebAppRfc\Db\obj\Debug\Db.dll
+C:\work\WebAppRfc\Db\obj\Debug\Db.pdb
