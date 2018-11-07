@@ -37,8 +37,8 @@ C:\work\WebAppRfc\ClassLibrary1\bin\Debug\System.Threading.ThreadPool.dll
 C:\work\WebAppRfc\ClassLibrary1\bin\Debug\Newtonsoft.Json.xml
 C:\work\WebAppRfc\ClassLibrary1\bin\Debug\RJCP.SerialPortStream.pdb
 C:\work\WebAppRfc\ClassLibrary1\bin\Debug\RJCP.SerialPortStream.xml
-C:\work\WebAppRfc\ClassLibrary1\obj\Debug\Driver.csprojAssemblyReference.cache
 C:\work\WebAppRfc\ClassLibrary1\obj\Debug\Driver.csproj.CoreCompileInputs.cache
 C:\work\WebAppRfc\ClassLibrary1\obj\Debug\Driver.csproj.CopyComplete
 C:\work\WebAppRfc\ClassLibrary1\obj\Debug\RfDriver.dll
 C:\work\WebAppRfc\ClassLibrary1\obj\Debug\RfDriver.pdb
+C:\work\WebAppRfc\ClassLibrary1\obj\Debug\Driver.csprojAssemblyReference.cache
