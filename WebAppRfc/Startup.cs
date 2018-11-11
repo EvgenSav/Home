@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WebAppRfc.Hubs;
 using WebAppRfc.Services;
 using Driver.Mtrf64;
+using Microsoft.AspNetCore.Routing;
 
 namespace WebAppRfc {
     public class Startup {
@@ -78,7 +79,9 @@ namespace WebAppRfc {
             app.UseSignalR(routes => {
                 routes.MapHub<FeedbackHub>("/chatHub");
             });
-            app.UseMvc(routes => {
+            app.UseMvc(routes =>
+            {   
+                
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
