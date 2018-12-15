@@ -11,7 +11,6 @@ namespace WebAppRfc.Services {
     {
         UpdateDevice = 1,
         BindReceived = 2,
-
     };
     public class NotificationService {
         private readonly IHubContext<FeedbackHub> _hubContext;
