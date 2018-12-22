@@ -14,25 +14,21 @@
     <Compile Remove="ClientOld\**" />
     <Compile Remove="dist\**" />
     <Compile Remove="node_modules_\**" />
-    <Compile Remove="src\**" />
     <Content Remove="ClientApp\**" />
     <Content Remove="ClientApp_\**" />
     <Content Remove="ClientOld\**" />
     <Content Remove="dist\**" />
     <Content Remove="node_modules_\**" />
-    <Content Remove="src\**" />
     <EmbeddedResource Remove="ClientApp\**" />
     <EmbeddedResource Remove="ClientApp_\**" />
     <EmbeddedResource Remove="ClientOld\**" />
     <EmbeddedResource Remove="dist\**" />
     <EmbeddedResource Remove="node_modules_\**" />
-    <EmbeddedResource Remove="src\**" />
     <None Remove="ClientApp\**" />
     <None Remove="ClientApp_\**" />
     <None Remove="ClientOld\**" />
     <None Remove="dist\**" />
     <None Remove="node_modules_\**" />
-    <None Remove="src\**" />
   </ItemGroup>
 
   <ItemGroup>
