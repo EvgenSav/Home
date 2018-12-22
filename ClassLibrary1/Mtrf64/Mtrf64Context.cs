@@ -228,7 +228,7 @@ namespace Driver.Mtrf64 {
             SendCmd(0, NooMode.Rx, cmd: 0, MtrfMode: NooCtr.ClearAllChannel, d0: 170, d1: 85, d2: 170, d3: 85);
         }
 
-        public void SendCmd(int channel, int mode, int cmd, int addrF = 0,
+        public async void SendCmd(int channel, int mode, int cmd, int addrF = 0,
             int fmt = 0, int d0 = 0, int d1 = 0, int d2 = 0, int d3 = 0,
             int MtrfMode = 0) {
             Buf txBuf = new Buf();
@@ -248,7 +248,7 @@ namespace Driver.Mtrf64 {
             if (MtrfMode == NooCtr.SendCmd || MtrfMode == NooCtr.SendByAdr) {
                 AddCmdToQueue(txBuf);
             } else {
-                SendData(txBuf);
+                await SendData(txBuf);
             }
         }
     }

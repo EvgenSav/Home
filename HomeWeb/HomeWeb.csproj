@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <StartupObject>HomeWeb.Program</StartupObject>
+    <AssemblyName>HomeWeb</AssemblyName>
+    <RootNamespace>HomeWeb</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ClientApp\**" />
+    <Compile Remove="ClientApp_\**" />
+    <Compile Remove="ClientOld\**" />
+    <Compile Remove="dist\**" />
+    <Compile Remove="node_modules_\**" />
+    <Compile Remove="src\**" />
+    <Content Remove="ClientApp\**" />
+    <Content Remove="ClientApp_\**" />
+    <Content Remove="ClientOld\**" />
+    <Content Remove="dist\**" />
+    <Content Remove="node_modules_\**" />
+    <Content Remove="src\**" />
+    <EmbeddedResource Remove="ClientApp\**" />
+    <EmbeddedResource Remove="ClientApp_\**" />
+    <EmbeddedResource Remove="ClientOld\**" />
+    <EmbeddedResource Remove="dist\**" />
+    <EmbeddedResource Remove="node_modules_\**" />
+    <EmbeddedResource Remove="src\**" />
+    <None Remove="ClientApp\**" />
+    <None Remove="ClientApp_\**" />
+    <None Remove="ClientOld\**" />
+    <None Remove="dist\**" />
+    <None Remove="node_modules_\**" />
+    <None Remove="src\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Hubs\FeedbackHub.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="angularjs" Version="1.7.5" />
+    <PackageReference Include="AngularJS.Intellisense" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
+    <PackageReference Include="SerialPortStream" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\lib\signalr\" />
+    <Folder Include="wwwroot\lib\angular\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\AngularViewTemplates\addnew.html" />
+    <None Include="wwwroot\AngularViewTemplates\devices.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\Driver.csproj" />
+    <ProjectReference Include="..\Db\Db.csproj" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
+  <PropertyGroup>
+
+    <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+
+  </PropertyGroup>
+
+</Project>

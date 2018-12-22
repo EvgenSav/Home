@@ -32,7 +32,7 @@ namespace Db {
             string res;
             MyDb<TKey, TValue> data;
             try {
-                using (StreamReader s1 = new StreamReader(new FileStream(path, FileMode.Open))) {
+                using (var s1 = new StreamReader(File.Open(path, FileMode.OpenOrCreate))) {
                     res = s1.ReadToEnd();
                     JsonSerializerSettings set1 = new JsonSerializerSettings {
                         Formatting = Formatting.Indented,
@@ -41,7 +41,8 @@ namespace Db {
                     data = JsonConvert.DeserializeObject<MyDb<TKey, TValue>>(res, set1);
                 }
             } catch(Exception e) {
-                data = new MyDb<TKey, TValue>();
+                throw new Exception(e.Message);
+                //data = new MyDb<TKey, TValue>();
             }
             return data;
         }
