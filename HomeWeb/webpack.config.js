@@ -16,7 +16,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'wwwroot'), // output directory
     filename: "[name].js", // name of the generated bundle,
-    publicPath: '/dist/' // Webpack dev middleware, if enabled, handles requests for this URL prefix
+    //publicPath: '/dist/' // Webpack dev middleware, if enabled, handles requests for this URL prefix
   },
   module: {
     rules: [{
@@ -49,8 +49,7 @@ module.exports = {
       },
     }
   },
-  plugins: [
-    new CleanWebpackPlugin('wwwroot/'),      
+  plugins: [    
     new HtmlWebpackPlugin({
       template: "src/index.html",
       inject: "body"
@@ -59,12 +58,12 @@ module.exports = {
       /\@angular(\\|\/)core(\\|\/)fesm5/,
       path.resolve(__dirname, 'src'), {}
     ),
-    new CheckerPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    //new CheckerPlugin(),
+    //new webpack.HotModuleReplacementPlugin()
   ],
   devtool: "source-map",
   devServer: {
     historyApiFallback: true,
-    hot: true
+    //hot: true
   }
 };

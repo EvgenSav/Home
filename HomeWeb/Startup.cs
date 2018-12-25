@@ -73,7 +73,7 @@ namespace HomeWeb
             //// In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "dist";
+                configuration.RootPath = "wwwroot";
             });
             services.AddSignalR();
             serviceProvider = services.BuildServiceProvider();
@@ -88,11 +88,11 @@ namespace HomeWeb
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(
-                    new WebpackDevMiddlewareOptions
-                    {
-                        HotModuleReplacement = true
-                    });
+                //app.UseWebpackDevMiddleware(
+                //    new WebpackDevMiddlewareOptions
+                //    {
+                //        HotModuleReplacement = true
+                //    });
             }
             else
             {
@@ -118,7 +118,7 @@ namespace HomeWeb
             });
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "dist";
+                spa.Options.SourcePath = "wwwroot";
                 if (env.IsDevelopment())
                 {
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
