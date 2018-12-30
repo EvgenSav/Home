@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.AspNetCore.SignalR;
-using HomeWeb.Hubs;
-using Driver.Mtrf64;
-using HomeWeb.Models;
+using Home.Driver.Mtrf64;
+using Home.Web.Models;
+using Home.Web.Services;
 
 
-namespace HomeWeb.Services {
+namespace Home.Web.Services {
     public class BindingService {
         private readonly DevicesService _devicesService;
         private readonly Mtrf64Context _mtrf64Context;

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HomeWeb.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Driver.Mtrf64;
-using HomeWeb.Models;
 
-namespace HomeWeb.Services {
+using Home.Driver.Mtrf64;
+using Home.Web.Extensions;
+using Home.Web.Models;
+
+namespace Home.Web.Services {
     public class ActionHandlerService {
         private readonly Mtrf64Context _mtrf64Context;
         private readonly DevicesService devicesService;
@@ -69,26 +70,26 @@ namespace HomeWeb.Services {
                             }
                         }
                         //Device.Log.Add(new LogItem(DateTime.Now, Device.State));
-                        device.Log.Add(new LogItem(DateTime.Now, NooCmd.Switch));
+                        //device.Log.Add(new LogItem(DateTime.Now, NooCmd.Switch));
                         break;
                     case NooCmd.On:
                         if (_mtrf64Context.RxBuf.Mode == NooMode.Tx) {
                             if (device.Type == NooDevType.PowerUnit) {
                                 device.State = 1;
                                 device.Bright = _mtrf64Context.RxBuf.D0;
-                                device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.On, device.State, device.Bright));
+                                //device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.On, device.State, device.Bright));
                             }
 
                         } else if (_mtrf64Context.RxBuf.Mode == NooMode.Rx) {
-                            device.Log.Add(new LogItem(DateTime.Now, NooCmd.On));
+                            //device.Log.Add(new LogItem(DateTime.Now, NooCmd.On));
                         }
                         break;
                     case NooCmd.Off:
                         if (_mtrf64Context.RxBuf.Mode == NooMode.Tx) {
                             device.State = 0;
-                            device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.Off, device.State, device.Bright));
+                            //device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.Off, device.State, device.Bright));
                         } else if (_mtrf64Context.RxBuf.Mode == NooMode.Rx) {
-                            device.Log.Add(new LogItem(DateTime.Now, NooCmd.Off));
+                            //device.Log.Add(new LogItem(DateTime.Now, NooCmd.Off));
                         }
                         break;
                     case NooCmd.SetBrightness:
@@ -127,17 +128,17 @@ namespace HomeWeb.Services {
                         switch (_mtrf64Context.RxBuf.Fmt) {
                             case 0: //state
                                 device.ReadState(_mtrf64Context);
-                                device.Log.Add(new PuLogItem(DateTime.Now, _mtrf64Context.RxBuf.Cmd, device.State, device.Bright));
+                                //device.Log.Add(new PuLogItem(DateTime.Now, _mtrf64Context.RxBuf.Cmd, device.State, device.Bright));
                                 break;
                             case 16: //settings
-                                device.Settings = _mtrf64Context.RxBuf.D1 << 8 | _mtrf64Context.RxBuf.D0;
+                                device.Settings.Settings= _mtrf64Context.RxBuf.D1 << 8 | _mtrf64Context.RxBuf.D0;
                                 break;
                             case 17: //dimmer correction lvls
-                                device.DimCorrLvlHi = _mtrf64Context.RxBuf.D0;
-                                device.DimCorrLvlLow = _mtrf64Context.RxBuf.D1;
+                                device.Settings.DimCorrLvlHi = _mtrf64Context.RxBuf.D0;
+                                device.Settings.DimCorrLvlLow = _mtrf64Context.RxBuf.D1;
                                 break;
                             case 18:
-                                device.OnLvl = _mtrf64Context.RxBuf.D0;
+                                device.Settings.OnLvl = _mtrf64Context.RxBuf.D0;
                                 break;
                         }
                         break;

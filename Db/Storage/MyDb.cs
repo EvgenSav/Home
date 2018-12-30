@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace Db {
+namespace Home.Db.Storage {
     [Serializable]
     public class MyDb<TKey, TValue> where TKey : struct /*where TValue : class*/ {
         public SortedDictionary<TKey, TValue> Data;

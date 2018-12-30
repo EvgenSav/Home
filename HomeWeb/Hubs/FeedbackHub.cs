@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Home.Web.Services;
 using Microsoft.AspNetCore.SignalR;
-using HomeWeb.Services;
 
-namespace HomeWeb.Hubs {
+namespace Home.Web.Hubs {
     public class FeedbackHub : Hub {
 
         private readonly ActionHandlerService actionHandlerService;

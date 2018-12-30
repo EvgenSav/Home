@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Home.Web.Services;
 using Microsoft.AspNetCore.Mvc;
-using HomeWeb.Services;
 
-namespace HomeWeb.Controllers
+namespace Home.Web.Controllers
 {
     public class RoomsController : Controller
     {

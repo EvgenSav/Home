@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Driver.Mtrf64;
-using HomeWeb.Hubs;
-using HomeWeb.Services;
+using Home.Driver.Mtrf64;
+using Home.Web.Extensions;
+using Home.Web.Services;
+using Home.Web.Hubs;
 
 namespace HomeWeb.Controllers
 {

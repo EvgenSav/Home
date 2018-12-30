@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Home.Web.Models;
 
-namespace HomeWeb.Models {
+namespace Home.Web.Models {
     [Serializable]
     public class SensLogItem : LogItem, ILogItem {
         public float SensVal { get; set; }

@@ -5,14 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.SignalR;
-using HomeWeb.Hubs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace HomeWeb
+namespace Home.Web
 {
     public class Program
     {

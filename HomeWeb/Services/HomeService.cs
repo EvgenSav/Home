@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace HomeWeb.Services {
+namespace Home.Web.Services {
     public class HomeService {
         public List<string> Rooms;
         public string RoomsPath { get; private set; } =  "rooms.json"; 

@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using HomeWeb.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
-using Driver.Mtrf64;
-using Db;
-using HomeWeb.Models;
+using Home.Db.Storage;
+using Home.Driver.Mtrf64;
+using Home.Web.Extensions;
+using Home.Web.Models;
 
 
-namespace HomeWeb.Services {
+namespace Home.Web.Services {
     public class DevicesService {
         private readonly Mtrf64Context mtrf64Context;
-
         private MyDb<int, RfDevice> DevicesBase { get; set; }
         public SortedDictionary<int, RfDevice> Devices => DevicesBase.Data;
         public void SaveToFile(string path) => DevicesBase.SaveToFile(path);

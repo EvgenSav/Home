@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Db;
-using HomeWeb.Models;
+using Home.Db.Storage;
+using Home.Web.Models;
 
-namespace HomeWeb.Services {
+namespace Home.Web.Services {
     public class ActionLogService {
         private MyDb<int, List<ILogItem>> ActionLogBase;
 

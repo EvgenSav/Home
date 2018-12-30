@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Driver.Mtrf64;
-using HomeWeb.Models;
-using HomeWeb.Services;
+using Home.Driver.Mtrf64;
+using Home.Web.Extensions;
+using Home.Web.Models;
+using Home.Web.Services;
 
-namespace HomeWeb.Controllers
+namespace Home.Web.Controllers
 {
     public class AddDeviceController : Controller
     {

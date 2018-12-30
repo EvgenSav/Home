@@ -5,7 +5,7 @@ using RJCP.IO.Ports;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Driver.Mtrf64 {
+namespace Home.Driver.Mtrf64 {
     public class Mtrf64Context {
         Queue<Buf> queue = new Queue<Buf>();
         public event EventHandler DataReceived;

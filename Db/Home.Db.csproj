@@ -7,8 +7,8 @@
     <ProjectGuid>{73D94584-5E18-4103-9BDC-3F755C2CDF47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Db</RootNamespace>
-    <AssemblyName>Db</AssemblyName>
+    <RootNamespace>Home.Db</RootNamespace>
+    <AssemblyName>Home.Db</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyDb.cs" />
+    <Compile Include="Storage\MyDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Home.Web.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
-using HomeWeb.Hubs;
 
-namespace HomeWeb.Services {
+namespace Home.Web.Services {
     public enum ActionType
     {
         UpdateDevice = 1,

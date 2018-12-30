@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
-    <StartupObject>HomeWeb.Program</StartupObject>
-    <AssemblyName>HomeWeb</AssemblyName>
-    <RootNamespace>HomeWeb</RootNamespace>
+    <StartupObject></StartupObject>
+    <AssemblyName>Home.Web</AssemblyName>
+    <RootNamespace>Home.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -51,8 +51,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\Driver.csproj" />
-    <ProjectReference Include="..\Db\Db.csproj" />
+    <ProjectReference Include="..\ClassLibrary1\Home.Driver.csproj" />
+    <ProjectReference Include="..\Db\Home.Db.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
@@ -60,6 +60,10 @@
   <PropertyGroup>
 
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+
+    <ApplicationIcon />
+
+    <OutputType>Exe</OutputType>
 
   </PropertyGroup>
 

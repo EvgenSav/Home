@@ -4,11 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using HomeWeb.Models;
-using Driver.Mtrf64;
-using HomeWeb.Services;
+using Home.Driver.Mtrf64;
+using Home.Web.Extensions;
+using Home.Web.Services;
 
-namespace HomeWeb.Controllers
+
+namespace Home.Web.Controllers
 {
     
 

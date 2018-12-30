@@ -1,23 +1,24 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Home.Driver.Mtrf64;
+using Home.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Driver.Mtrf64;
-using HomeWeb.Hubs;
-using HomeWeb.Services;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.AspNetCore.StaticFiles.Infrastructure;
 using Microsoft.Extensions.FileProviders;
+using Home.Web.Hubs;
 
-namespace HomeWeb
+namespace Home.Web
 {
     public class Startup
     {
@@ -71,10 +72,10 @@ namespace HomeWeb
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //// In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "wwwroot";
-            });
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "wwwroot";
+            //});
             services.AddSignalR();
             serviceProvider = services.BuildServiceProvider();
         }
@@ -88,11 +89,13 @@ namespace HomeWeb
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseWebpackDevMiddleware(
-                //    new WebpackDevMiddlewareOptions
-                //    {
-                //        HotModuleReplacement = true
-                //    });
+                app.UseBrowserLink();
+                app.UseWebpackDevMiddleware(
+                    new WebpackDevMiddlewareOptions
+                    {
+                        HotModuleReplacement = true
+                    }
+                    );
             }
             else
             {
@@ -100,7 +103,7 @@ namespace HomeWeb
             }
 
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseCookiePolicy();
             app.UseWebSockets();
@@ -116,16 +119,16 @@ namespace HomeWeb
                     template: "{controller=Home}/{action=Index}/{id?}");
 
             });
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "wwwroot";
-                if (env.IsDevelopment())
-                {
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-                    //spa.UseAngularCliServer(npmScript: "start");
-                    spa.Options.DefaultPage = "/index.html";
-                }
-            });
+            //app.UseSpa(spa =>
+            //{
+            //    //spa.Options.SourcePath = "src";
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
+            //        //spa.UseAngularCliServer(npmScript: "start");
+            //        //spa.Options.DefaultPage = "/index.html";
+            //    }
+            //});
         }
     }
 }

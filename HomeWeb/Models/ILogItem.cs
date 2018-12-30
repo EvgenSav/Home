@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HomeWeb.Models {
+namespace Home.Web.Models {
     public interface ILogItem {
         DateTime CurrentTime { get; set; }
         int Cmd { get; set; }

@@ -21,4 +21,9 @@
         "eofline": false,
         "object-literal-sort-keys": false
     },
+    "exclude": [
+      "src/node_modules",
+      "src/e2e",
+      "**/*.spec.ts"    
+    ]
 }

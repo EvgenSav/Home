@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HomeWeb.Models {
+namespace Home.Web.Models {
     [Serializable]
     public class PuLogItem : LogItem, ILogItem {
         public int State { get; set; }

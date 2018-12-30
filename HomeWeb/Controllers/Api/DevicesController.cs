@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HomeWeb.Services;
+using Home.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace HomeWeb.Controllers.Api
+namespace Home.Web.Controllers.Api
 {
     [Route("api/[controller]")]
     public class DevicesController : Controller
@@ -24,6 +24,13 @@ namespace HomeWeb.Controllers.Api
             return Ok(_devicesService.Devices.Select(p=>p.Value));
         }
 
+        // GET api/<controller>/5
+        [HttpGet("{id}")]
+        public IActionResult GetDetailsById(int id)
+        {
+            var device = _devicesService.Devices.FirstOrDefault(d => d.Key == id).Value;
+            return Ok(device);
+        }
         // GET api/<controller>/5
         [HttpGet("Switch/{id}")]
         public IActionResult Switch(int id)
