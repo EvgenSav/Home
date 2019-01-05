@@ -9,12 +9,18 @@ using Newtonsoft.Json;
 
 namespace Home.Web.Models
 {
+    enum BaseSettings
+    {
+        SaveState = 0x01,
+        Dimmable = 0x02,
+        DefaultOn = 0x20
+    }
     public class DeviceSettings
     {
-        public int Settings { get; set; }
-        public bool IsDefaultOn { get; set; }
-        public bool IsDimmable { get; set; }
-        public bool IsSaveState { get; set; }
+        public int Settings { private get; set; }
+        public bool IsSaveState => ((Settings & (int)BaseSettings.SaveState) != 0);
+        public bool IsDimmable => ((Settings & (int)BaseSettings.Dimmable) != 0);
+        public bool IsDefaultOn => ((Settings & (int)BaseSettings.DefaultOn) != 0);
         public int DimCorrLvlHi { get; set; }
         public int DimCorrLvlLow { get; set; }
         public int OnLvl { get; set; }
@@ -49,9 +55,9 @@ namespace Home.Web.Models
             Redirect.Add(devid);
             return 0;
         }
-        
-        
-        
+
+
+
 
         public string GetDevTypeName()
         {

@@ -25,6 +25,10 @@ namespace Home.Web.Services {
             this.mtrf64Context = mtrf64Context;
         }
 
+        public void GetNooFSettings(int devId,int settingType)
+        {
+            Devices[devId].GetNooFSettings(mtrf64Context, settingType);
+        }
         public void Switch(int devId)
         {
             Devices[devId].SetSwitch(mtrf64Context);

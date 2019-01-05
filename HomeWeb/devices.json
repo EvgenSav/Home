@@ -11,10 +11,9 @@
       "ExtDevType": 1,
       "Room": "Зал",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -33,10 +32,9 @@
       "ExtDevType": 0,
       "Room": "Спальня",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -55,10 +53,9 @@
       "ExtDevType": 0,
       "Room": "Зал",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -77,10 +74,9 @@
       "ExtDevType": 0,
       "Room": "SD 180",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -99,10 +95,9 @@
       "ExtDevType": 0,
       "Room": "SD 180",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -123,10 +118,9 @@
       "ExtDevType": 0,
       "Room": "SD 180",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -147,10 +141,9 @@
       "ExtDevType": 0,
       "Room": "My home",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -169,10 +162,9 @@
       "ExtDevType": 5,
       "Room": "Зал",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -191,10 +183,9 @@
       "ExtDevType": 5,
       "Room": "SD 180",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -213,10 +204,9 @@
       "ExtDevType": 5,
       "Room": "Кухня",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -237,10 +227,9 @@
       "ExtDevType": 5,
       "Room": "All",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -259,10 +248,9 @@
       "ExtDevType": 5,
       "Room": "Кухня",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0
@@ -281,10 +269,9 @@
       "ExtDevType": 5,
       "Room": "All",
       "Settings": {
-        "Settings": 0,
-        "IsDefaultOn": false,
-        "IsDimmable": false,
         "IsSaveState": false,
+        "IsDimmable": false,
+        "IsDefaultOn": false,
         "DimCorrLvlHi": 0,
         "DimCorrLvlLow": 0,
         "OnLvl": 0

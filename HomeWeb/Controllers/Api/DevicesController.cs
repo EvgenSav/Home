@@ -21,15 +21,22 @@ namespace Home.Web.Controllers.Api
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_devicesService.Devices.Select(p=>p.Value));
+            return Ok(_devicesService.Devices.Select(p => p.Value));
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public IActionResult GetDetailsById(int id)
+        [HttpGet("{id:int}")]
+        public IActionResult GetById(int id)
         {
             var device = _devicesService.Devices.FirstOrDefault(d => d.Key == id).Value;
             return Ok(device);
+        }
+        // GET api/<controller>/5
+        [HttpGet("{id:int}/settings/{settingType:int}")]
+        public IActionResult GetSettingsById(int id, int settingType = 16)
+        {
+            _devicesService.GetNooFSettings(id, settingType);
+            return Ok(id);
         }
         // GET api/<controller>/5
         [HttpGet("Switch/{id}")]
@@ -49,6 +56,7 @@ namespace Home.Web.Controllers.Api
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
+
         }
 
         // DELETE api/<controller>/5
