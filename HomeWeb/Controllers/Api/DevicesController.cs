@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Home.Web.Models;
 using Home.Web.Services;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,9 +15,11 @@ namespace Home.Web.Controllers.Api
     public class DevicesController : Controller
     {
         private readonly DevicesService _devicesService;
-        public DevicesController(DevicesService devicesService)
+        private readonly NotificationService _notificationService;
+        public DevicesController(DevicesService devicesService, NotificationService notificationService)
         {
             _devicesService = devicesService;
+            _notificationService = notificationService;
         }
         // GET: api/<controller>
         [HttpGet]
@@ -29,6 +33,15 @@ namespace Home.Web.Controllers.Api
         public IActionResult GetById(int id)
         {
             var device = _devicesService.Devices.FirstOrDefault(d => d.Key == id).Value;
+            return Ok(device);
+        }
+        // Patch api/<controller>/5
+        [HttpPatch("{id:int}")]
+        public IActionResult Patch(int id, [FromBody] JsonPatchDocument<RfDevice> patch)
+        {
+            var device = _devicesService.Devices.FirstOrDefault(d => d.Key == id).Value;
+            patch.ApplyTo(device);
+            _notificationService.NotifyAll(ActionType.UpdateDevice, device);
             return Ok(device);
         }
         // GET api/<controller>/5
