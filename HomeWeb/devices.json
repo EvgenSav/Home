@@ -219,20 +219,20 @@
     "34029": {
       "Channel": 0,
       "Type": 2,
-      "Name": "Light",
+      "Name": "Living Room",
       "State": 0,
       "Addr": 34029,
       "Bright": 0,
       "FirmwareVer": 1,
       "ExtDevType": 5,
-      "Room": "All",
+      "Room": "Кухня",
       "Settings": {
         "IsSaveState": false,
         "IsDimmable": false,
         "IsDefaultOn": false,
-        "DimCorrLvlHi": 0,
+        "DimCorrLvlHi": 255,
         "DimCorrLvlLow": 0,
-        "OnLvl": 0
+        "OnLvl": 13
       },
       "Redirect": [],
       "Key": 34029

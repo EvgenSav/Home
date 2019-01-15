@@ -41,6 +41,7 @@ namespace Home.Web.Controllers.Api
         {
             var device = _devicesService.Devices.FirstOrDefault(d => d.Key == id).Value;
             patch.ApplyTo(device);
+            _devicesService.Update();
             _notificationService.NotifyAll(ActionType.UpdateDevice, device);
             return Ok(device);
         }
