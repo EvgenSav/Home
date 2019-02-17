@@ -9,12 +9,7 @@ namespace Home.Web.Extensions
 {
     public static class DeviceExtensions
     {
-        public enum NooFSettingType
-        {
-            Base = 16,
-            DimmmerCorrection = 17,
-            OnLvl = 18
-        }
+
 
         public static void SetOn(this RfDevice device, Mtrf64Context mtrfDev)
         {
@@ -108,6 +103,11 @@ namespace Home.Web.Extensions
         public static void GetNooFSettings(this RfDevice device, Mtrf64Context mtrf, int settingType)
         {
             mtrf.GetSettings(device.Addr, settingType);
+        }
+
+        public static void SetNooFSettings(this RfDevice device, Mtrf64Context mtrf, NooFSettingType settingType, int settings)
+        {
+            mtrf.SetSettings(device.Addr, settingType, settings);
         }
         public static void Unbind(this RfDevice device, Mtrf64Context mtrfDev)
         {

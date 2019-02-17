@@ -32,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="devices.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Hubs\FeedbackHub.cs" />
   </ItemGroup>
 

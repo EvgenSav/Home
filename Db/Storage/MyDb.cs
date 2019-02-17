@@ -16,14 +16,14 @@ namespace Home.Db.Storage {
             Data = new SortedDictionary<TKey, TValue>();
         }
 
-        public int SaveToFile(string path) {
+        public async Task<int> SaveToFile(string path) {
             StreamWriter s1 = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.ReadWrite));
             JsonSerializerSettings set1 = new JsonSerializerSettings {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Auto
             };
             string serData = JsonConvert.SerializeObject(this, set1);
-            s1.Write(serData);
+            await s1.WriteAsync(serData);
             s1.Close();
             return 1;
         }

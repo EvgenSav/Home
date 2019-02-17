@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,15 +17,92 @@ namespace Home.Web.Models
         Dimmable = 0x02,
         DefaultOn = 0x20
     }
+
+    public class SettingsOperation
+    {
+        public SettingsOperation()
+        {
+            Id = Guid.NewGuid();
+        }
+        public Guid Id { get; private set; }
+        public NooFSettingType SettingType { get; set; }
+        public int Data { get; set; }
+    }
+
     public class DeviceSettings
     {
-        public int Settings { private get; set; }
-        public bool IsSaveState => ((Settings & (int)BaseSettings.SaveState) != 0);
-        public bool IsDimmable => ((Settings & (int)BaseSettings.Dimmable) != 0);
-        public bool IsDefaultOn => ((Settings & (int)BaseSettings.DefaultOn) != 0);
-        public int DimCorrLvlHi { get; set; }
-        public int DimCorrLvlLow { get; set; }
-        public int OnLvl { get; set; }
+        private readonly ConcurrentQueue<SettingsOperation> _operations = new ConcurrentQueue<SettingsOperation>();
+        [JsonProperty]
+        private int _settings;
+        [JsonProperty]
+        private int _dimCorrLvlHi;
+        [JsonProperty]
+        private int _dimCorrLvlLow;
+        [JsonProperty]
+        private int _onLvl;
+        [JsonProperty(Required = Required.Default)]
+        public bool IsSaveState {
+            get => (_settings & (int)BaseSettings.SaveState) != 0;
+            set => _operations.Enqueue(
+                new SettingsOperation()
+                {
+                    SettingType = NooFSettingType.Base,
+                    Data = value ? _settings | (int)BaseSettings.SaveState : _settings & ~(int)BaseSettings.SaveState
+                });
+        }
+        [JsonProperty(Required = Required.Default)]
+        public bool IsDimmable {
+            get => ((_settings & (int)BaseSettings.Dimmable) != 0);
+            set => _operations.Enqueue(
+                 new SettingsOperation()
+                 {
+                     SettingType = NooFSettingType.Base,
+                     Data = value ? _settings | (int)BaseSettings.Dimmable : _settings & ~(int)BaseSettings.Dimmable
+                 });
+        }
+        [JsonProperty(Required = Required.Default)]
+        public bool IsDefaultOn {
+            get => ((_settings & (int)BaseSettings.DefaultOn) != 0);
+            set => _operations.Enqueue(
+                new SettingsOperation()
+                {
+                    SettingType = NooFSettingType.Base,
+                    Data = value ? _settings | (int)BaseSettings.DefaultOn : _settings & ~(int)BaseSettings.DefaultOn
+                });
+        }
+        [JsonProperty(Required = Required.Default)]
+        public int DimCorrLvlHi {
+            get => _dimCorrLvlHi;
+            set => _operations.Enqueue(new SettingsOperation() { SettingType = NooFSettingType.DimmmerCorrection, Data = DimCorrLvlLow << 8 | value });
+        }
+        [JsonProperty(Required = Required.Default)]
+        public int DimCorrLvlLow {
+            get => _dimCorrLvlLow;
+            set => _operations.Enqueue(new SettingsOperation() { SettingType = NooFSettingType.DimmmerCorrection, Data = value << 8 | DimCorrLvlHi });
+        }
+        [JsonProperty(Required = Required.Default)]
+        public int OnLvl {
+            get => _onLvl;
+            set => _operations.Enqueue(new SettingsOperation() { SettingType = NooFSettingType.OnLvl, Data = value });
+        }
+        public bool GetOperation(out SettingsOperation operation) => _operations.TryDequeue(out operation);
+
+        public void SetReceivedSettings(NooFSettingType type, int d0, int d1)
+        {
+            switch (type)
+            {
+                case NooFSettingType.Base:
+                    _settings = d1 << 8 | d0;
+                    break;
+                case NooFSettingType.DimmmerCorrection:
+                    _dimCorrLvlLow = d1;
+                    _dimCorrLvlHi = d0;
+                    break;
+                case NooFSettingType.OnLvl:
+                    _onLvl = d0;
+                    break;
+            }
+        }
     }
     [Serializable]
     public class RfDevice

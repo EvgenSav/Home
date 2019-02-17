@@ -6,6 +6,7 @@ using Home.Web.Models;
 using Home.Web.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -37,13 +38,25 @@ namespace Home.Web.Controllers.Api
         }
         // Patch api/<controller>/5
         [HttpPatch("{id:int}")]
-        public IActionResult Patch(int id, [FromBody] JsonPatchDocument<RfDevice> patch)
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<RfDevice> patch)
         {
             var device = _devicesService.Devices.FirstOrDefault(d => d.Key == id).Value;
             patch.ApplyTo(device);
-            _devicesService.Update();
-            _notificationService.NotifyAll(ActionType.UpdateDevice, device);
+            await _devicesService.Update();
+            await _notificationService.NotifyAll(ActionType.UpdateDevice, device);
             return Ok(device);
+        }
+        [HttpPatch("{devId:int}/settings/{settingType:int}")]
+        public async Task<IActionResult> PatchSettings(int devId, int settingType, [FromBody]JsonPatchDocument patch)
+        {
+            var settings = _devicesService.Devices[devId].Settings;
+            patch.ApplyTo(settings);
+            while (settings.GetOperation(out var op))
+            {
+                _devicesService.SetNooFSettings(devId, op.SettingType, op.Data);
+            }
+            await _devicesService.Update();
+            return Ok();
         }
         // GET api/<controller>/5
         [HttpGet("{id:int}/settings/{settingType:int}")]

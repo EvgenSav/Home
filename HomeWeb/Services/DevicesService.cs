@@ -13,25 +13,32 @@ using Home.Web.Extensions;
 using Home.Web.Models;
 
 
-namespace Home.Web.Services {
-    public class DevicesService {
+namespace Home.Web.Services
+{
+    public class DevicesService
+    {
         private readonly Mtrf64Context mtrf64Context;
         private MyDb<int, RfDevice> DevicesBase { get; set; }
         public SortedDictionary<int, RfDevice> Devices => DevicesBase.Data;
-        public void SaveToFile(string path) => DevicesBase.SaveToFile(path);
+        public async Task SaveToFile(string path) => await DevicesBase.SaveToFile(path);
 
-        public DevicesService(Mtrf64Context mtrf64Context) {
+        public DevicesService(Mtrf64Context mtrf64Context)
+        {
             DevicesBase = MyDb<int, RfDevice>.OpenFile("devices.json");
             this.mtrf64Context = mtrf64Context;
         }
 
-        public void Update()
+        public async Task Update()
         {
-           SaveToFile("devices.json");
+            await SaveToFile("devices.json");
         }
-        public void GetNooFSettings(int devId,int settingType)
+        public void GetNooFSettings(int devId, int settingType)
         {
             Devices[devId].GetNooFSettings(mtrf64Context, settingType);
+        }
+        public void SetNooFSettings(int devId, NooFSettingType settingType, int settings)
+        {
+            Devices[devId].SetNooFSettings(mtrf64Context, settingType, settings);
         }
         public void Switch(int devId)
         {

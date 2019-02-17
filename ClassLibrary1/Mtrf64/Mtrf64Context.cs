@@ -4,9 +4,14 @@ using System.IO;
 using RJCP.IO.Ports;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 namespace Home.Driver.Mtrf64
 {
+    public enum NooFSettingType
+    {
+        Base = 16,
+        DimmmerCorrection = 17,
+        OnLvl = 18
+    }
     public class Mtrf64Context
     {
         Queue<Buf> queue = new Queue<Buf>();
@@ -191,7 +196,8 @@ namespace Home.Driver.Mtrf64
             {
                 CmdQueueTmr.Interval = 1;
             }
-            System.Diagnostics.Debug.WriteLine("Action");
+            System.Diagnostics.Debug.WriteLine(
+                $"{DateTime.Now.TimeOfDay}: Ch:{buf.Ch}, AddrF:{buf.AddrF}, Cmd:{buf.Cmd} Fmt:{buf.Fmt}, D0: {buf.D0}, D1:{buf.D1}, D2: {buf.D3}, D3: {buf.D3}");
             queue.Enqueue(buf);
             CmdQueueTmr.Start();
         }
@@ -293,6 +299,11 @@ namespace Home.Driver.Mtrf64
         public void GetSettings(int nooFaddr, int fmt)
         {
             SendCmd(0, NooMode.FTx, NooCmd.ReadState, nooFaddr, fmt, MtrfMode: NooCtr.SendByAdr);
+        }
+
+        public void SetSettings(int nooFaddr, NooFSettingType settingType, int settings)
+        {
+            SendCmd(0, NooMode.FTx, NooCmd.WriteState, nooFaddr, (int)settingType, d0: settings & 0xFF, d1: settings >> 8, d2: 255, d3: 255, MtrfMode: NooCtr.SendByAdr);
         }
 
         public async void SendCmd(int channel, int mode, int cmd, int addrF = 0,

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Home.Driver.Mtrf64;
 using Home.Web.Services;
@@ -32,13 +34,13 @@ namespace Home.Web
         }
 
 
-        public void OnShutdown()
+        public async void OnShutdown()
         {
             var devicesService = serviceProvider.GetService<DevicesService>();
             var actionLogService = serviceProvider.GetService<ActionLogService>();
             var homeService = serviceProvider.GetService<HomeService>();
-            devicesService.SaveToFile("devices.json");
-            actionLogService.SaveToFile("log.json");
+            await  devicesService.SaveToFile("devices.json");
+            await actionLogService.SaveToFile("log.json");
         }
         public IConfiguration Configuration { get; }
 

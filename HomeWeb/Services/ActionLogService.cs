@@ -10,7 +10,7 @@ namespace Home.Web.Services {
         private MyDb<int, List<ILogItem>> ActionLogBase;
 
         public SortedDictionary<int, List<ILogItem>> ActionLog => ActionLogBase.Data;
-        public void SaveToFile(string path) => ActionLogBase.SaveToFile(path);
+        public async Task SaveToFile(string path) => await ActionLogBase.SaveToFile(path);
         public ActionLogService() {
             ActionLogBase = MyDb<int, List<ILogItem>>.OpenFile("log.json");
         }
