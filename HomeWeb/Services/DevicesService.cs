@@ -31,13 +31,16 @@ namespace Home.Web.Services
             _mongoDbStorage = mongoDbStorage;
             _memoryCache = memoryCache;
             this.mtrf64Context = mtrf64Context;
-            _memoryCache.Set(string.Empty, new Lazy<IEnumerable<RfDevice>>( () => { return GetFromDb().Result; }));
         }
         public async Task<IEnumerable<RfDevice>> GetDeviceList()
         {
-            await Task.CompletedTask;
-            var devices = _memoryCache.Get<Lazy<IEnumerable<RfDevice>>>(string.Empty).Value;
-            return devices;
+            var devices = _memoryCache.Get<IEnumerable<RfDevice>>(string.Empty);
+            if (devices == null || devices.FirstOrDefault() == null)
+            {
+                devices = await GetFromDb();
+                _memoryCache.Set(string.Empty, devices);
+            }
+            return await Task.FromResult(devices);
         }
         public async Task<RfDevice> GetByIdAsync(int deviceKey)
         {

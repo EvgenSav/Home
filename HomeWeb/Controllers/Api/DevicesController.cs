@@ -26,7 +26,6 @@ namespace Home.Web.Controllers.Api
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            await Task.CompletedTask;
             var devices = await _devicesService.GetDeviceList();
             return Ok(devices);
         }
