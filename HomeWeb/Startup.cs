@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using DataStorage;
 using Home.Driver.Mtrf64;
 using Home.Web.Services;
 using Microsoft.AspNetCore.Builder;
@@ -19,6 +20,8 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.AspNetCore.StaticFiles.Infrastructure;
 using Microsoft.Extensions.FileProviders;
 using Home.Web.Hubs;
+using Home.Web.Models;
+using MongoDB.Bson.Serialization;
 
 namespace Home.Web
 {
@@ -31,16 +34,21 @@ namespace Home.Web
         }
         public void OnStart()
         {
+            BsonClassMap.RegisterClassMap<RfDevice>(r =>
+            {
+                r.AutoMap();
+                r.SetDiscriminatorIsRequired(true);
+            });
         }
 
 
         public async void OnShutdown()
         {
-            var devicesService = serviceProvider.GetService<DevicesService>();
+            /*var devicesService = serviceProvider.GetService<DevicesService>();
             var actionLogService = serviceProvider.GetService<ActionLogService>();
             var homeService = serviceProvider.GetService<HomeService>();
-            await  devicesService.SaveToFile("devices.json");
-            await actionLogService.SaveToFile("log.json");
+            await devicesService.SaveToFile("devices.json");
+            await actionLogService.SaveToFile("log.json");*/
         }
         public IConfiguration Configuration { get; }
 
@@ -61,8 +69,8 @@ namespace Home.Web
             services.AddSingleton<ActionHandlerService>();
             services.AddSingleton<BindingService>();
             services.AddSingleton<HomeService>();
-
-
+            services.AddSingleton<IMongoDbStorage, MongoDbStorageService>();
+            services.AddMemoryCache();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

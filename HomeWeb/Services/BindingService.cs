@@ -7,18 +7,24 @@ using Microsoft.AspNetCore.SignalR;
 using Home.Driver.Mtrf64;
 using Home.Web.Models;
 using Home.Web.Services;
+using Microsoft.Extensions.Caching.Memory;
 
 
-namespace Home.Web.Services {
-    public class BindingService {
+namespace Home.Web.Services
+{
+    public class BindingService
+    {
         private readonly DevicesService _devicesService;
         private readonly Mtrf64Context _mtrf64Context;
         private readonly NotificationService _notificationService;
+        private readonly IMemoryCache _memoryCache;
 
-        public BindingService(DevicesService devicesService, Mtrf64Context mtrf64Context, NotificationService notificationService) {
+        public BindingService(DevicesService devicesService, Mtrf64Context mtrf64Context, NotificationService notificationService, IMemoryCache memoryCache)
+        {
             _devicesService = devicesService;
             _mtrf64Context = mtrf64Context;
             _notificationService = notificationService;
+            _memoryCache = memoryCache;
             mtrf64Context.DataReceived += Dev1_NewDataReceived;
             timer1.Elapsed += Tmr_Tick;
         }
@@ -33,12 +39,16 @@ namespace Home.Web.Services {
         public string Status { get; private set; }
         Timer timer1 = new Timer();
 
-        private async void Dev1_NewDataReceived(object sender, EventArgs e) {
-            if (WaitingBindFlag) {
-                switch (SelectedType) {
+        private async void Dev1_NewDataReceived(object sender, EventArgs e)
+        {
+            if (WaitingBindFlag)
+            {
+                switch (SelectedType)
+                {
                     case NooDevType.PowerUnit:
                         if (_mtrf64Context.RxBuf.Cmd == NooCmd.Bind && FindedChannel == _mtrf64Context.RxBuf.Ch &&
-                            _mtrf64Context.RxBuf.Mode == NooMode.Tx) {
+                            _mtrf64Context.RxBuf.Mode == NooMode.Tx)
+                        {
                             Status = "Bind to TX device send!";
                             await _notificationService.NotifyAll<RfDevice, string>(ActionType.BindReceived, Device,
                                 Status);
@@ -46,7 +56,8 @@ namespace Home.Web.Services {
                         }
                         break;
                     case NooDevType.PowerUnitF:
-                        if (_mtrf64Context.RxBuf.Mode == NooMode.FTx && _mtrf64Context.RxBuf.Ctr == NooCtr.BindModeEnable) {
+                        if (_mtrf64Context.RxBuf.Mode == NooMode.FTx && _mtrf64Context.RxBuf.Ctr == NooCtr.BindModeEnable)
+                        {
                             WaitingBindFlag = false;
                             Device.Addr = _mtrf64Context.RxBuf.AddrF;
                             KeyToAdd = Device.Addr;
@@ -59,7 +70,8 @@ namespace Home.Web.Services {
                         break;
                     case NooDevType.Sensor:
                         if (_mtrf64Context.RxBuf.Cmd == NooCmd.Bind && _mtrf64Context.RxBuf.Fmt == 1 &&
-                            FindedChannel == _mtrf64Context.RxBuf.Ch && _mtrf64Context.RxBuf.Mode == NooMode.Rx) {
+                            FindedChannel == _mtrf64Context.RxBuf.Ch && _mtrf64Context.RxBuf.Mode == NooMode.Rx)
+                        {
                             WaitingBindFlag = false;
                             Device.ExtDevType = _mtrf64Context.RxBuf.D0;
                             KeyToAdd = FindedChannel;
@@ -72,7 +84,8 @@ namespace Home.Web.Services {
                         break;
                     default:
                         if (_mtrf64Context.RxBuf.Cmd == NooCmd.Bind && FindedChannel == _mtrf64Context.RxBuf.Ch
-                            && _mtrf64Context.RxBuf.Mode == 1) {
+                            && _mtrf64Context.RxBuf.Mode == 1)
+                        {
                             WaitingBindFlag = false;
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
@@ -87,30 +100,37 @@ namespace Home.Web.Services {
         }
 
 
-        private void Tmr_Tick(object sender, EventArgs e) {
+        private void Tmr_Tick(object sender, EventArgs e)
+        {
             timer1.Stop();
-            if (WaitingBindFlag) {
+            if (WaitingBindFlag)
+            {
                 Status = "Device not added";
                 WaitingBindFlag = false;
                 AddingOk = false;
             }
         }
 
-        public int FindEmptyChannel(int mode) {
-            var fAddrCount = 0;
+        public async Task<int> FindEmptyChannel(int mode)
+        {
+            var devices = await _devicesService.GetDeviceList();
             //Noo-F mode
-            if (mode == NooDevType.PowerUnitF) {
-                var res = _devicesService.Devices.Where((x) => { return (x.Value.Type == NooDevType.PowerUnitF); });
-                foreach (var item in res) {
-                    fAddrCount++;
-                }
-                if (fAddrCount < 64) return 0;
+            if (mode == NooDevType.PowerUnitF)
+            {
+
+                if (devices.Where(x => x.Type == NooDevType.PowerUnitF).Count() < 64) return 0;
                 else return -1; //noo F memory is Full
-            } else { //Noo
-                for (var i = 0; i < 64; i++) {
-                    if (_devicesService.Devices.ContainsKey(i)) {
+            }
+            else
+            { //Noo
+                for (var i = 0; i < 64; i++)
+                {
+                    if (devices.Any(r => r.Key == i))
+                    {
                         continue;
-                    } else {
+                    }
+                    else
+                    {
                         return i;
                     }
                 }
@@ -118,8 +138,10 @@ namespace Home.Web.Services {
             }
         }
 
-        public void CancelBind() {
-            switch (SelectedType) {
+        public void CancelBind()
+        {
+            switch (SelectedType)
+            {
                 case NooDevType.PowerUnit:
                     _mtrf64Context.UnbindTx(FindedChannel);
                     break;
@@ -132,14 +154,18 @@ namespace Home.Web.Services {
             }
         }
 
-        public void SendBind() {
-            if (SelectedType == NooDevType.PowerUnitF) {
+        public void SendBind()
+        {
+            if (SelectedType == NooDevType.PowerUnitF)
+            {
                 _mtrf64Context.SendCmd(0, NooMode.FTx, NooCmd.Bind);
                 Status = "Waiting...";
                 WaitingBindFlag = true;
                 timer1.Interval = 1000;
                 timer1.Start();
-            } else {
+            }
+            else
+            {
                 _mtrf64Context.SendCmd(FindedChannel, NooMode.Tx, NooCmd.Bind);
                 WaitingBindFlag = true;
                 timer1.Interval = 25000;
@@ -147,14 +173,18 @@ namespace Home.Web.Services {
             }
         }
 
-        public void SendAdd() {
+        public async Task SendAdd()
+        {
             KeyToAdd = FindedChannel;
             Device.Key = KeyToAdd;
-            try {
-                _devicesService.Devices.Add(FindedChannel, Device);
+            try
+            {
+                await _devicesService.ImportDeviceList(new List<RfDevice>() { Device });
                 Status = "Device added";
                 AddingOk = true;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Status = "Device not added\n" + e.Message;
                 AddingOk = false;
             }
@@ -162,20 +192,24 @@ namespace Home.Web.Services {
             //FeedbackHub.GlobalContext.Clients.All.SendAsync("AddNewResult", Device, Status);
         }
 
-        public void RoomSelected(NewDevModel newDev) {
+        public async Task RoomSelected(NewDevModel newDev)
+        {
             SelectedType = newDev.DevType;
             _mtrf64Context.SendCmd(0, 0, 0, MtrfMode: NooCtr.BindModeDisable); //send disable bind if enabled
 
-            FindedChannel = FindEmptyChannel(SelectedType);    //find empty channel
-            if (FindedChannel != -1) {
-                Device = new RfDevice {
+            FindedChannel = await FindEmptyChannel(SelectedType);    //find empty channel
+            if (FindedChannel != -1)
+            {
+                Device = new RfDevice
+                {
                     Name = newDev.Name,
                     Type = SelectedType,
                     Channel = FindedChannel,
                     Room = newDev.Room
                 };
 
-                switch (SelectedType) {
+                switch (SelectedType)
+                {
                     case NooDevType.PowerUnit:
                         WaitingBindFlag = false;
                         Status = "Press Send Bind";
@@ -195,5 +229,5 @@ namespace Home.Web.Services {
             }
         }
     }
-    
+
 }

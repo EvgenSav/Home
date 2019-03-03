@@ -7,10 +7,13 @@ using System.Timers;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
+using DataStorage;
 using Home.Db.Storage;
 using Home.Driver.Mtrf64;
 using Home.Web.Extensions;
 using Home.Web.Models;
+using Microsoft.Extensions.Caching.Memory;
+using MongoDB.Driver;
 
 
 namespace Home.Web.Services
@@ -18,31 +21,59 @@ namespace Home.Web.Services
     public class DevicesService
     {
         private readonly Mtrf64Context mtrf64Context;
-        private MyDb<int, RfDevice> DevicesBase { get; set; }
-        public SortedDictionary<int, RfDevice> Devices => DevicesBase.Data;
-        public async Task SaveToFile(string path) => await DevicesBase.SaveToFile(path);
+        private readonly IMongoDbStorage _mongoDbStorage;
+        private readonly IMemoryCache _memoryCache;
 
-        public DevicesService(Mtrf64Context mtrf64Context)
+        private static readonly string _collection = "devices";
+
+        public DevicesService(Mtrf64Context mtrf64Context, IMongoDbStorage mongoDbStorage, IMemoryCache memoryCache)
         {
-            DevicesBase = MyDb<int, RfDevice>.OpenFile("devices.json");
+            _mongoDbStorage = mongoDbStorage;
+            _memoryCache = memoryCache;
             this.mtrf64Context = mtrf64Context;
+            _memoryCache.Set(string.Empty, new Lazy<IEnumerable<RfDevice>>( () => { return GetFromDb().Result; }));
+        }
+        public async Task<IEnumerable<RfDevice>> GetDeviceList()
+        {
+            await Task.CompletedTask;
+            var devices = _memoryCache.Get<Lazy<IEnumerable<RfDevice>>>(string.Empty).Value;
+            return devices;
+        }
+        public async Task<RfDevice> GetByIdAsync(int deviceKey)
+        {
+            var devices = await GetDeviceList();
+            var device = devices.FirstOrDefault(r => r.Key == deviceKey);
+            return device;
         }
 
-        public async Task Update()
+        public async Task<IEnumerable<RfDevice>> GetFromDb()
         {
-            await SaveToFile("devices.json");
+            return await _mongoDbStorage.GetItemsAsync<RfDevice>(_collection);
         }
-        public void GetNooFSettings(int devId, int settingType)
+        public async Task<IEnumerable<T>> ImportDeviceList<T>(IEnumerable<T> devices)
         {
-            Devices[devId].GetNooFSettings(mtrf64Context, settingType);
+            await _mongoDbStorage.InsertManyAsync(_collection, devices);
+            return devices;
         }
-        public void SetNooFSettings(int devId, NooFSettingType settingType, int settings)
+
+        public async Task Update(RfDevice device)
         {
-            Devices[devId].SetNooFSettings(mtrf64Context, settingType, settings);
+            await _mongoDbStorage.UpdateByIdAsync("devices", r => r.Key, device);
         }
-        public void Switch(int devId)
+        public async Task GetNooFSettings(int devId, int settingType)
         {
-            Devices[devId].SetSwitch(mtrf64Context);
+            var dev = await GetByIdAsync(devId);
+            dev.GetNooFSettings(mtrf64Context, settingType);
+        }
+        public async Task SetNooFSettings(int devId, NooFSettingType settingType, int settings)
+        {
+            var dev = await GetByIdAsync(devId);
+            dev.SetNooFSettings(mtrf64Context, settingType, settings);
+        }
+        public async Task Switch(int devId)
+        {
+            var dev = await GetByIdAsync(devId);
+            dev.SetSwitch(mtrf64Context);
         }
     }
 }

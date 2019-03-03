@@ -17,33 +17,42 @@ namespace HomeWeb.Controllers
         private readonly Mtrf64Context mtrf64Context;
         private readonly IHubContext<FeedbackHub> hubContext;
 
-        public RemoveDeviceController(DevicesService devicesService, Mtrf64Context mtrf64Context, IHubContext<FeedbackHub> hubContext) {
+        public RemoveDeviceController(DevicesService devicesService, Mtrf64Context mtrf64Context, IHubContext<FeedbackHub> hubContext)
+        {
             this.devicesService = devicesService;
             this.mtrf64Context = mtrf64Context;
             this.hubContext = hubContext;
         }
 
-        public string RemoveDev(int devKey) {
-            if (devicesService.Devices.ContainsKey(devKey)) {
-                devicesService.Devices.Remove(devKey);
-                hubContext.Clients.All.SendAsync("RemoveResult", devicesService.Devices, "ok");
+        public async Task<string> RemoveDev(int devKey)
+        {
+            var device = await devicesService.GetByIdAsync(devKey);
+            if (device != null)
+            {
+                /*devicesService.Devices.Remove(devKey);
+                await hubContext.Clients.All.SendAsync("RemoveResult", devicesService.Devices, "ok");*/
             }
-            return "ok";
+            return await Task.FromResult("ok");
         }
-        public IActionResult Unbind(int devKey) {
-            if(devicesService.Devices.ContainsKey(devKey)) {
-                switch(devicesService.Devices[devKey].Type) {
+        public async Task<IActionResult> Unbind(int devKey)
+        {
+            var device = await devicesService.GetByIdAsync(devKey);
+            if (device != null)
+            {
+                switch (device.Type)
+                {
                     case NooDevType.PowerUnit:
-                        devicesService.Devices[devKey].Unbind(mtrf64Context);
+                        device.Unbind(mtrf64Context);
                         break;
                     case NooDevType.PowerUnitF:
                         break;
                 }
             }
-            return Ok(string.Format("backend Unbind worked. Dev: {0}", devKey));
+            return Ok($"backend Unbind worked. Dev: {devKey}");
         }
-        public IActionResult Check(int devKey) {
-           return Ok(string.Format("backend Check worked. Dev: {0}", devKey));
+        public IActionResult Check(int devKey)
+        {
+            return Ok($"backend Check worked. Dev: {devKey}");
         }
     }
 }

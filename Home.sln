@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Driver", "ClassLibrary
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Db", "Db\Home.Db.csproj", "{73D94584-5E18-4103-9BDC-3F755C2CDF47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStorage", "DataStorage\DataStorage.csproj", "{E8C7276C-9D38-46E9-BCD1-417888A707FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{73D94584-5E18-4103-9BDC-3F755C2CDF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73D94584-5E18-4103-9BDC-3F755C2CDF47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73D94584-5E18-4103-9BDC-3F755C2CDF47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C7276C-9D38-46E9-BCD1-417888A707FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C7276C-9D38-46E9-BCD1-417888A707FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C7276C-9D38-46E9-BCD1-417888A707FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C7276C-9D38-46E9-BCD1-417888A707FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

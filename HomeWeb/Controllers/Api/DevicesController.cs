@@ -24,72 +24,56 @@ namespace Home.Web.Controllers.Api
         }
         // GET: api/<controller>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_devicesService.Devices.Select(p => p.Value));
+            await Task.CompletedTask;
+            var devices = await _devicesService.GetDeviceList();
+            return Ok(devices);
         }
 
         // GET api/<controller>/5
         [HttpGet("{id:int}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var device = _devicesService.Devices.FirstOrDefault(d => d.Key == id).Value;
+            var device = await _devicesService.GetByIdAsync(id);
             return Ok(device);
         }
         // Patch api/<controller>/5
         [HttpPatch("{id:int}")]
         public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<RfDevice> patch)
         {
-            var device = _devicesService.Devices.FirstOrDefault(d => d.Key == id).Value;
+            var device = await _devicesService.GetByIdAsync(id);
             patch.ApplyTo(device);
-            await _devicesService.Update();
+            await _devicesService.Update(device);
             await _notificationService.NotifyAll(ActionType.UpdateDevice, device);
             return Ok(device);
         }
         [HttpPatch("{devId:int}/settings/{settingType:int}")]
         public async Task<IActionResult> PatchSettings(int devId, int settingType, [FromBody]JsonPatchDocument patch)
         {
-            var settings = _devicesService.Devices[devId].Settings;
+            var device = await _devicesService.GetByIdAsync(devId);
+            var settings = device.Settings;
             patch.ApplyTo(settings);
             while (settings.GetOperation(out var op))
             {
-                _devicesService.SetNooFSettings(devId, op.SettingType, op.Data);
+                await _devicesService.SetNooFSettings(devId, op.SettingType, op.Data);
             }
-            await _devicesService.Update();
+            await _devicesService.Update(device);
             return Ok();
         }
         // GET api/<controller>/5
         [HttpGet("{id:int}/settings/{settingType:int}")]
-        public IActionResult GetSettingsById(int id, int settingType = 16)
+        public async Task<IActionResult> GetSettingsById(int id, int settingType = 16)
         {
-            _devicesService.GetNooFSettings(id, settingType);
+            await _devicesService.GetNooFSettings(id, settingType);
             return Ok(id);
         }
         // GET api/<controller>/5
         [HttpGet("Switch/{id}")]
-        public IActionResult Switch(int id)
+        public async Task<IActionResult> Switch(int id)
         {
-            _devicesService.Switch(id);
+            await _devicesService.Switch(id);
             return Ok();
-        }
-
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

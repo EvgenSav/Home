@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Home.Driver.Mtrf64;
 using Microsoft.Rest;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 
 namespace Home.Web.Models
@@ -104,8 +107,15 @@ namespace Home.Web.Models
             }
         }
     }
+
+    public class DatabaseModel<T>
+    {
+        [BsonId]
+        public ObjectId Id { get; set; }
+        public bool IsDeleted { get; set; }
+    }
     [Serializable]
-    public class RfDevice
+    public class RfDevice : DatabaseModel<int>
     {
         [JsonConstructor]
         public RfDevice()
@@ -124,19 +134,13 @@ namespace Home.Web.Models
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
         //public List<ILogItem> Log { get; set; } = new List<ILogItem>();
         public List<int> Redirect { get; set; } = new List<int>(16);
-        public int Key {
-            get => _key;
-            set => _key = value;
-        }
+        public int Key { get; set; }
 
         public int AddRedirect(int devid)
         {
             Redirect.Add(devid);
             return 0;
         }
-
-
-
 
         public string GetDevTypeName()
         {

@@ -57,6 +57,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ClassLibrary1\Home.Driver.csproj" />
+    <ProjectReference Include="..\DataStorage\DataStorage.csproj" />
     <ProjectReference Include="..\Db\Home.Db.csproj" />
   </ItemGroup>
 
