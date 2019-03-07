@@ -13,8 +13,8 @@ namespace Home.Web.Services {
         BindReceived = 2,
     };
     public class NotificationService {
-        private readonly IHubContext<FeedbackHub> _hubContext;
-        public NotificationService(IHubContext<FeedbackHub> hubContext) {
+        private readonly IHubContext<DeviceHub> _hubContext;
+        public NotificationService(IHubContext<DeviceHub> hubContext) {
             _hubContext = hubContext;
         }
 

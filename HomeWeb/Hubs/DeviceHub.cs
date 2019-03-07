@@ -6,10 +6,10 @@ using Home.Web.Services;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Home.Web.Hubs {
-    public class FeedbackHub : Hub {
+    public class DeviceHub : Hub {
 
         private readonly ActionHandlerService actionHandlerService;
-        public FeedbackHub(ActionHandlerService actionHandlerService) {
+        public DeviceHub(ActionHandlerService actionHandlerService) {
             this.actionHandlerService = actionHandlerService;
         }
         public async Task SendMessage(string user, string message) {

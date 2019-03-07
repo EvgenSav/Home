@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Home.Driver.Mtrf64;
+using Driver.Mtrf64;
 using Home.Web.Extensions;
 using Home.Web.Services;
 using Home.Web.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
-namespace HomeWeb.Controllers
+namespace Home.Web.Controllers
 {
     public class RemoveDeviceController : ControllerBase
     {
         private readonly DevicesService devicesService;
         private readonly Mtrf64Context mtrf64Context;
-        private readonly IHubContext<FeedbackHub> hubContext;
+        private readonly IHubContext<DeviceHub> hubContext;
 
-        public RemoveDeviceController(DevicesService devicesService, Mtrf64Context mtrf64Context, IHubContext<FeedbackHub> hubContext)
+        public RemoveDeviceController(DevicesService devicesService, Mtrf64Context mtrf64Context, IHubContext<DeviceHub> hubContext)
         {
             this.devicesService = devicesService;
             this.mtrf64Context = mtrf64Context;

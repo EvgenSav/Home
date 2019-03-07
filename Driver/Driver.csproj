@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.2" />
-    <PackageReference Include="MongoDB.Driver" Version="2.7.3" />
+    <PackageReference Include="SerialPortStream" Version="2.2.0" />
   </ItemGroup>
 
 </Project>

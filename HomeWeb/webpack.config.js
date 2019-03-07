@@ -10,7 +10,7 @@ module.exports = {
     },
     entry: {
         polyfills: "./client/src/polyfills.ts",
-        main: "./client/src/main.ts",
+        main: "./client/src/main.ts"
     },
     output: {
         path: path.resolve(__dirname, 'wwwroot'), // output directory
@@ -56,9 +56,9 @@ module.exports = {
                 vendor: {
                     chunks: 'initial',
                     name: 'vendor',
-                    test: 'vendor',
-                },
-            },
+                    test: 'vendor'
+                }
+            }
         }
     },
     plugins: [
@@ -67,10 +67,10 @@ module.exports = {
           favicon: "client/src/favicon.ico",
           inject: "body"
       }),
-      new webpack.ContextReplacementPlugin(
+      /*new webpack.ContextReplacementPlugin(
         /\@angular(\\|\/)core(\\|\/)fesm5/,
         path.resolve(__dirname, 'client/src'), {}
-      )
+      )*/
     ],
     devtool: "source-map",
     devServer: {

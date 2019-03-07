@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -36,16 +36,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Hubs\FeedbackHub.cs" />
+    <Content Include="Hubs\DeviceHub.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="angularjs" Version="1.7.5" />
-    <PackageReference Include="AngularJS.Intellisense" Version="1.0.3" />
-    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
     <PackageReference Include="SerialPortStream" Version="2.2.0" />
   </ItemGroup>
 
@@ -56,12 +53,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\Home.Driver.csproj" />
     <ProjectReference Include="..\DataStorage\DataStorage.csproj" />
-    <ProjectReference Include="..\Db\Home.Db.csproj" />
+    <ProjectReference Include="..\Driver\Driver.csproj" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties Properties_4launchSettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Properties_4launchSettings_1json__JSONSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
 
   <PropertyGroup>
 

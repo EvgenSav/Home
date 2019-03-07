@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
-using Microsoft.AspNetCore.SignalR;
-using Home.Driver.Mtrf64;
+using Driver.Mtrf64;
 using Home.Web.Models;
 using Home.Web.Services;
 using Microsoft.Extensions.Caching.Memory;
@@ -189,7 +188,7 @@ namespace Home.Web.Services
                 AddingOk = false;
             }
             WaitingBindFlag = false;
-            //FeedbackHub.GlobalContext.Clients.All.SendAsync("AddNewResult", Device, Status);
+            //DeviceHub.GlobalContext.Clients.All.SendAsync("AddNewResult", Device, Status);
         }
 
         public async Task RoomSelected(NewDevModel newDev)

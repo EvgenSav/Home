@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Home.Driver.Mtrf64;
-using Microsoft.Rest;
+using Driver.Mtrf64;
 using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -112,9 +111,12 @@ namespace Home.Web.Models
     {
         [BsonId]
         public ObjectId Id { get; set; }
+        public DatabaseModel()
+        {
+            Id = ObjectId.GenerateNewId();
+        }
         public bool IsDeleted { get; set; }
     }
-    [Serializable]
     public class RfDevice : DatabaseModel<int>
     {
         [JsonConstructor]

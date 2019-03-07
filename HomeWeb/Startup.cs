@@ -2,11 +2,12 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using DataStorage;
-using Home.Driver.Mtrf64;
 using Home.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,15 +23,94 @@ using Microsoft.Extensions.FileProviders;
 using Home.Web.Hubs;
 using Home.Web.Models;
 using MongoDB.Bson.Serialization;
+using Driver.Mtrf64;
+using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 
 namespace Home.Web
 {
+    public class RequestResponseLoggingMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public RequestResponseLoggingMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+            //First, get the incoming request
+            var request = await FormatRequest(context.Request);
+
+            //Copy a pointer to the original response body stream
+            var originalBodyStream = context.Response.Body;
+
+            //Create a new memory stream...
+            using (var responseBody = new MemoryStream())
+            {
+                //...and use that for the temporary response body
+                context.Response.Body = responseBody;
+
+                //Continue down the Middleware pipeline, eventually returning to this class
+                await _next(context);
+
+                //Format the response from the server
+                var response = await FormatResponse(context.Response);
+
+                //TODO: Save log to chosen datastore
+
+                //Copy the contents of the new memory stream (which contains the response) to the original stream, which is then returned to the client.
+                await responseBody.CopyToAsync(originalBodyStream);
+            }
+        }
+
+        private async Task<string> FormatRequest(HttpRequest request)
+        {
+            var body = request.Body;
+
+            //This line allows us to set the reader for the request back at the beginning of its stream.
+            request.EnableRewind();
+
+            //We now need to read the request stream.  First, we create a new byte[] with the same length as the request stream...
+            var buffer = new byte[Convert.ToInt32(request.ContentLength)];
+
+            //...Then we copy the entire request stream into the new buffer.
+            await request.Body.ReadAsync(buffer, 0, buffer.Length);
+
+            //We convert the byte[] into a string using UTF8 encoding...
+            var bodyAsText = Encoding.UTF8.GetString(buffer);
+
+            //..and finally, assign the read body back to the request body, which is allowed because of EnableRewind()
+            request.Body = body;
+
+            return $"{request.Scheme} {request.Host}{request.Path} {request.QueryString} {bodyAsText}";
+        }
+
+        private async Task<string> FormatResponse(HttpResponse response)
+        {
+            //We need to read the response stream from the beginning...
+            response.Body.Seek(0, SeekOrigin.Begin);
+
+            //...and copy it into a string
+            string text = await new StreamReader(response.Body).ReadToEndAsync();
+
+            //We need to reset the reader for the response so that the client can read it.
+            response.Body.Seek(0, SeekOrigin.Begin);
+
+            //Return the string for the response, including the status code (e.g. 200, 404, 401, etc.)
+            return $"{response.StatusCode}: {text}";
+        }
+    }
     public class Startup
     {
-        IServiceProvider serviceProvider;
-        public Startup(IConfiguration configuration)
+        private IServiceProvider _serviceProvider;
+        private readonly ILogger _logger;
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
+            _logger = logger;
         }
         public void OnStart()
         {
@@ -39,16 +119,30 @@ namespace Home.Web
                 r.AutoMap();
                 r.SetDiscriminatorIsRequired(true);
             });
+            BsonClassMap.RegisterClassMap<LogItem>(r =>
+            {
+                r.AutoMap();
+                r.SetDiscriminatorIsRequired(true);
+            });
+            BsonClassMap.RegisterClassMap<PuLogItem>(r =>
+            {
+                r.AutoMap();
+                r.SetDiscriminatorIsRequired(true);
+            });
+            BsonClassMap.RegisterClassMap<SensLogItem>(r =>
+            {
+                r.AutoMap();
+                r.SetDiscriminatorIsRequired(true);
+            });
         }
 
-
-        public async void OnShutdown()
+        Task WriteLog(string msg)
         {
-            /*var devicesService = serviceProvider.GetService<DevicesService>();
-            var actionLogService = serviceProvider.GetService<ActionLogService>();
-            var homeService = serviceProvider.GetService<HomeService>();
-            await devicesService.SaveToFile("devices.json");
-            await actionLogService.SaveToFile("log.json");*/
+
+            return Task.CompletedTask;
+        }
+        public void OnShutdown()
+        {
         }
         public IConfiguration Configuration { get; }
 
@@ -79,7 +173,7 @@ namespace Home.Web
 
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc();
 
             //// In production, the Angular files will be served from this directory
             //services.AddSpaStaticFiles(configuration =>
@@ -87,7 +181,7 @@ namespace Home.Web
             //    configuration.RootPath = "wwwroot";
             //});
             services.AddSignalR();
-            serviceProvider = services.BuildServiceProvider();
+            _serviceProvider = services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,27 +193,33 @@ namespace Home.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
-                app.UseWebpackDevMiddleware(
-                    new WebpackDevMiddlewareOptions
-                    {
-                        HotModuleReplacement = true
-                    }
-                    );
+                /*app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true
+                });*/
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseStaticFiles();
             //app.UseSpaStaticFiles();
+            //app.UseMiddleware<RequestResponseLoggingMiddleware>();
+
+            /*app.Use(async (context, next) =>
+            {
+                // Do loging
+                // Do work that doesn't write to the Response.
+                _logger.LogDebug($"{DateTime.Now.ToShortTimeString()} : {context.Request.QueryString.Value}");
+                await next.Invoke();
+                // Do logging or other work that doesn't write to the Response.
+            });*/
 
             app.UseCookiePolicy();
             app.UseWebSockets();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<FeedbackHub>("/devicesHub");
+                routes.MapHub<DeviceHub>("/devicesHub");
             });
             app.UseMvc(routes =>
             {

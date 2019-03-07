@@ -9,9 +9,10 @@ namespace DataStorage
     public interface IMongoDbStorage
     {
         bool IsConnected { get; }
-        Task InsertManyAsync<T>(string collection, IEnumerable<T> items);
+        Task AddAsync<T>(string collection, T item);
+        Task AddManyAsync<T>(string collection, IEnumerable<T> items);
         Task<IEnumerable<T>> GetItemsAsync<T>(string collection);
-        Task<T> GetByIdAsync<T, TV>(string collection, Expression<Func<T, TV>> getField, TV val);
+        Task<IEnumerable<T>> FindAsync<T, TV>(string collection, Expression<Func<T, TV>> getField, TV fieldVal);
         Task UpdateByIdAsync<T, TV>(string collection, Expression<Func<T, TV>> getId, T item);
     }
 }

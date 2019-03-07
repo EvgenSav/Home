@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using DataStorage;
-using Home.Db.Storage;
-using Home.Driver.Mtrf64;
+using Driver.Mtrf64;
 using Home.Web.Extensions;
 using Home.Web.Models;
 using Microsoft.Extensions.Caching.Memory;
@@ -55,7 +53,7 @@ namespace Home.Web.Services
         }
         public async Task<IEnumerable<T>> ImportDeviceList<T>(IEnumerable<T> devices)
         {
-            await _mongoDbStorage.InsertManyAsync(_collection, devices);
+            await _mongoDbStorage.AddManyAsync(_collection, devices);
             return devices;
         }
 

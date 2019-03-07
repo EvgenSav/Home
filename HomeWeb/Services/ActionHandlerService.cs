@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Driver.Mtrf64;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
-using Home.Driver.Mtrf64;
 using Home.Web.Extensions;
 using Home.Web.Models;
 
@@ -15,16 +14,16 @@ namespace Home.Web.Services
     {
         private readonly Mtrf64Context _mtrf64Context;
         private readonly DevicesService _devicesService;
-        private readonly ActionLogService actionLogService;
-        //private readonly IHubContext<FeedbackHub> hubContext;
+        private readonly ActionLogService _actionLogService;
+        //private readonly IHubContext<DeviceHub> hubContext;
         private readonly NotificationService _notificationService;
         public string test = "";
 
 
         public ActionHandlerService(Mtrf64Context mtrf64Context, DevicesService devicesService, ActionLogService actionLogService, NotificationService notificationService)
         {
-            this._devicesService = devicesService;
-            this.actionLogService = actionLogService;
+            _devicesService = devicesService;
+            _actionLogService = actionLogService;
             _mtrf64Context = mtrf64Context;
             _notificationService = notificationService;
             //this.hubContext = hubContext;
@@ -68,8 +67,7 @@ namespace Home.Web.Services
                                 dev.SetSwitch(_mtrf64Context);
                             }
                         }
-                        //Device.Log.Add(new LogItem(DateTime.Now, Device.State));
-                        //device.Log.Add(new LogItem(DateTime.Now, NooCmd.Switch));
+                        await _actionLogService.AddAsync(new LogItem(DateTime.Now, NooCmd.Switch) { DeviceFk = device.Key });
                         break;
                     case NooCmd.On:
                         if (_mtrf64Context.RxBuf.Mode == NooMode.Tx)
@@ -78,24 +76,24 @@ namespace Home.Web.Services
                             {
                                 device.State = 1;
                                 device.Bright = _mtrf64Context.RxBuf.D0;
-                                //device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.On, device.State, device.Bright));
+                                await _actionLogService.AddAsync(new PuLogItem(DateTime.Now, NooCmd.On, device.State, device.Bright));
                             }
 
                         }
                         else if (_mtrf64Context.RxBuf.Mode == NooMode.Rx)
                         {
-                            //device.Log.Add(new LogItem(DateTime.Now, NooCmd.On));
+                            await _actionLogService.AddAsync(new LogItem(DateTime.Now, NooCmd.On));
                         }
                         break;
                     case NooCmd.Off:
                         if (_mtrf64Context.RxBuf.Mode == NooMode.Tx)
                         {
                             device.State = 0;
-                            //device.Log.Add(new PuLogItem(DateTime.Now, NooCmd.Off, device.State, device.Bright));
+                            await _actionLogService.AddAsync(new PuLogItem(DateTime.Now, NooCmd.Off, device.State, device.Bright));
                         }
                         else if (_mtrf64Context.RxBuf.Mode == NooMode.Rx)
                         {
-                            //device.Log.Add(new LogItem(DateTime.Now, NooCmd.Off));
+                            await _actionLogService.AddAsync(new LogItem(DateTime.Now, NooCmd.Off));
                         }
                         break;
                     case NooCmd.SetBrightness:
@@ -105,35 +103,22 @@ namespace Home.Web.Services
                         //_mtrf64Context.Unbind(_mtrf64Context.rxBuf.Ch, _mtrf64Context.rxBuf.Mode);
                         break;
                     case NooCmd.SensTempHumi:
-                        _mtrf64Context.StoreTemperature(ref _mtrf64Context.LastTempBuf[_mtrf64Context.RxBuf.Ch]);
-                        if (actionLogService.ActionLog.ContainsKey(_mtrf64Context.RxBuf.Ch))
-                        {
-                            actionLogService.ActionLog[_mtrf64Context.RxBuf.Ch].Add(new SensLogItem(DateTime.Now, NooCmd.SensTempHumi, _mtrf64Context.LastTempBuf[_mtrf64Context.RxBuf.Ch]));
-                        }
-                        else
-                        {
-                            actionLogService.ActionLog.Add(_mtrf64Context.RxBuf.Ch, new List<ILogItem>());
-                            actionLogService.ActionLog[_mtrf64Context.RxBuf.Ch].Add(new SensLogItem(DateTime.Now, NooCmd.SensTempHumi, _mtrf64Context.LastTempBuf[_mtrf64Context.RxBuf.Ch]));
-                        }
+                        var temperature = _mtrf64Context.ParseTemperature();
+                        await _actionLogService.AddAsync(new SensLogItem(DateTime.Now, NooCmd.SensTempHumi, temperature));
                         break;
                     case NooCmd.TemporaryOn:
-                        int devKey = _mtrf64Context.RxBuf.Id;
-                        if (!actionLogService.ActionLog.ContainsKey(devKey))
+                        var devLog = await _actionLogService.GetDeviceLog(device.Key);
+                        var latest = devLog.OrderByDescending(r => r.TimeStamp).FirstOrDefault();
+                        if (latest != null)
                         {
-                            actionLogService.ActionLog.Add(devKey, new List<ILogItem>());
-                        }
-                        int count = actionLogService.ActionLog[devKey].Count;
-                        if (count > 0)
-                        {
-                            DateTime previous = actionLogService.ActionLog[devKey][count - 1].CurrentTime;
-                            if (DateTime.Now.Subtract(previous).Seconds > 4)
+                            if (DateTime.Now.Subtract(latest.TimeStamp).Seconds > 4)
                             {
-                                actionLogService.ActionLog[devKey].Add(new LogItem(DateTime.Now, _mtrf64Context.RxBuf.D0));
+                                await _actionLogService.AddAsync(new LogItem(DateTime.Now, _mtrf64Context.RxBuf.D0));
                             }
                         }
                         else
                         {
-                            actionLogService.ActionLog[devKey].Add(new LogItem(DateTime.Now, _mtrf64Context.RxBuf.D0));
+                            await _actionLogService.AddAsync(new LogItem(DateTime.Now, _mtrf64Context.RxBuf.D0));
                         }
                         break;
 
@@ -147,7 +132,7 @@ namespace Home.Web.Services
                         {
                             case 0: //state
                                 device.ReadState(_mtrf64Context);
-                                //device.Log.Add(new PuLogItem(DateTime.Now, _mtrf64Context.RxBuf.Cmd, device.State, device.Bright));
+                                await _actionLogService.AddAsync(new PuLogItem(DateTime.Now, _mtrf64Context.RxBuf.Cmd, device.State, device.Bright) { DeviceFk = device.Key });
                                 break;
                                 /*case 16: //settings
                                     /*device.Settings.Settings= _mtrf64Context.RxBuf.D1 << 8 | _mtrf64Context.RxBuf.D0;#1#

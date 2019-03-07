@@ -15,13 +15,22 @@ namespace DataStorage
         public MongoDbStorageService()
         {
             /*var connection = new MongoUrlBuilder("mongodb://192.168.0.104:27017");*/
-            _client = new MongoClient("mongodb://localhost:27017");
+            //_client = new MongoClient("mongodb://localhost:27017");
+            _client = new MongoClient("mongodb://192.168.0.104:27017");
             _db = _client.GetDatabase("home");
         }
 
         public bool IsConnected => _client.Cluster.Description.State == ClusterState.Connected;
 
-        public async Task InsertManyAsync<T>(string collection, IEnumerable<T> items)
+        public async Task AddAsync<T>(string collection, T item)
+        {
+            if (IsConnected)
+            {
+                var list = _db.GetCollection<T>(collection);
+                await list.InsertOneAsync(item);
+            }
+        }
+        public async Task AddManyAsync<T>(string collection, IEnumerable<T> items)
         {
             if (IsConnected)
             {
@@ -50,19 +59,19 @@ namespace DataStorage
                 return await Task.FromResult(new List<T>());
             }
         }
-        public async Task<T> GetByIdAsync<T, TV>(string collection, Expression<Func<T, TV>> getField, TV val)
+        public async Task<IEnumerable<T>> FindAsync<T, TV>(string collection, Expression<Func<T, TV>> getField, TV fieldVal)
         {
             if (IsConnected)
             {
 
-                var filter = Builders<T>.Filter.Eq(getField, val);
+                var filter = Builders<T>.Filter.Eq(getField, fieldVal);
                 var item = _db.GetCollection<T>(collection).Find(filter);
                 var items = await item.ToListAsync();
-                return items.FirstOrDefault();
+                return items;
             }
             else
             {
-                return await Task.FromResult(default(T));
+                return await Task.FromResult(new List<T>());
             }
         }
     }

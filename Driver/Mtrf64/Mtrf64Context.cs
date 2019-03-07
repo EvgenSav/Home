@@ -4,7 +4,7 @@ using System.IO;
 using RJCP.IO.Ports;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-namespace Home.Driver.Mtrf64
+namespace Driver.Mtrf64
 {
     public enum NooFSettingType
     {
