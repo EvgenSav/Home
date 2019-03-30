@@ -107,7 +107,7 @@ namespace Home.Web.Models
         }
     }
 
-    public class DatabaseModel<T>
+    public class DatabaseModel : IDatabaseModel
     {
         [BsonId]
         public ObjectId Id { get; set; }
@@ -117,13 +117,12 @@ namespace Home.Web.Models
         }
         public bool IsDeleted { get; set; }
     }
-    public class RfDevice : DatabaseModel<int>
+    public class Device : DatabaseModel
     {
         [JsonConstructor]
-        public RfDevice()
+        public Device()
         {
         }
-        private int _key;
         public int Channel { get; set; }
         public int Type { get; set; }
         public string Name { get; set; }
@@ -134,8 +133,7 @@ namespace Home.Web.Models
         public int ExtDevType { get; set; }
         public string Room { get; set; }
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
-        //public List<ILogItem> Log { get; set; } = new List<ILogItem>();
-        public List<int> Redirect { get; set; } = new List<int>(16);
+        public List<int> Redirect { get; set; } = new List<int>();
         public int Key { get; set; }
 
         public int AddRedirect(int devid)

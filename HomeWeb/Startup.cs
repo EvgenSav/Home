@@ -114,26 +114,13 @@ namespace Home.Web
         }
         public void OnStart()
         {
-            BsonClassMap.RegisterClassMap<RfDevice>(r =>
+            BsonClassMap.RegisterClassMap<DatabaseModel>(r =>
             {
                 r.AutoMap();
-                r.SetDiscriminatorIsRequired(true);
-            });
-            BsonClassMap.RegisterClassMap<LogItem>(r =>
-            {
-                r.AutoMap();
-                r.SetDiscriminatorIsRequired(true);
-            });
-            BsonClassMap.RegisterClassMap<PuLogItem>(r =>
-            {
-                r.AutoMap();
-                r.SetDiscriminatorIsRequired(true);
-            });
-            BsonClassMap.RegisterClassMap<SensLogItem>(r =>
-            {
-                r.AutoMap();
-                r.SetDiscriminatorIsRequired(true);
-            });
+                r.SetIsRootClass(true);
+            }); 
+            BsonClassMap.RegisterClassMap<Device>();
+            BsonClassMap.RegisterClassMap<LogItem>();
         }
 
         Task WriteLog(string msg)
@@ -175,11 +162,11 @@ namespace Home.Web
 
             services.AddMvc();
 
-            //// In production, the Angular files will be served from this directory
+            /*//// In production, the Angular files will be served from this directory
             //services.AddSpaStaticFiles(configuration =>
             //{
             //    configuration.RootPath = "wwwroot";
-            //});
+            //});*/
             services.AddSignalR();
             _serviceProvider = services.BuildServiceProvider();
         }
@@ -193,10 +180,10 @@ namespace Home.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                /*app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
-                });*/
+                });
             }
             else
             {

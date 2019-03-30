@@ -39,7 +39,7 @@ namespace Home.Web.Controllers.Api
         }
         // Patch api/<controller>/5
         [HttpPatch("{id:int}")]
-        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<RfDevice> patch)
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<Device> patch)
         {
             var device = await _devicesService.GetByIdAsync(id);
             patch.ApplyTo(device);
@@ -57,7 +57,7 @@ namespace Home.Web.Controllers.Api
             {
                 await _devicesService.SetNooFSettings(devId, op.SettingType, op.Data);
             }
-            await _devicesService.Update(device);
+            //await _devicesService.Update(device);
             return Ok();
         }
         // GET api/<controller>/5

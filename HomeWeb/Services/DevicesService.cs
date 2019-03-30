@@ -30,26 +30,27 @@ namespace Home.Web.Services
             _memoryCache = memoryCache;
             this.mtrf64Context = mtrf64Context;
         }
-        public async Task<IEnumerable<RfDevice>> GetDeviceList()
+        public async Task<IEnumerable<Device>> GetDeviceList()
         {
-            var devices = _memoryCache.Get<IEnumerable<RfDevice>>(string.Empty);
-            if (devices == null || devices.FirstOrDefault() == null)
+            var devices = _memoryCache.GetCollection<Device>();
+            if (devices.Any() == false)
             {
                 devices = await GetFromDb();
-                _memoryCache.Set(string.Empty, devices);
+                _memoryCache.StoreCollection(devices);
+
             }
             return await Task.FromResult(devices);
         }
-        public async Task<RfDevice> GetByIdAsync(int deviceKey)
+        public async Task<Device> GetByIdAsync(int deviceKey)
         {
             var devices = await GetDeviceList();
             var device = devices.FirstOrDefault(r => r.Key == deviceKey);
             return device;
         }
 
-        public async Task<IEnumerable<RfDevice>> GetFromDb()
+        public async Task<IEnumerable<Device>> GetFromDb()
         {
-            return await _mongoDbStorage.GetItemsAsync<RfDevice>(_collection);
+            return await _mongoDbStorage.GetItemsAsync<Device>(_collection);
         }
         public async Task<IEnumerable<T>> ImportDeviceList<T>(IEnumerable<T> devices)
         {
@@ -57,9 +58,10 @@ namespace Home.Web.Services
             return devices;
         }
 
-        public async Task Update(RfDevice device)
+        public async Task Update(Device device)
         {
             await _mongoDbStorage.UpdateByIdAsync("devices", r => r.Key, device);
+            _memoryCache.StoreCollectionItem(device);
         }
         public async Task GetNooFSettings(int devId, int settingType)
         {

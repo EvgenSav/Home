@@ -32,7 +32,7 @@ namespace Home.Web.Services
         int SelectedType;
         bool WaitingBindFlag = false;
 
-        public RfDevice Device { get; private set; }
+        public Device Device { get; private set; }
         public int KeyToAdd { get; private set; }
         public bool AddingOk { get; private set; }
         public string Status { get; private set; }
@@ -49,7 +49,7 @@ namespace Home.Web.Services
                             _mtrf64Context.RxBuf.Mode == NooMode.Tx)
                         {
                             Status = "Bind to TX device send!";
-                            await _notificationService.NotifyAll<RfDevice, string>(ActionType.BindReceived, Device,
+                            await _notificationService.NotifyAll<Device, string>(ActionType.BindReceived, Device,
                                 Status);
                             //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
@@ -62,7 +62,7 @@ namespace Home.Web.Services
                             KeyToAdd = Device.Addr;
                             Device.Key = KeyToAdd;
                             Status = "Bind F-TX accepted";
-                            await _notificationService.NotifyAll<RfDevice, string>(ActionType.BindReceived, Device,
+                            await _notificationService.NotifyAll<Device, string>(ActionType.BindReceived, Device,
                                 Status);
                             //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
@@ -76,7 +76,7 @@ namespace Home.Web.Services
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
                             Status = "Bind from sensor accepted";
-                            await _notificationService.NotifyAll<RfDevice, string>(ActionType.BindReceived, Device,
+                            await _notificationService.NotifyAll<Device, string>(ActionType.BindReceived, Device,
                                 Status);
                             //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
@@ -89,7 +89,7 @@ namespace Home.Web.Services
                             KeyToAdd = FindedChannel;
                             Device.Key = KeyToAdd;
                             Status = "Bind from RC accepted";
-                            await _notificationService.NotifyAll<RfDevice, string>(ActionType.BindReceived, Device,
+                            await _notificationService.NotifyAll<Device, string>(ActionType.BindReceived, Device,
                                 Status);
                             //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
@@ -178,7 +178,7 @@ namespace Home.Web.Services
             Device.Key = KeyToAdd;
             try
             {
-                await _devicesService.ImportDeviceList(new List<RfDevice>() { Device });
+                await _devicesService.ImportDeviceList(new List<Device>() { Device });
                 Status = "Device added";
                 AddingOk = true;
             }
@@ -199,7 +199,7 @@ namespace Home.Web.Services
             FindedChannel = await FindEmptyChannel(SelectedType);    //find empty channel
             if (FindedChannel != -1)
             {
-                Device = new RfDevice
+                Device = new Device
                 {
                     Name = newDev.Name,
                     Type = SelectedType,

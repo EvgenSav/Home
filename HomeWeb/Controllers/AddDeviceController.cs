@@ -42,7 +42,7 @@ namespace Home.Web.Controllers
             return Ok(new { Device = bindingService.Device, Status = bindingService.Status });
         }
 
-        public OkResult CheckBind([FromBody] RfDevice dev)
+        public OkResult CheckBind([FromBody] Device dev)
         {
             dev.SetSwitch(mtrf64Context);
             return new OkResult();

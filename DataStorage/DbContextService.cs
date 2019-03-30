@@ -65,8 +65,8 @@ namespace DataStorage
             {
 
                 var filter = Builders<T>.Filter.Eq(getField, fieldVal);
-                var item = _db.GetCollection<T>(collection).Find(filter);
-                var items = await item.ToListAsync();
+                var findQuery = _db.GetCollection<T>(collection).Find(filter);
+                var items = await findQuery.ToListAsync();
                 return items;
             }
             else

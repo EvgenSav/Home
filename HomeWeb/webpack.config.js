@@ -67,10 +67,10 @@ module.exports = {
           favicon: "client/src/favicon.ico",
           inject: "body"
       }),
-      /*new webpack.ContextReplacementPlugin(
+      new webpack.ContextReplacementPlugin(
         /\@angular(\\|\/)core(\\|\/)fesm5/,
         path.resolve(__dirname, 'client/src'), {}
-      )*/
+      )
     ],
     devtool: "source-map",
     devServer: {

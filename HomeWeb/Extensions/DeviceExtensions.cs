@@ -9,9 +9,7 @@ namespace Home.Web.Extensions
 {
     public static class DeviceExtensions
     {
-
-
-        public static void SetOn(this RfDevice device, Mtrf64Context mtrfDev)
+        public static void SetOn(this Device device, Mtrf64Context mtrfDev)
         {
             if (device.Type == NooDevType.PowerUnitF)
             {
@@ -22,7 +20,7 @@ namespace Home.Web.Extensions
                 mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.On);
             }
         }
-        public static void SetOff(this RfDevice device, Mtrf64Context mtrfDev)
+        public static void SetOff(this Device device, Mtrf64Context mtrfDev)
         {
             if (device.Type == NooDevType.PowerUnitF)
             {
@@ -33,7 +31,7 @@ namespace Home.Web.Extensions
                 mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.Off);
             }
         }
-        public static void SetSwitch(this RfDevice device, Mtrf64Context mtrfDev)
+        public static void SetSwitch(this Device device, Mtrf64Context mtrfDev)
         {
             if (device.Type == NooDevType.PowerUnitF)
             {
@@ -51,27 +49,27 @@ namespace Home.Web.Extensions
                 }
             }
         }
-        public static void SetBright(this RfDevice device, Mtrf64Context mtrfDev, int brightLvl)
+        public static void SetBright(this Device device, Mtrf64Context mtrfDev, int brightLvl)
         {
             int devBrightLvl = 0;
             if (device.Type == NooDevType.PowerUnitF)
             {
-                devBrightLvl = Round(((float)brightLvl / 100) * 255);
+                devBrightLvl = Buf.Round(((float)brightLvl / 100) * 255);
                 mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.SetBrightness, addrF: device.Addr, d0: devBrightLvl, MtrfMode: NooCtr.SendByAdr);
             }
             else if (device.Type == NooDevType.PowerUnit)
             {
-                devBrightLvl = Round(28 + ((float)brightLvl / 100) * 128);
+                devBrightLvl = Buf.Round(28 + ((float)brightLvl / 100) * 128);
                 mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.SetBrightness, fmt: 1, d0: devBrightLvl);
             }
         }
-        public static void ReadSetBrightAnswer(this RfDevice device, Mtrf64Context mtrfDev)
+        public static void ReadSetBrightAnswer(this Device device, Mtrf64Context mtrfDev)
         {
             if (device.Type == NooDevType.PowerUnit)
             {
                 if (mtrfDev.RxBuf.D0 >= 28)
                 {
-                    device.Bright = Round((((float)mtrfDev.RxBuf.D0 - 28) / 128) * 100);
+                    device.Bright = Buf.Round((((float)mtrfDev.RxBuf.D0 - 28) / 128) * 100);
                     if (mtrfDev.RxBuf.D0 > 28)
                     {
                         device.State = 1;
@@ -89,27 +87,27 @@ namespace Home.Web.Extensions
                 }
             }
         }
-        public static void ReadState(this RfDevice device, Mtrf64Context mtrfDev)
+        public static void ReadState(this Device device, Mtrf64Context mtrfDev)
         {
             if (device.Type == NooDevType.PowerUnitF)
             {
                 device.ExtDevType = mtrfDev.RxBuf.D0;
                 device.FirmwareVer = mtrfDev.RxBuf.D1;
                 device.State = mtrfDev.RxBuf.D2;
-                device.Bright = Round(((float)mtrfDev.RxBuf.D3 / 255) * 100);
+                device.Bright = Buf.Round(((float)mtrfDev.RxBuf.D3 / 255) * 100);
             }
         }
 
-        public static void GetNooFSettings(this RfDevice device, Mtrf64Context mtrf, int settingType)
+        public static void GetNooFSettings(this Device device, Mtrf64Context mtrf, int settingType)
         {
             mtrf.GetSettings(device.Addr, settingType);
         }
 
-        public static void SetNooFSettings(this RfDevice device, Mtrf64Context mtrf, NooFSettingType settingType, int settings)
+        public static void SetNooFSettings(this Device device, Mtrf64Context mtrf, NooFSettingType settingType, int settings)
         {
             mtrf.SetSettings(device.Addr, settingType, settings);
         }
-        public static void Unbind(this RfDevice device, Mtrf64Context mtrfDev)
+        public static void Unbind(this Device device, Mtrf64Context mtrfDev)
         {
             switch (device.Type)
             {
@@ -157,11 +155,6 @@ namespace Home.Web.Extensions
 
             }
 
-        }
-        private static int Round(float val)
-        {
-            if ((val - (int)val) > 0.5) return (int)val + 1;
-            else return (int)val;
         }
     }
 }

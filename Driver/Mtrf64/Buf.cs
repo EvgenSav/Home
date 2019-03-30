@@ -90,6 +90,17 @@ namespace Driver.Mtrf64
             set => buf[(int)idx] = value;
         }
 
+        public static int Round(float val)
+        {
+            if ((val - (int)val) > 0.5) return (int)val + 1;
+            else return (int)val;
+        }
+
+        public int ExtDevType() => D0;
+        public int FirmwareVer() => D1;
+        public int State() => D2;
+        public int Bright() => Round(((float)D3 / 255) * 100);
+
         public byte[] GetBufData() => buf;
     }
 }
