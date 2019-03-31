@@ -19,5 +19,6 @@ namespace Home.Web.Models
         int DeviceTypeFk { get; set; }
         DeviceState State { get; set; }
         Buf ReceivedBuffer { get; set; }
+        double? MeasuredData { get; set; }
     }
 }

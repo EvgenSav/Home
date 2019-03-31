@@ -29,13 +29,14 @@ namespace Home.Web.Services
         }
         public async Task<IEnumerable<LogItem>> GetDeviceLog(int devId)
         {
-            var log = _memoryCache.GetCollection<LogItem>();
-            if (log.Any() == false)
+            var log = _memoryCache.GetCollection<LogItem>().ToList();
+            if (log.Any(r => r.DeviceFk == devId) == false)
             {
-                log = await GetDeviceLogFromDb(devId);
+                var devLog = await GetDeviceLogFromDb(devId);
+                log.AddRange(devLog);
                 _memoryCache.StoreCollection(log);
             }
-            return log;
+            return log.Where(r => r.DeviceFk == devId).ToList();
         }
 
         public async Task AddAsync(LogItem item)
