@@ -40,7 +40,7 @@ namespace Home.Web.Services
 
         private async void Dev1_NewDataReceived(object sender, EventArgs e)
         {
-            if (WaitingBindFlag)
+            /*if (WaitingBindFlag)
             {
                 switch (SelectedType)
                 {
@@ -95,7 +95,7 @@ namespace Home.Web.Services
                         }
                         break;
                 }
-            }
+            }*/
         }
 
 

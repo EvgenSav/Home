@@ -63,14 +63,14 @@ namespace Home.Web.Extensions
                 mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.SetBrightness, fmt: 1, d0: devBrightLvl);
             }
         }
-        public static void ReadSetBrightAnswer(this Device device, Mtrf64Context mtrfDev)
+        public static void ReadSetBrightAnswer(this Device device, Buf rxBuf)
         {
             if (device.Type == NooDevType.PowerUnit)
             {
-                if (mtrfDev.RxBuf.D0 >= 28)
+                if (rxBuf.D0 >= 28)
                 {
-                    device.Bright = Buf.Round((((float)mtrfDev.RxBuf.D0 - 28) / 128) * 100);
-                    if (mtrfDev.RxBuf.D0 > 28)
+                    device.Bright = Buf.Round((((float)rxBuf.D0 - 28) / 128) * 100);
+                    if (rxBuf.D0 > 28)
                     {
                         device.State = 1;
                     }
@@ -87,14 +87,14 @@ namespace Home.Web.Extensions
                 }
             }
         }
-        public static void ReadState(this Device device, Mtrf64Context mtrfDev)
+        public static void ReadState(this Device device, Buf rxBuf)
         {
             if (device.Type == NooDevType.PowerUnitF)
             {
-                device.ExtDevType = mtrfDev.RxBuf.D0;
-                device.FirmwareVer = mtrfDev.RxBuf.D1;
-                device.State = mtrfDev.RxBuf.D2;
-                device.Bright = Buf.Round(((float)mtrfDev.RxBuf.D3 / 255) * 100);
+                device.ExtDevType = rxBuf.D0;
+                device.FirmwareVer = rxBuf.D1;
+                device.State = rxBuf.D2;
+                device.Bright = Buf.Round(((float)rxBuf.D3 / 255) * 100);
             }
         }
 

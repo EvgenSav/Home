@@ -34,10 +34,11 @@ namespace Home.Web.Services
             System.Diagnostics.Debug.WriteLine("Action handler destroyed");
         }
 
-        private async void Mtrf64Context_NewDataReceived(object sender, EventArgs e)
+        private async void Mtrf64Context_NewDataReceived(object sender, BufferEventArgs e)
         {
-            ParseIncomingData();
-            var devKey = _mtrf64Context.RxBuf.Mode == NooMode.FTx ? _mtrf64Context.RxBuf.AddrF : _mtrf64Context.RxBuf.Ch;
+            var rxBuf = e.Buffer;
+            ParseIncomingData(rxBuf);
+            var devKey = rxBuf.Mode == NooMode.FTx ? rxBuf.AddrF : rxBuf.Ch;
             var device = await _devicesService.GetByIdAsync(devKey);
             if (device != null)
             {
@@ -50,12 +51,12 @@ namespace Home.Web.Services
             }
         }
 
-        private async void ParseIncomingData()
+        private async void ParseIncomingData(Buf rxBuf)
         {
-            var device = await _devicesService.GetByIdAsync(_mtrf64Context.RxBuf.Id);
+            var device = await _devicesService.GetByIdAsync(rxBuf.Id);
             if (device != null)
             {
-                switch (_mtrf64Context.RxBuf.Cmd)
+                switch (rxBuf.Cmd)
                 {
                     case NooCmd.Switch:
                         //redirect
@@ -67,10 +68,10 @@ namespace Home.Web.Services
                                 dev.SetSwitch(_mtrf64Context);
                             }
                         }
-                        await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, null));
+                        await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null));
                         break;
                     case NooCmd.On:
-                        if (_mtrf64Context.RxBuf.Mode == NooMode.Tx)
+                        if (rxBuf.Mode == NooMode.Tx)
                         {
                             if (device.Type == NooDevType.PowerUnit)
                             {
@@ -78,37 +79,37 @@ namespace Home.Web.Services
                                 //todo: implement storing state
                                 var state = new DeviceState
                                 { Bright = device.Bright, ExtType = 0, FirmwareVersion = 0, State = device.State };
-                                await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, state));
+                                await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, state));
                             }
 
                         }
-                        else if (_mtrf64Context.RxBuf.Mode == NooMode.Rx)
+                        else if (rxBuf.Mode == NooMode.Rx)
                         {
-                            await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, null));
+                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null));
                         }
                         break;
                     case NooCmd.Off:
-                        if (_mtrf64Context.RxBuf.Mode == NooMode.Tx)
+                        if (rxBuf.Mode == NooMode.Tx)
                         {
                             device.State = 0;
                             var state = new DeviceState
                             { Bright = device.Bright, ExtType = 0, FirmwareVersion = 0, State = device.State };
-                            await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, state));
+                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, state));
                         }
-                        else if (_mtrf64Context.RxBuf.Mode == NooMode.Rx)
+                        else if (rxBuf.Mode == NooMode.Rx)
                         {
-                            await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, null));
+                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null));
                         }
                         break;
                     case NooCmd.SetBrightness:
-                        device.ReadSetBrightAnswer(_mtrf64Context);
+                        device.ReadSetBrightAnswer(rxBuf);
                         break;
                     case NooCmd.Unbind:
                         //_mtrf64Context.Unbind(_mtrf64Context.rxBuf.Ch, _mtrf64Context.rxBuf.Mode);
                         break;
                     case NooCmd.SensTempHumi:
-                        var temperature = _mtrf64Context.ParseTemperature();
-                        await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, null, temperature));
+                        var temperature = _mtrf64Context.ParseTemperature(rxBuf);
+                        await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, temperature));
                         break;
                     case NooCmd.TemporaryOn:
                         var devLog = await _actionLogService.GetDeviceLog(device.Key);
@@ -117,35 +118,35 @@ namespace Home.Web.Services
                         {
                             if (DateTime.Now.Subtract(latest.TimeStamp).Seconds > 4)
                             {
-                                await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, null, _mtrf64Context.RxBuf.D0));
+                                await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, rxBuf.D0));
                             }
                         }
                         else
                         {
-                            await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, null, _mtrf64Context.RxBuf.D0));
+                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, rxBuf.D0));
                         }
                         break;
 
                     case NooCmd.SendState:
                         //received settings
-                        if (Enum.IsDefined(typeof(NooFSettingType), _mtrf64Context.RxBuf.Fmt))
+                        if (Enum.IsDefined(typeof(NooFSettingType), rxBuf.Fmt))
                         {
-                            device.Settings.SetReceivedSettings((NooFSettingType)_mtrf64Context.RxBuf.Fmt, _mtrf64Context.RxBuf.D0, _mtrf64Context.RxBuf.D1);
-                            await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, null));
+                            device.Settings.SetReceivedSettings((NooFSettingType)rxBuf.Fmt, rxBuf.D0, rxBuf.D1);
+                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null));
                         }
                         //received state
-                        if (_mtrf64Context.RxBuf.Fmt == 0)
+                        if (rxBuf.Fmt == 0)
                         {
 
-                            device.ReadState(_mtrf64Context);
-                            var state = _mtrf64Context.RxBuf.GetDeviceState();
-                            await _actionLogService.AddAsync(new LogItem(_mtrf64Context.RxBuf, device.Type, state));
+                            device.ReadState(rxBuf);
+                            var state = rxBuf.GetDeviceState();
+                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, state));
                         }
                         break;
                     case NooCmd.WriteState:
-                        if (Enum.IsDefined(typeof(NooFSettingType), _mtrf64Context.RxBuf.Fmt))
+                        if (Enum.IsDefined(typeof(NooFSettingType), rxBuf.Fmt))
                         {
-                            device.Settings.SetReceivedSettings((NooFSettingType)_mtrf64Context.RxBuf.Fmt, _mtrf64Context.RxBuf.D0, _mtrf64Context.RxBuf.D1);
+                            device.Settings.SetReceivedSettings((NooFSettingType)rxBuf.Fmt, rxBuf.D0, rxBuf.D1);
                         }
                         break;
                     default:

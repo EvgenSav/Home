@@ -118,7 +118,7 @@ namespace Home.Web
             {
                 r.AutoMap();
                 r.SetIsRootClass(true);
-            }); 
+            });
             BsonClassMap.RegisterClassMap<Device>();
             BsonClassMap.RegisterClassMap<LogItem>();
         }
@@ -140,7 +140,7 @@ namespace Home.Web
             services.AddSingleton<ActionLogService>();
             var mtrf = new Mtrf64Context();
             var connected = new List<MtrfModel>();
-            connected = mtrf.GetAvailableComPorts().Result;
+            connected = Task.Run(async ()=>await mtrf.GetAvailableComPorts()).Result;
             if (connected.Count > 0)
             {
                 mtrf.OpenPort(connected[0]);
