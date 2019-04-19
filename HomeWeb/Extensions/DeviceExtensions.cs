@@ -11,33 +11,33 @@ namespace Home.Web.Extensions
     {
         public static void SetOn(this Device device, Mtrf64Context mtrfDev)
         {
-            if (device.Type == NooDevType.PowerUnitF)
+            if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
                 mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.On, addrF: device.Addr, MtrfMode: NooCtr.SendByAdr);
             }
-            else if (device.Type == NooDevType.PowerUnit)
+            else if (device.Type == DeviceTypeEnum.PowerUnit)
             {
                 mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.On);
             }
         }
         public static void SetOff(this Device device, Mtrf64Context mtrfDev)
         {
-            if (device.Type == NooDevType.PowerUnitF)
+            if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
                 mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.Off, addrF: device.Addr, MtrfMode: NooCtr.SendByAdr);
             }
-            else if (device.Type == NooDevType.PowerUnit)
+            else if (device.Type == DeviceTypeEnum.PowerUnit)
             {
                 mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.Off);
             }
         }
         public static void SetSwitch(this Device device, Mtrf64Context mtrfDev)
         {
-            if (device.Type == NooDevType.PowerUnitF)
+            if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
                 mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.Switch, addrF: device.Addr, MtrfMode: NooCtr.SendByAdr);
             }
-            else if (device.Type == NooDevType.PowerUnit)
+            else if (device.Type == DeviceTypeEnum.PowerUnit)
             {
                 if (device.State != 0)
                 {
@@ -52,12 +52,12 @@ namespace Home.Web.Extensions
         public static void SetBright(this Device device, Mtrf64Context mtrfDev, int brightLvl)
         {
             int devBrightLvl = 0;
-            if (device.Type == NooDevType.PowerUnitF)
+            if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
                 devBrightLvl = Buf.Round(((float)brightLvl / 100) * 255);
                 mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.SetBrightness, addrF: device.Addr, d0: devBrightLvl, MtrfMode: NooCtr.SendByAdr);
             }
-            else if (device.Type == NooDevType.PowerUnit)
+            else if (device.Type == DeviceTypeEnum.PowerUnit)
             {
                 devBrightLvl = Buf.Round(28 + ((float)brightLvl / 100) * 128);
                 mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.SetBrightness, fmt: 1, d0: devBrightLvl);
@@ -65,7 +65,7 @@ namespace Home.Web.Extensions
         }
         public static void ReadSetBrightAnswer(this Device device, Buf rxBuf)
         {
-            if (device.Type == NooDevType.PowerUnit)
+            if (device.Type == DeviceTypeEnum.PowerUnit)
             {
                 if (rxBuf.D0 >= 28)
                 {
@@ -89,7 +89,7 @@ namespace Home.Web.Extensions
         }
         public static void ReadState(this Device device, Buf rxBuf)
         {
-            if (device.Type == NooDevType.PowerUnitF)
+            if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
                 device.ExtDevType = rxBuf.D0;
                 device.FirmwareVer = rxBuf.D1;
@@ -111,7 +111,7 @@ namespace Home.Web.Extensions
         {
             switch (device.Type)
             {
-                case NooDevType.PowerUnit:
+                case DeviceTypeEnum.PowerUnit:
                     mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.Unbind);
                     break;
 

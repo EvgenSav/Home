@@ -29,7 +29,7 @@ namespace Home.Web.Services
         }
 
         public int FindedChannel { get; private set; }
-        int SelectedType;
+        DeviceTypeEnum SelectedType;
         bool WaitingBindFlag = false;
 
         public Device Device { get; private set; }
@@ -44,7 +44,7 @@ namespace Home.Web.Services
             {
                 switch (SelectedType)
                 {
-                    case NooDevType.PowerUnit:
+                    case DeviceTypeEnum.PowerUnit:
                         if (_mtrf64Context.RxBuf.Cmd == NooCmd.Bind && FindedChannel == _mtrf64Context.RxBuf.Ch &&
                             _mtrf64Context.RxBuf.Mode == NooMode.Tx)
                         {
@@ -54,7 +54,7 @@ namespace Home.Web.Services
                             //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
                         break;
-                    case NooDevType.PowerUnitF:
+                    case DeviceTypeEnum.PowerUnitF:
                         if (_mtrf64Context.RxBuf.Mode == NooMode.FTx && _mtrf64Context.RxBuf.Ctr == NooCtr.BindModeEnable)
                         {
                             WaitingBindFlag = false;
@@ -67,7 +67,7 @@ namespace Home.Web.Services
                             //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
                         }
                         break;
-                    case NooDevType.Sensor:
+                    case DeviceTypeEnum.Sensor:
                         if (_mtrf64Context.RxBuf.Cmd == NooCmd.Bind && _mtrf64Context.RxBuf.Fmt == 1 &&
                             FindedChannel == _mtrf64Context.RxBuf.Ch && _mtrf64Context.RxBuf.Mode == NooMode.Rx)
                         {
@@ -110,14 +110,14 @@ namespace Home.Web.Services
             }
         }
 
-        public async Task<int> FindEmptyChannel(int mode)
+        public async Task<int> FindEmptyChannel(DeviceTypeEnum mode)
         {
             var devices = await _devicesService.GetDeviceList();
             //Noo-F mode
-            if (mode == NooDevType.PowerUnitF)
+            if (mode == DeviceTypeEnum.PowerUnitF)
             {
 
-                if (devices.Where(x => x.Type == NooDevType.PowerUnitF).Count() < 64) return 0;
+                if (devices.Where(x => x.Type == DeviceTypeEnum.PowerUnitF).Count() < 64) return 0;
                 else return -1; //noo F memory is Full
             }
             else
@@ -141,10 +141,10 @@ namespace Home.Web.Services
         {
             switch (SelectedType)
             {
-                case NooDevType.PowerUnit:
+                case DeviceTypeEnum.PowerUnit:
                     _mtrf64Context.UnbindTx(FindedChannel);
                     break;
-                case NooDevType.PowerUnitF:
+                case DeviceTypeEnum.PowerUnitF:
                     _mtrf64Context.UnbindFTx(Device.Addr);
                     break;
                 default:
@@ -155,7 +155,7 @@ namespace Home.Web.Services
 
         public void SendBind()
         {
-            if (SelectedType == NooDevType.PowerUnitF)
+            if (SelectedType == DeviceTypeEnum.PowerUnitF)
             {
                 _mtrf64Context.SendCmd(0, NooMode.FTx, NooCmd.Bind);
                 Status = "Waiting...";
@@ -209,15 +209,15 @@ namespace Home.Web.Services
 
                 switch (SelectedType)
                 {
-                    case NooDevType.PowerUnit:
+                    case DeviceTypeEnum.PowerUnit:
                         WaitingBindFlag = false;
                         Status = "Press Send Bind";
                         break;
-                    case NooDevType.PowerUnitF:
+                    case DeviceTypeEnum.PowerUnitF:
                         WaitingBindFlag = false;
                         Status = "Press service button";
                         break;
-                    default: //NooDevType.RemController or NooDevType.Sensor  
+                    default: //DeviceTypeEnum.RemController or DeviceTypeEnum.Sensor  
                         _mtrf64Context.SendCmd(FindedChannel, NooMode.Rx, 0, MtrfMode: NooCtr.BindModeEnable); //enable bind at finded channel
                         Status = "Press service button  on RC/sensor";
                         WaitingBindFlag = true;

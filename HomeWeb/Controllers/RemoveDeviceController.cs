@@ -7,6 +7,7 @@ using Driver.Mtrf64;
 using Home.Web.Extensions;
 using Home.Web.Services;
 using Home.Web.Hubs;
+using Home.Web.Models;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Home.Web.Controllers
@@ -41,10 +42,10 @@ namespace Home.Web.Controllers
             {
                 switch (device.Type)
                 {
-                    case NooDevType.PowerUnit:
+                    case DeviceTypeEnum.PowerUnit:
                         device.Unbind(mtrf64Context);
                         break;
-                    case NooDevType.PowerUnitF:
+                    case DeviceTypeEnum.PowerUnitF:
                         break;
                 }
             }

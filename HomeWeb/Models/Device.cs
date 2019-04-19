@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Driver.Mtrf64;
+using Home.Web.Extensions;
 using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -18,6 +19,17 @@ namespace Home.Web.Models
         SaveState = 0x01,
         Dimmable = 0x02,
         DefaultOn = 0x20
+    }
+    public enum DeviceTypeEnum
+    {
+        [DisplayName("Remote Controller")]
+        RemoteController = 0,
+        [DisplayName("Power Unit")]
+        PowerUnit = 1,
+        [DisplayName("Power UnitF")]
+        PowerUnitF = 2,
+        [DisplayName("Sensor")]
+        Sensor = 3
     }
 
     public class SettingsOperation
@@ -124,7 +136,7 @@ namespace Home.Web.Models
         {
         }
         public int Channel { get; set; }
-        public int Type { get; set; }
+        public DeviceTypeEnum Type { get; set; }
         public string Name { get; set; }
         public int State { get; set; }
         public int Addr { get; set; }
@@ -142,7 +154,7 @@ namespace Home.Web.Models
             return 0;
         }
 
-        public string GetDevTypeName()
+        /*public string GetDevTypeName()
         {
             string res = "";
             switch (Type)
@@ -198,6 +210,6 @@ namespace Home.Web.Models
                     break;
             }
             return res;
-        }
+        }*/
     }
 }

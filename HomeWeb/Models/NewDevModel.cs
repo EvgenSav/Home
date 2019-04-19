@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Home.Web.Models {
     public class NewDevModel {
-        public int DevType { get; set; }
+        public DeviceTypeEnum DevType { get; set; }
         public string Name { get; set; }
         public string Room { get; set; }
     }

@@ -73,7 +73,7 @@ namespace Home.Web.Services
                     case NooCmd.On:
                         if (rxBuf.Mode == NooMode.Tx)
                         {
-                            if (device.Type == NooDevType.PowerUnit)
+                            if (device.Type == DeviceTypeEnum.PowerUnit)
                             {
                                 device.State = 1;
                                 //todo: implement storing state

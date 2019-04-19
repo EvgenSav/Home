@@ -15,14 +15,14 @@ namespace Home.Web.Models
         public DateTime TimeStamp { get; set; }
         public int Cmd { get; set; }
         public int DeviceFk { get; set; }
-        public int DeviceTypeFk { get; set; }
+        public DeviceTypeEnum DeviceTypeFk { get; set; }
         public DeviceState State { get; set; }
         public Buf ReceivedBuffer { get; set; }
         public double? MeasuredData { get; set; }
         [JsonConstructor]
         public LogItem() { }
 
-        public LogItem(Buf receivedBuffer, int deviceTypeFk, DeviceState state, double? measuredData = null)
+        public LogItem(Buf receivedBuffer, DeviceTypeEnum deviceTypeFk, DeviceState state, double? measuredData = null)
         {
             ReceivedBuffer = receivedBuffer;
             TimeStamp = DateTime.Now;

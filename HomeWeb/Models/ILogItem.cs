@@ -16,7 +16,7 @@ namespace Home.Web.Models
         DateTime TimeStamp { get; set; }
         int Cmd { get; set; }
         int DeviceFk { get; set; }
-        int DeviceTypeFk { get; set; }
+        DeviceTypeEnum DeviceTypeFk { get; set; }
         DeviceState State { get; set; }
         Buf ReceivedBuffer { get; set; }
         double? MeasuredData { get; set; }
