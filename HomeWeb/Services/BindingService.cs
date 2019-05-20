@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using DataStorage;
 using Driver.Mtrf64;
 using Home.Web.Models;
 using Home.Web.Services;
@@ -17,13 +18,15 @@ namespace Home.Web.Services
         private readonly Mtrf64Context _mtrf64Context;
         private readonly NotificationService _notificationService;
         private readonly IMemoryCache _memoryCache;
-
-        public BindingService(DevicesService devicesService, Mtrf64Context mtrf64Context, NotificationService notificationService, IMemoryCache memoryCache)
+        private readonly IMongoDbStorage _mongoDbStorage;
+        private readonly string bindingCollectionName = "bindings";
+        public BindingService(DevicesService devicesService, Mtrf64Context mtrf64Context, NotificationService notificationService, IMemoryCache memoryCache, IMongoDbStorage mongoDbStorage)
         {
             _devicesService = devicesService;
             _mtrf64Context = mtrf64Context;
             _notificationService = notificationService;
             _memoryCache = memoryCache;
+            _mongoDbStorage = mongoDbStorage;
             mtrf64Context.DataReceived += Dev1_NewDataReceived;
             timer1.Elapsed += Tmr_Tick;
         }
@@ -38,6 +41,12 @@ namespace Home.Web.Services
         public string Status { get; private set; }
         Timer timer1 = new Timer();
 
+
+        public async Task<IEnumerable<BindRequest>> GetBindings()
+        {
+            var bindings = await _mongoDbStorage.GetItemsAsync<BindRequest>(bindingCollectionName);
+            return bindings;
+        }
         private async void Dev1_NewDataReceived(object sender, EventArgs e)
         {
             /*if (WaitingBindFlag)
