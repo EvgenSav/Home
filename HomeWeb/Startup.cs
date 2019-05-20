@@ -39,13 +39,13 @@ namespace Home.Web
         }
         public void OnStart()
         {
-            //BsonClassMap.RegisterClassMap<DatabaseModel>(r =>
-            //{
-            //    r.AutoMap();
-            //    r.SetIsRootClass(true);
-            //});
-            //BsonClassMap.RegisterClassMap<Device>();
-            //BsonClassMap.RegisterClassMap<LogItem>();
+            BsonClassMap.RegisterClassMap<DatabaseModel>(r =>
+            {
+                r.AutoMap();
+                r.SetIsRootClass(true);
+            });
+            BsonClassMap.RegisterClassMap<Device>();
+            BsonClassMap.RegisterClassMap<LogItem>();
         }
 
         Task WriteLog(string msg)
