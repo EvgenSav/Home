@@ -23,6 +23,7 @@
     <None Remove="ClientApp\**" />
     <None Remove="ClientApp_\**" />
     <None Remove="ClientOld\**" />
+    <None Remove="dist\**" />
     <None Remove="node_modules_\**" />
   </ItemGroup>
 
