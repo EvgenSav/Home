@@ -1,33 +1,20 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using DataStorage;
 using Home.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.AspNetCore.SpaServices.Webpack;
-using Microsoft.AspNetCore.StaticFiles.Infrastructure;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Home.Web.Hubs;
 using Home.Web.Models;
 using MongoDB.Bson.Serialization;
 using Driver.Mtrf64;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.SpaServices.Webpack;
+
 namespace Home.Web
 {
     public class Startup
@@ -64,8 +51,7 @@ namespace Home.Web
             services.AddSingleton<DevicesService>();
             services.AddSingleton<ActionLogService>();
             var mtrf = new Mtrf64Context();
-            var connected = new List<MtrfModel>();
-            connected = Task.Run(async () => await mtrf.GetAvailableComPorts()).Result;
+            var connected = Task.Run(async () => await mtrf.GetAvailableComPorts()).Result;
             if (connected.Count > 0)
             {
                 mtrf.OpenPort(connected[0]);
@@ -83,11 +69,14 @@ namespace Home.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
 
-            });            
+            });
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
             services.AddControllers();
-            services.AddMvc().AddNewtonsoftJson();
-            services.AddSignalR();
-            _serviceProvider = services.BuildServiceProvider();
+            //services.AddRazorPages();
+            services.AddSignalR().AddNewtonsoftJsonProtocol();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,10 +88,7 @@ namespace Home.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions { HotModuleReplacement = true });
             }
             else
             {

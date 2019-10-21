@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using System.Timers;
 using DataStorage;
 using Driver.Mtrf64;
+using Home.Web.Extensions;
 using Home.Web.Models;
 using Home.Web.Services;
 using Microsoft.Extensions.Caching.Memory;
+using MongoDB.Bson;
 
 
 namespace Home.Web.Services
@@ -27,7 +29,7 @@ namespace Home.Web.Services
             _notificationService = notificationService;
             _memoryCache = memoryCache;
             _mongoDbStorage = mongoDbStorage;
-            mtrf64Context.DataReceived += Dev1_NewDataReceived;
+            mtrf64Context.DataReceived += DataReceived;
             timer1.Elapsed += Tmr_Tick;
         }
 
@@ -44,10 +46,37 @@ namespace Home.Web.Services
 
         public async Task<IEnumerable<BindRequest>> GetBindings()
         {
-            var bindings = await _mongoDbStorage.GetItemsAsync<BindRequest>(bindingCollectionName);
-            return bindings;
+            var bindRequests = _memoryCache.GetCollection<BindRequest>();
+            if (bindRequests.Any() == false)
+            {
+                bindRequests = await GetFromDb();
+                _memoryCache.StoreCollection(bindRequests);
+
+            }
+            return await Task.FromResult(bindRequests);
         }
-        private async void Dev1_NewDataReceived(object sender, EventArgs e)
+
+        private async Task<IEnumerable<BindRequest>> GetFromDb()
+        {
+            return await _mongoDbStorage.GetItemsAsync<BindRequest>(bindingCollectionName);
+        }
+        public async Task<BindRequest> CreateBindRequest(BindRequest model)
+        {
+            await _mongoDbStorage.AddAsync<BindRequest>(bindingCollectionName, model);
+            _memoryCache.StoreCollectionItem(model);
+            return model;
+        }
+
+        public async Task<BindRequest> GetById(ObjectId id)
+        {
+            var bindings = await GetBindings();
+            return bindings.FirstOrDefault(r => r.Id == id);
+        }
+        public async Task Update(BindRequest model)
+        {
+            await _mongoDbStorage.UpdateByIdAsync<BindRequest, ObjectId>(bindingCollectionName, r => r.Id, model);
+        }
+        private async void DataReceived(object sender, BufferEventArgs e)
         {
             /*if (WaitingBindFlag)
             {
@@ -126,7 +155,7 @@ namespace Home.Web.Services
             if (mode == DeviceTypeEnum.PowerUnitF)
             {
 
-                if (devices.Where(x => x.Type == DeviceTypeEnum.PowerUnitF).Count() < 64) return 0;
+                if (devices.Count(x => x.Type == DeviceTypeEnum.PowerUnitF) < 64) return 0;
                 else return -1; //noo F memory is Full
             }
             else

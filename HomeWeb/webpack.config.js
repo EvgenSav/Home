@@ -26,24 +26,24 @@ module.exports = {
                 test: /\.css$/,
                 loader: ["style-loader", "css-loader"]
             },
-        {
-            test: /\.ts$/,
-            loaders: ["awesome-typescript-loader", "angular2-template-loader"],
-            exclude: [/node_modules/, /\.(spec|e2e)\.ts$/]
-        },
-        {
-            test: /\.ts$/,
-            enforce: "pre",
-            loader: 'tslint-loader'
-        },
-        {
-            test: /\.scss$/,
-            loader: ["to-string-loader", "style-loader", "css-loader?sourceMap", "sass-loader?sourceMap"],
-            //use: [
-            //    {
-            //        loader: "to-string-loader"  //
-            //    }]
-        },
+            {
+                test: /\.ts$/,
+                loaders: ["awesome-typescript-loader", "angular2-template-loader"],
+                exclude: [/node_modules/, /\.(spec|e2e)\.ts$/]
+            },
+            {
+                test: /\.ts$/,
+                enforce: "pre",
+                loader: 'tslint-loader'
+            },
+            {
+                test: /\.scss$/,
+                loader: ["to-string-loader", "style-loader", "css-loader?sourceMap", "sass-loader?sourceMap"],
+                //use: [
+                //    {
+                //        loader: "to-string-loader"  //
+                //    }]
+            },
             {
                 test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
                 loader: 'file-loader?name=[name].[ext]'  // <-- retain original file name
@@ -62,18 +62,26 @@ module.exports = {
         }
     },
     plugins: [
-      new HtmlWebpackPlugin({
-          template: "client/src/index.html",
-          favicon: "client/src/favicon.ico",
-          inject: "body"
-      }),
-      new webpack.ContextReplacementPlugin(
-        /\@angular(\\|\/)core(\\|\/)fesm5/,
-        path.resolve(__dirname, 'client/src'), {}
-      )
+        new HtmlWebpackPlugin({
+            template: "client/src/index.html",
+            favicon: "client/src/favicon.ico",
+            inject: "body"
+        }),
+        new webpack.ContextReplacementPlugin(
+            /\@angular(\\|\/)core(\\|\/)fesm5/,
+            path.resolve(__dirname, 'client/src'), {}
+        )
     ],
     devtool: "source-map",
     devServer: {
-        historyApiFallback: true
+        historyApiFallback: true,
+        /*proxy: {
+            '/api': {                                 /* I had only to track calls to api, change path to one you need#1#
+                target: 'http://localhost:5000/'     /* specify your correct IIS port here #1#
+            },
+            '/devicesHub': {                                 /* I had only to track calls to api, change path to one you need#2#
+                target: 'http://localhost:5000/'     /* specify your correct IIS port here #2# #1#
+            }
+        }*/
     }
 };

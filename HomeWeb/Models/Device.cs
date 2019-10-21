@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Driver.Mtrf64;
 using Home.Web.Extensions;
-using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;

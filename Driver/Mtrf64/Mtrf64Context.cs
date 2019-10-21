@@ -110,7 +110,7 @@ namespace Driver.Mtrf64
                 OpenPort(portName);
                 SendCmd(0, NooMode.Service, 0, MtrfMode: NooCtr.ReadAnswer);
                 //todo: timeout 50s is for debug purposes only, otherwise change it to 1s 
-                _answerReceived2.WaitOne(50000);
+                _answerReceived2.WaitOne(1000);
                 ClosePort(portName);
                 var getOk = _receivedQueue.TryDequeue(out var rxBuf);
                 if (getOk && rxBuf.Length == 17)

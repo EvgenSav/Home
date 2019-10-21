@@ -78,5 +78,10 @@ namespace Home.Web.Services
             var dev = await GetByIdAsync(devId);
             dev.SetSwitch(mtrf64Context);
         }
+        public async Task SetBright(int devId, int bright)
+        {
+            var dev = await GetByIdAsync(devId);
+            dev.SetBright(mtrf64Context, bright);
+        }
     }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Home.Web.Models;
 using Home.Web.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,28 +21,28 @@ namespace Home.Web.Controllers.Api
         }
         // GET: api/<controller>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IEnumerable<Device>> Get()
         {
             var devices = await _devicesService.GetDeviceList();
-            return Ok(devices);
+            return devices;
         }
 
         // GET api/<controller>/5
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<Device> GetById(int id)
         {
             var device = await _devicesService.GetByIdAsync(id);
-            return Ok(device);
+            return device;
         }
         // Patch api/<controller>/5
         [HttpPatch("{id:int}")]
-        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<Device> patch)
+        public async Task<Device> Patch(int id, [FromBody] JsonPatchDocument<Device> patch)
         {
             var device = await _devicesService.GetByIdAsync(id);
             patch.ApplyTo(device);
             await _devicesService.Update(device);
             await _notificationService.NotifyAll(ActionType.UpdateDevice, device);
-            return Ok(device);
+            return device;
         }
         [HttpPatch("{devId:int}/settings/{settingType:int}")]
         public async Task<IActionResult> PatchSettings(int devId, int settingType, [FromBody]JsonPatchDocument patch)
@@ -72,6 +69,12 @@ namespace Home.Web.Controllers.Api
         public async Task<IActionResult> Switch(int id)
         {
             await _devicesService.Switch(id);
+            return Ok();
+        }
+        [HttpGet("{id:int}/Brightness/{bright:int}")]
+        public async Task<IActionResult> SetBrightness(int id, int bright)
+        {
+            await _devicesService.SetBright(id, bright);
             return Ok();
         }
     }

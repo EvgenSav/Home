@@ -1,29 +1,29 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es6",
-        "moduleResolution": "node",
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "lib": [
-            "es2015",
-            "dom"
-        ],
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "noImplicitAny": true,
-        "sourceMap": true,
-        "suppressImplicitAnyIndexErrors": true
-    },
-    "rules": {
-        "member-access": false,
-        "eofline": false,
-        "object-literal-sort-keys": false
-    },
-    "exclude": [
-      "src/node_modules",
-      "src/e2e",
-      "**/*.spec.ts"    
-    ]
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "suppressImplicitAnyIndexErrors": true
+  },
+  "rules": {
+    "member-access": false,
+    "eofline": false,
+    "object-literal-sort-keys": false
+  },
+  "exclude": [
+    "src/node_modules",
+    "src/e2e",
+    "**/*.spec.ts"
+  ]
 }

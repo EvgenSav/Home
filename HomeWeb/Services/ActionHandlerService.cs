@@ -103,6 +103,7 @@ namespace Home.Web.Services
                         break;
                     case NooCmd.SetBrightness:
                         device.ReadSetBrightAnswer(rxBuf);
+                        await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null));
                         break;
                     case NooCmd.Unbind:
                         //_mtrf64Context.Unbind(_mtrf64Context.rxBuf.Ch, _mtrf64Context.rxBuf.Mode);

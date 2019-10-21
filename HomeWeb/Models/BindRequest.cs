@@ -8,7 +8,8 @@ namespace Home.Web.Models
     public class BindRequest : DatabaseModel
     {
         public int? DeviceFk { get; set; }
-        public DeviceTypeEnum DeviceType { get; set; }
+        public DateTime? BindTime { get; set; }
+        public DeviceTypeEnum Type { get; set; }
         public string Name { get; set; }
     }
 }

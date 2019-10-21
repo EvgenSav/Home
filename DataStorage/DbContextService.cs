@@ -14,9 +14,7 @@ namespace DataStorage
         private readonly IMongoDatabase _db;
         public MongoDbStorageService()
         {
-            /*var connection = new MongoUrlBuilder("mongodb://192.168.0.104:27017");*/
-            //_client = new MongoClient("mongodb://localhost:27017");
-            _client = new MongoClient("mongodb://192.168.0.104:27017");
+            _client = new MongoClient("mongodb://localhost:27017");
             _db = _client.GetDatabase("home");
         }
 
