@@ -145,16 +145,12 @@ namespace Driver.Mtrf64
             {
                 if (rxBuf.GetCrc == rxBuf.Crc)
                 {
-                    //if (DataReceived != null)
-                    //{
                     _receivedQueue.Enqueue(rxBuf);
                     if (_seqReadReceived.Status != TaskStatus.Running && _searchMtrfTask.Status == TaskStatus.RanToCompletion)
                     {
                         _seqReadReceived = new Task(ReadReceivedTask);
                         _seqReadReceived.Start();
                     }
-                    //DataReceived(this, EventArgs.Empty);
-                    //}
                     Thread.Sleep(25);
                     _answerReceived.Set();
                     _answerReceived2.Set();

@@ -17,8 +17,8 @@ namespace Home.Web
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateHostBuilder(string[] args) => 
-            WebHost.CreateDefaultBuilder<Startup>(args)
-                /*.UseKestrel(r=>r.ListenAnyIP(80))*/;
+        public static IWebHostBuilder CreateHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder<Startup>(args);
+
     }
 }

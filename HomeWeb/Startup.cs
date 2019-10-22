@@ -13,6 +13,8 @@ using Home.Web.Hubs;
 using Home.Web.Models;
 using MongoDB.Bson.Serialization;
 using Driver.Mtrf64;
+using Home.Web.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 
 namespace Home.Web
@@ -70,11 +72,12 @@ namespace Home.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
 
             });
-            services.Configure<IISServerOptions>(options =>
+            services.Configure<JsonOptions>(config =>
             {
-                options.AutomaticAuthentication = false;
+                config.JsonSerializerOptions.Converters.Add(new ObjectIdConverter());
             });
-            services.AddControllers();
+            services.Configure<IISServerOptions>(options => { options.AutomaticAuthentication = false; });
+            services.AddControllers().AddNewtonsoftJson();
             //services.AddRazorPages();
             services.AddSignalR().AddNewtonsoftJsonProtocol();
         }
@@ -95,7 +98,6 @@ namespace Home.Web
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseDefaultFiles();
-            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseCookiePolicy();

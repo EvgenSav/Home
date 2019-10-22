@@ -76,64 +76,80 @@ namespace Home.Web.Services
         {
             await _mongoDbStorage.UpdateByIdAsync<BindRequest, ObjectId>(bindingCollectionName, r => r.Id, model);
         }
+
+        private int GetDevMode(DeviceTypeEnum type)
+        {
+            switch (type)
+            {
+                case DeviceTypeEnum.RemoteController:
+                    return NooMode.Rx;
+                case DeviceTypeEnum.Sensor:
+                    return NooMode.Rx;
+                case DeviceTypeEnum.PowerUnit:
+                    return NooMode.Tx;
+                case DeviceTypeEnum.PowerUnitF:
+                    return NooMode.FTx;
+                default: 
+                    return 0;
+            }
+        }
         private async void DataReceived(object sender, BufferEventArgs e)
         {
-            /*if (WaitingBindFlag)
+            var pendingList = (await GetBindings())
+                .Where(r => r.Step == BindRequestStepEnum.Pending && GetDevMode(r.Type) == e.Buffer.Mode)
+                .ToList();
+            if (pendingList.Any())
             {
-                switch (SelectedType)
+                foreach (var request in pendingList)
                 {
-                    case DeviceTypeEnum.PowerUnit:
-                        if (_mtrf64Context.RxBuf.Cmd == NooCmd.Bind && FindedChannel == _mtrf64Context.RxBuf.Ch &&
-                            _mtrf64Context.RxBuf.Mode == NooMode.Tx)
-                        {
-                            Status = "Bind to TX device send!";
-                            await _notificationService.NotifyAll<Device, string>(ActionType.BindReceived, Device,
-                                Status);
-                            //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
-                        }
-                        break;
-                    case DeviceTypeEnum.PowerUnitF:
-                        if (_mtrf64Context.RxBuf.Mode == NooMode.FTx && _mtrf64Context.RxBuf.Ctr == NooCtr.BindModeEnable)
-                        {
-                            WaitingBindFlag = false;
-                            Device.Addr = _mtrf64Context.RxBuf.AddrF;
-                            KeyToAdd = Device.Addr;
-                            Device.Key = KeyToAdd;
-                            Status = "Bind F-TX accepted";
-                            await _notificationService.NotifyAll<Device, string>(ActionType.BindReceived, Device,
-                                Status);
-                            //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
-                        }
-                        break;
-                    case DeviceTypeEnum.Sensor:
-                        if (_mtrf64Context.RxBuf.Cmd == NooCmd.Bind && _mtrf64Context.RxBuf.Fmt == 1 &&
-                            FindedChannel == _mtrf64Context.RxBuf.Ch && _mtrf64Context.RxBuf.Mode == NooMode.Rx)
-                        {
-                            WaitingBindFlag = false;
-                            Device.ExtDevType = _mtrf64Context.RxBuf.D0;
-                            KeyToAdd = FindedChannel;
-                            Device.Key = KeyToAdd;
-                            Status = "Bind from sensor accepted";
-                            await _notificationService.NotifyAll<Device, string>(ActionType.BindReceived, Device,
-                                Status);
-                            //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
-                        }
-                        break;
-                    default:
-                        if (_mtrf64Context.RxBuf.Cmd == NooCmd.Bind && FindedChannel == _mtrf64Context.RxBuf.Ch
-                            && _mtrf64Context.RxBuf.Mode == 1)
-                        {
-                            WaitingBindFlag = false;
-                            KeyToAdd = FindedChannel;
-                            Device.Key = KeyToAdd;
-                            Status = "Bind from RC accepted";
-                            await _notificationService.NotifyAll<Device, string>(ActionType.BindReceived, Device,
-                                Status);
-                            //await hubContext.Clients.All.SendAsync("BindReceived", Device, Status);
-                        }
-                        break;
+                    switch (request.Type)
+                    {
+                        case DeviceTypeEnum.PowerUnit:
+                            if (e.Buffer.Cmd == NooCmd.Bind && FindedChannel == e.Buffer.Ch &&
+                                e.Buffer.Mode == NooMode.Tx)
+                            {
+                                /*Status = "Bind to TX device send!";*/
+                                await _notificationService.NotifyAll(ActionType.BindReceived, Device, Status);
+                            }
+                            break;
+                        case DeviceTypeEnum.PowerUnitF:
+                            if (e.Buffer.Mode == NooMode.FTx && e.Buffer.Ctr == NooCtr.BindModeEnable)
+                            {
+                                WaitingBindFlag = false;
+                                Device.Addr = e.Buffer.AddrF;
+                                KeyToAdd = Device.Addr;
+                                Device.Key = KeyToAdd;
+                                /*Status = "Bind F-TX accepted";*/
+                                await _notificationService.NotifyAll(ActionType.BindReceived, Device, Status);
+
+                            }
+                            break;
+                        case DeviceTypeEnum.Sensor:
+                            if (e.Buffer.Cmd == NooCmd.Bind && e.Buffer.Fmt == 1 &&
+                                FindedChannel == e.Buffer.Ch && e.Buffer.Mode == NooMode.Rx)
+                            {
+                                WaitingBindFlag = false;
+                                Device.ExtDevType = e.Buffer.D0;
+                                KeyToAdd = FindedChannel;
+                                Device.Key = KeyToAdd;
+                                /*Status = "Bind from sensor accepted";*/
+                                await _notificationService.NotifyAll(ActionType.BindReceived, Device, Status);
+                            }
+                            break;
+                        default:
+                            if (e.Buffer.Cmd == NooCmd.Bind && FindedChannel == e.Buffer.Ch
+                                && e.Buffer.Mode == NooMode.Rx)
+                            {
+                                WaitingBindFlag = false;
+                                KeyToAdd = FindedChannel;
+                                Device.Key = KeyToAdd;
+                                /*Status = "Bind from RC accepted";*/
+                                await _notificationService.NotifyAll(ActionType.BindReceived, Device, Status);
+                            }
+                            break;
+                    }
                 }
-            }*/
+            }
         }
 
 
@@ -156,12 +172,15 @@ namespace Home.Web.Services
             {
 
                 if (devices.Count(x => x.Type == DeviceTypeEnum.PowerUnitF) < 64) return 0;
-                else return -1; //noo F memory is Full
+                return -1; //noo F memory is Full
             }
             else
             { //Noo
+                var memoryCells = Enumerable.Range(0, 64);
+                var free = memoryCells.Except(devices.Where(r => r.Key <= 63).Select(r => r.Key));
                 for (var i = 0; i < 64; i++)
                 {
+                    
                     if (devices.Any(r => r.Key == i))
                     {
                         continue;
@@ -191,9 +210,10 @@ namespace Home.Web.Services
             }
         }
 
-        public void SendBind()
+        public async Task ExecuteRequest(ObjectId requestId)
         {
-            if (SelectedType == DeviceTypeEnum.PowerUnitF)
+            var request = await GetById(requestId);
+            if (request.Type == DeviceTypeEnum.PowerUnitF)
             {
                 _mtrf64Context.SendCmd(0, NooMode.FTx, NooCmd.Bind);
                 Status = "Waiting...";

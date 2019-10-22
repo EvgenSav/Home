@@ -34,17 +34,18 @@ namespace Home.Web.Controllers.Api
             return bindRequest;
         }
         [HttpPatch("{bindRequestId}")]
-        public async Task<BindRequest> PatchBinding(string bindRequestId, [FromBody] JsonPatchDocument patch)
+        public async Task<BindRequest> PatchBinding(string bindRequestId, [FromBody] JsonPatchDocument<BindRequest> patch)
         {
             var bindRequest = await _bindingService.GetById(ObjectId.Parse(bindRequestId));
             patch.ApplyTo(bindRequest);
             await _bindingService.Update(bindRequest);
             return bindRequest;
         }
-        [HttpGet("Execute/{bindRequestId}")]
+        [HttpGet("ExecuteRequest/{bindRequestId}")]
         public async Task<IActionResult> ExecuteBindRequest(string bindRequestId)
         {
-            _bindingService.SendBind();
+            var requestId = ObjectId.Parse(bindRequestId);
+            await _bindingService.ExecuteRequest(requestId);
             return Ok();
         }
     }

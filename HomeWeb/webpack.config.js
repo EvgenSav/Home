@@ -70,18 +70,20 @@ module.exports = {
         new webpack.ContextReplacementPlugin(
             /\@angular(\\|\/)core(\\|\/)fesm5/,
             path.resolve(__dirname, 'client/src'), {}
-        )
+        ),
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin()
     ],
     devtool: "source-map",
     devServer: {
         historyApiFallback: true,
-        /*proxy: {
-            '/api': {                                 /* I had only to track calls to api, change path to one you need#1#
-                target: 'http://localhost:5000/'     /* specify your correct IIS port here #1#
+        proxy: {
+            '/api': {                                 
+                target: 'http://localhost'     /* specify your correct IIS port here */
             },
-            '/devicesHub': {                                 /* I had only to track calls to api, change path to one you need#2#
-                target: 'http://localhost:5000/'     /* specify your correct IIS port here #2# #1#
+            '/devicesHub': {                                
+                target: 'http://localhost'     /* specify your correct IIS port here #1# */
             }
-        }*/
+        }
     }
 };
