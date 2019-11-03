@@ -41,7 +41,7 @@ namespace Home.Web.Controllers.Api
             var device = await _devicesService.GetByIdAsync(id);
             patch.ApplyTo(device);
             await _devicesService.Update(device);
-            await _notificationService.NotifyAll(ActionType.UpdateDevice, device);
+            await _notificationService.NotifyAll(ActionType.DeviceUpdated, device);
             return device;
         }
         [HttpPatch("{devId:int}/settings/{settingType:int}")]

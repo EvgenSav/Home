@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=development",
-    "webpack-dev-server": "webpack-dev-server --color --inline  --hot --watch"
+    "webpack-dev-server": "webpack-dev-server --config webpack.development.js --color --inline  --hot --watch"
   },
   "repository": {
     "type": "git",
@@ -44,7 +44,8 @@
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.5.1",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@angular/common": "^7.0.0",
@@ -55,6 +56,7 @@
     "@angular/platform-browser": "^7.0.0",
     "@angular/platform-browser-dynamic": "^7.0.0",
     "@angular/router": "^7.0.0",
+    "@ng-idle/core": "^8.0.0-beta.4",
     "clean-webpack-plugin": "^1.0.0",
     "core-js": "^2.5.4",
     "rxjs": "^6.3.3",

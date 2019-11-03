@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Home.Web.Domain;
 using Home.Web.Models;
 using Home.Web.Services;
 using Microsoft.AspNetCore.Http;
@@ -15,37 +16,37 @@ namespace Home.Web.Controllers.Api
     [ApiController]
     public class BindingController : ControllerBase
     {
-        private readonly BindingService _bindingService;
+        private readonly RequestService _requestService;
 
-        public BindingController(BindingService bindingService)
+        public BindingController(RequestService requestService)
         {
-            _bindingService = bindingService;
+            _requestService = requestService;
         }
         [HttpGet]
-        public async Task<IEnumerable<BindRequest>> GetBindings()
+        public async Task<IEnumerable<RequestDbo>> GetBindings()
         {
-            var bindings = await _bindingService.GetBindings();
+            var bindings = await _requestService.GetBindings();
             return bindings;
         }
         [HttpPost]
-        public async Task<BindRequest> CreateBinding([FromBody] BindRequest bindRequestModel)
+        public async Task<RequestDbo> CreateBinding([FromBody] RequestDbo requestDboModel)
         {
-            var bindRequest = await _bindingService.CreateBindRequest(bindRequestModel);
+            var bindRequest = await _requestService.CreateBindRequest(requestDboModel);
             return bindRequest;
         }
         [HttpPatch("{bindRequestId}")]
-        public async Task<BindRequest> PatchBinding(string bindRequestId, [FromBody] JsonPatchDocument<BindRequest> patch)
+        public async Task<RequestDbo> PatchBinding(string bindRequestId, [FromBody] JsonPatchDocument<RequestDbo> patch)
         {
-            var bindRequest = await _bindingService.GetById(ObjectId.Parse(bindRequestId));
+            var bindRequest = await _requestService.GetById(ObjectId.Parse(bindRequestId));
             patch.ApplyTo(bindRequest);
-            await _bindingService.Update(bindRequest);
+            await _requestService.Update(bindRequest);
             return bindRequest;
         }
         [HttpGet("ExecuteRequest/{bindRequestId}")]
         public async Task<IActionResult> ExecuteBindRequest(string bindRequestId)
         {
             var requestId = ObjectId.Parse(bindRequestId);
-            await _bindingService.ExecuteRequest(requestId);
+            await _requestService.ExecuteRequest(requestId);
             return Ok();
         }
     }

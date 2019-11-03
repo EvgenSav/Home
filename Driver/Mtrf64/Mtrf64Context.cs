@@ -18,6 +18,13 @@ namespace Driver.Mtrf64
         OnLvl = 18
     }
 
+    public enum CmdSendStatus
+    {
+        Ok,
+        PortClosed,
+        Error
+    }
+
     public class BufferEventArgs : EventArgs
     {
         private readonly Buf _buffer;
@@ -28,8 +35,9 @@ namespace Driver.Mtrf64
         public Buf Buffer => _buffer;
     }
 
-    public class Mtrf64Context
+    public class Mtrf64Context : IDisposable
     {
+        private bool _isInitialezed = false;
         private readonly ConcurrentQueue<Buf> _transmitQueue = new ConcurrentQueue<Buf>();
         private readonly ConcurrentQueue<Buf> _receivedQueue = new ConcurrentQueue<Buf>();
 
@@ -37,7 +45,7 @@ namespace Driver.Mtrf64
         public event EventHandler DataSent;
         private readonly SerialPortStream _serialPort;
 
-        private readonly Timer _cmdQueueTmr;
+        //private readonly Timer _cmdQueueTmr;
         private Task _seqCmdSend;
         private Task _seqReadReceived;
         private Task<List<MtrfModel>> _searchMtrfTask;
@@ -45,7 +53,8 @@ namespace Driver.Mtrf64
         private readonly ManualResetEvent _answerReceived = new ManualResetEvent(true);
         private readonly ManualResetEvent _answerReceived2 = new ManualResetEvent(false);
 
-        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource _txTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource _rxTokenSource = new CancellationTokenSource();
 
         public Mtrf64Context()
         {
@@ -57,54 +66,60 @@ namespace Driver.Mtrf64
                 Parity = Parity.None
             };
 
-            _cmdQueueTmr = new Timer(100);
-            _cmdQueueTmr.Elapsed += CmdQueueTmr_Elapsed;
-            _cmdQueueTmr.AutoReset = false;
+            //_cmdQueueTmr = new Timer(100);
+            //_cmdQueueTmr.Elapsed += CmdQueueTmr_Elapsed;
+            //_cmdQueueTmr.AutoReset = false;
 
-            _seqCmdSend = new Task(CmdSendTask);
-            _seqReadReceived = new Task(ReadReceivedTask);
+            _seqCmdSend = new Task(CmdSendTask, _txTokenSource.Token, TaskCreationOptions.RunContinuationsAsynchronously);
+            _seqCmdSend.Start();
+            _seqReadReceived = new Task(ReadReceivedTask, _rxTokenSource.Token, TaskCreationOptions.RunContinuationsAsynchronously);
+            _seqReadReceived.Start();
             _searchMtrfTask = new Task<List<MtrfModel>>(SearchMtrf);
         }
 
 
         //Task for sequentially reading 
-        private void ReadReceivedTask()
+        private void ReadReceivedTask(object token)
         {
-            while (_receivedQueue.Count != 0)
+            var cancelToken = (CancellationToken) token;
+            while (cancelToken.IsCancellationRequested == false)
             {
-                var getOk = _receivedQueue.TryDequeue(out var bufferedData);
-                if (getOk && DataReceived != null)
+                if (_isInitialezed)
                 {
-                    DataReceived(this, new BufferEventArgs(bufferedData));
+                   if(_receivedQueue.TryDequeue(out var bufferedData)) DataReceived?.Invoke(this, new BufferEventArgs(bufferedData));
                 }
 
             }
         }
         //Task for sequentially transmitting 
-        private async void CmdSendTask()
+        private async void CmdSendTask(object token)
         {
-            while (_transmitQueue.Count != 0)
+            var cancelToken = (CancellationToken) token;
+            while (cancelToken.IsCancellationRequested == false)
             {
-                _answerReceived.WaitOne(5000);
-                _answerReceived.Reset();
-                _transmitQueue.TryDequeue(out var bufferedData);
-                await SendData(bufferedData);
+                while (!_transmitQueue.IsEmpty && _isInitialezed)
+                {
+                    if (_transmitQueue.TryDequeue(out var bufferedData)) await SendData(bufferedData);
+                    _answerReceived.WaitOne(5000);
+                    _answerReceived.Reset();
+                }
+                
             }
         }
 
-        private void CmdQueueTmr_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            if (_seqCmdSend.Status != TaskStatus.Running)
-            {
-                _seqCmdSend = new Task(new Action(CmdSendTask));
-                _seqCmdSend.Start();
-            }
-        }
+        //private void CmdQueueTmr_Elapsed(object sender, ElapsedEventArgs e)
+        //{
+        //    if (_seqCmdSend.Status != TaskStatus.Running)
+        //    {
+        //        _seqCmdSend = new Task(new Action(CmdSendTask));
+        //        _seqCmdSend.Start();
+        //    }
+        //}
 
         private List<MtrfModel> SearchMtrf()
         {
             var ports = SerialPortStream.GetPortNames();
-            var connectedMtrfs = new List<MtrfModel>();
+            var connected = new List<MtrfModel>();
             foreach (var portName in ports)
             {
                 OpenPort(portName);
@@ -112,17 +127,17 @@ namespace Driver.Mtrf64
                 //todo: timeout 50s is for debug purposes only, otherwise change it to 1s 
                 _answerReceived2.WaitOne(1000);
                 ClosePort(portName);
-                var getOk = _receivedQueue.TryDequeue(out var rxBuf);
-                if (getOk && rxBuf.Length == 17)
+                if (_receivedQueue.TryDequeue(out var rxBuf) && rxBuf.Length == 17)
                 {
                     if (rxBuf.AddrF != 0)
                     {
-                        connectedMtrfs.Add(new MtrfModel(portName, rxBuf.AddrF));
+                        connected.Add(new MtrfModel(portName, rxBuf.AddrF));
                     }
                 }
                 _answerReceived2.Reset();
             }
-            return connectedMtrfs;
+            _isInitialezed = true;
+            return connected;
         }
 
         public Task<List<MtrfModel>> GetAvailableComPorts()
@@ -140,34 +155,21 @@ namespace Driver.Mtrf64
         {
             var rxBuf = new Buf();
             var b1 = new BinaryReader(_serialPort);
-            rxBuf.LoadData(b1.ReadBytes(17));
-            if (rxBuf.Length == 17)
-            {
-                if (rxBuf.GetCrc == rxBuf.Crc)
+
+                rxBuf.LoadData(b1.ReadBytes(17));
+                if (rxBuf.Length == 17)
                 {
-                    _receivedQueue.Enqueue(rxBuf);
-                    if (_seqReadReceived.Status != TaskStatus.Running && _searchMtrfTask.Status == TaskStatus.RanToCompletion)
+                    if (rxBuf.GetCrc == rxBuf.Crc)
                     {
-                        _seqReadReceived = new Task(ReadReceivedTask);
-                        _seqReadReceived.Start();
+                        _receivedQueue.Enqueue(rxBuf);
+
+                        Thread.Sleep(25);
+                        
+                        _answerReceived.Set();
+                        _answerReceived2.Set();
                     }
-                    Thread.Sleep(25);
-                    _answerReceived.Set();
-                    _answerReceived2.Set();
                 }
-            }
-        }
-        public string ConnectedPortName {
-            get {
-                if (_serialPort != null && _serialPort.IsOpen)
-                {
-                    return _serialPort.PortName;
-                }
-                else
-                {
-                    return "Not connected";
-                }
-            }
+
         }
 
         public int ClosePort(string pName)
@@ -195,10 +197,7 @@ namespace Driver.Mtrf64
                 }
                 return 0;
             }
-            else
-            {
-                return -1;
-            }
+            return -1;
         }
         public int OpenPort(MtrfModel mtrf)
         {
@@ -212,46 +211,36 @@ namespace Driver.Mtrf64
                 }
                 return 0;
             }
-            else
-            {
-                return -1;
-            }
+            return -1;
         }
 
         void AddCmdToQueue(Buf buf)
         {
-            _cmdQueueTmr.Stop();
-            if (_transmitQueue.Count != 0)
-            {
-                _cmdQueueTmr.Interval = 100;
-            }
-            else
-            {
-                _cmdQueueTmr.Interval = 1;
-            }
-            System.Diagnostics.Debug.WriteLine(
-                $"{DateTime.Now.TimeOfDay}: Ch:{buf.Ch}, AddrF:{buf.AddrF}, Cmd:{buf.Cmd} Fmt:{buf.Fmt}, D0: {buf.D0}, D1:{buf.D1}, D2: {buf.D3}, D3: {buf.D3}");
+            //_cmdQueueTmr.Stop();
+            //if (_transmitQueue.Count != 0)
+            //{
+            //    _cmdQueueTmr.Interval = 100;
+            //}
+            //else
+            //{
+            //    _cmdQueueTmr.Interval = 1;
+            //}
             _transmitQueue.Enqueue(buf);
-            _cmdQueueTmr.Start();
+            //_cmdQueueTmr.Start();
         }
 
-        public async Task<int> SendData(Buf data)
+        public async Task<CmdSendStatus> SendData(Buf data)
         {
             if (_serialPort.IsOpen)
             {
                 _serialPort.BreakState = false;
                 await _serialPort.WriteAsync(data.GetBufData(), 0, 17);
                 _serialPort.Flush();
-                if (DataSent != null)
-                {
-                    DataSent(this, EventArgs.Empty);
-                }
-                return 1;
+
+                    DataSent?.Invoke(this, EventArgs.Empty);
+                    return CmdSendStatus.Ok;
             }
-            else
-            {
-                return 0;
-            }
+            return CmdSendStatus.PortClosed;
         }
 
         public string GetLogMsg(Buf buf)
@@ -354,6 +343,41 @@ namespace Driver.Mtrf64
                 await SendData(txBuf);
             }
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    _serialPort.Close();
+                    _serialPort.Dispose();
+                    
+                    _rxTokenSource.Cancel();
+                    _txTokenSource.Cancel();
+
+                    _answerReceived.Close();
+                    _answerReceived2.Close();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+        }
+        #endregion
     }
 
 }
@@ -368,11 +392,7 @@ public struct MtrfModel
     }
     public string ComPortName { get; }
     public int MtrfAddr { get; }
-    public string Info {
-        get {
-            return string.Format("{0}, MTRF64: {1}", ComPortName, MtrfAddr);
-        }
-    }
+    public string Info => $"{ComPortName}, MTRF64: {MtrfAddr}";
 }
 public static class NooCtr
 {

@@ -30,7 +30,7 @@ namespace Home.Web.Models
             DeviceFk = receivedBuffer.Id;
             DeviceTypeFk = deviceTypeFk;
             State = state;
-            /*switch (device.Type)
+            /*switch (device.DeviceType)
             {
                 case NooDevType.PowerUnitF:
                     State = new DeviceState

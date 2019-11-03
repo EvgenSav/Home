@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Clusters;
 
@@ -14,11 +15,26 @@ namespace DataStorage
         private readonly IMongoDatabase _db;
         public MongoDbStorageService()
         {
-            _client = new MongoClient("mongodb://localhost:27017");
+            _client = new MongoClient("mongodb://192.168.0.7:27017");
             _db = _client.GetDatabase("home");
         }
 
-        public bool IsConnected => _client.Cluster.Description.State == ClusterState.Connected;
+        public bool IsConnected
+        {
+            get
+            {
+                var command = new BsonDocumentCommand<BsonDocument>(new BsonDocument("ping",1));
+                try
+                {
+                    _db.RunCommand<BsonDocument>(command);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
 
         public async Task AddAsync<T>(string collection, T item)
         {

@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require("webpack");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
+const host = 'localhost';
+
 module.exports = {
     mode: 'development',
     resolve: {
@@ -75,15 +77,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     devtool: "source-map",
-    devServer: {
-        historyApiFallback: true,
-        proxy: {
-            '/api': {                                 
-                target: 'http://localhost'     /* specify your correct IIS port here */
-            },
-            '/devicesHub': {                                
-                target: 'http://localhost'     /* specify your correct IIS port here #1# */
-            }
-        }
+    stats: {
+        warnings: false
     }
 };

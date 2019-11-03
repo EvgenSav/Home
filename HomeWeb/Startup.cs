@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using DataStorage;
 using Home.Web.Services;
@@ -16,12 +18,12 @@ using Driver.Mtrf64;
 using Home.Web.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using MongoDB.Bson.Serialization.Conventions;
 
 namespace Home.Web
 {
     public class Startup
     {
-        private IServiceProvider _serviceProvider;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,36 +35,37 @@ namespace Home.Web
                 r.AutoMap();
                 r.SetIsRootClass(true);
             });
-            BsonClassMap.RegisterClassMap<Device>();
+            BsonClassMap.RegisterClassMap<Device>().SetIgnoreExtraElements(true);
             BsonClassMap.RegisterClassMap<LogItem>();
+            ConventionRegistry.Register("IgnoreExtraElements", new ConventionPack { new IgnoreExtraElementsConvention(true) }, type=>true);
         }
-
-        Task WriteLog(string msg)
+        public void OnShutdown(object toDispose)
         {
-
-            return Task.CompletedTask;
-        }
-        public void OnShutdown()
-        {
+            var disposable = toDispose as IDisposable;
+            disposable?.Dispose();
         }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<DevicesService>();
-            services.AddSingleton<ActionLogService>();
+            //while (!Debugger.IsAttached)
+            //{
+            //    Thread.Sleep(100);
+            //}
+            services.AddTransient<DevicesService>();
+            services.AddTransient<ActionLogService>();
             var mtrf = new Mtrf64Context();
             var connected = Task.Run(async () => await mtrf.GetAvailableComPorts()).Result;
             if (connected.Count > 0)
             {
                 mtrf.OpenPort(connected[0]);
             }
-            services.AddSingleton<Mtrf64Context>(mtrf);
-            services.AddSingleton<NotificationService>();
+            services.AddSingleton(mtrf);
+            services.AddTransient<NotificationService>();
             services.AddSingleton<ActionHandlerService>();
-            services.AddSingleton<BindingService>();
-            services.AddSingleton<HomeService>();
+            services.AddTransient<RequestService>();
+            services.AddTransient<HomeService>();
             services.AddSingleton<IMongoDbStorage, MongoDbStorageService>();
             services.AddMemoryCache();
             services.Configure<CookiePolicyOptions>(options =>
@@ -86,18 +89,19 @@ namespace Home.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var applicationLifetime = app.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();
-            applicationLifetime.ApplicationStopped.Register(OnShutdown);
+            applicationLifetime.ApplicationStopped.Register(OnShutdown, app.ApplicationServices.GetService<Mtrf64Context>());
             applicationLifetime.ApplicationStarted.Register(OnStart);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions { HotModuleReplacement = true });
+                //app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions { HotModuleReplacement = true });
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseCookiePolicy();

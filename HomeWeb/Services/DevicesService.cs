@@ -52,10 +52,12 @@ namespace Home.Web.Services
         {
             return await _mongoDbStorage.GetItemsAsync<Device>(_collection);
         }
-        public async Task<IEnumerable<T>> ImportDeviceList<T>(IEnumerable<T> devices)
+
+        public async Task<Device> AddDevice(Device device)
         {
-            await _mongoDbStorage.AddManyAsync(_collection, devices);
-            return devices;
+            await _mongoDbStorage.AddAsync(_collection, device);
+            _memoryCache.StoreCollectionItem(device);
+            return device;
         }
 
         public async Task Update(Device device)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Driver.Mtrf64;
+using Home.Web.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 using Home.Web.Extensions;
@@ -17,21 +18,20 @@ namespace Home.Web.Services
         private readonly ActionLogService _actionLogService;
         //private readonly IHubContext<DeviceHub> hubContext;
         private readonly NotificationService _notificationService;
+        private readonly RequestService _requestService;
         public string test = "";
 
 
-        public ActionHandlerService(Mtrf64Context mtrf64Context, DevicesService devicesService, ActionLogService actionLogService, NotificationService notificationService)
+        public ActionHandlerService(Mtrf64Context mtrf64Context, DevicesService devicesService, ActionLogService actionLogService, NotificationService notificationService,
+            RequestService requestService)
         {
             _devicesService = devicesService;
             _actionLogService = actionLogService;
             _mtrf64Context = mtrf64Context;
             _notificationService = notificationService;
             //this.hubContext = hubContext;
+            _requestService = requestService;
             mtrf64Context.DataReceived += Mtrf64Context_NewDataReceived;
-        }
-        ~ActionHandlerService()
-        {
-            System.Diagnostics.Debug.WriteLine("Action handler destroyed");
         }
 
         private async void Mtrf64Context_NewDataReceived(object sender, BufferEventArgs e)
@@ -43,11 +43,7 @@ namespace Home.Web.Services
             if (device != null)
             {
                 await _devicesService.Update(device);
-                await _notificationService.NotifyAll<Device>(ActionType.UpdateDevice, device);
-
-                //if (hubContext != null) {
-                //    await hubContext.Clients.All.SendAsync("UpdateDevice", _devicesService.Devices[devKey]);
-                //}
+                await _notificationService.NotifyAll(ActionType.DeviceUpdated, device);
             }
         }
 
@@ -143,6 +139,16 @@ namespace Home.Web.Services
                             var state = rxBuf.GetDeviceState();
                             await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, state));
                         }
+                        //bind received
+                        if (rxBuf.Ctr == NooCtr.BindModeEnable)
+                        {
+                            var processorF = new ActionProcessor(_mtrf64Context, _devicesService, _notificationService, _requestService);
+                            var requestF = await processorF.GetPendingBind(rxBuf);
+                            if (requestF != null)
+                            {
+                                await processorF.Complete(requestF, rxBuf.AddrF);
+                            }
+                        }
                         break;
                     case NooCmd.WriteState:
                         if (Enum.IsDefined(typeof(NooFSettingType), rxBuf.Fmt))
@@ -154,7 +160,28 @@ namespace Home.Web.Services
                         break;
                 }
             }
-
+            switch (rxBuf.Cmd)
+            {
+                case NooCmd.Bind:
+                    var processor = new ActionProcessor(_mtrf64Context, _devicesService, _notificationService, _requestService);
+                    var request = await processor.GetPendingBind(rxBuf);
+                    if (request != null) await processor.Complete(request);
+                    break;
+                case NooCmd.SendState:
+                    //bind received
+                    if (rxBuf.Ctr == NooCtr.BindModeEnable)
+                    {
+                        var processorF = new ActionProcessor(_mtrf64Context, _devicesService, _notificationService, _requestService);
+                        var requestF = await processorF.GetPendingBind(rxBuf);
+                        if (requestF != null)
+                        {
+                            await processorF.Complete(requestF, rxBuf.AddrF);
+                        }
+                    }
+                    break;
+                default:
+                    return;
+            }
         }
     }
 }

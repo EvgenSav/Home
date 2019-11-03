@@ -81,11 +81,11 @@
   </PropertyGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="C:\WINDOWS\system32\inetsrv\APPCMD stop apppool &quot;home&quot;" />
+    <Exec Command="C:\WINDOWS\system32\inetsrv\APPCMD stop apppool &quot;home&quot;&#xD;&#xA;npm run build" />
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="C:\WINDOWS\system32\inetsrv\APPCMD start apppool &quot;home&quot;&#xD;&#xA;" />
+    <Exec Command="C:\WINDOWS\system32\inetsrv\APPCMD start apppool &quot;home&quot;&#xD;&#xA;&#xD;&#xA;" />
   </Target>
 
 </Project>

@@ -141,7 +141,6 @@ namespace Home.Web.Models
         public DeviceTypeEnum Type { get; set; }
         public string Name { get; set; }
         public int State { get; set; }
-        public int Addr { get; set; }
         public int Bright { get; set; }
         public int FirmwareVer { get; set; }
         public int ExtDevType { get; set; }
@@ -159,7 +158,7 @@ namespace Home.Web.Models
         /*public string GetDevTypeName()
         {
             string res = "";
-            switch (Type)
+            switch (DeviceType)
             {
                 case NooDevType.RemController:
                     res = "Пульт";

@@ -13,7 +13,7 @@ namespace Home.Web.Extensions
         {
             if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
-                mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.On, addrF: device.Addr, MtrfMode: NooCtr.SendByAdr);
+                mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.On, addrF: device.Key, MtrfMode: NooCtr.SendByAdr);
             }
             else if (device.Type == DeviceTypeEnum.PowerUnit)
             {
@@ -24,7 +24,7 @@ namespace Home.Web.Extensions
         {
             if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
-                mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.Off, addrF: device.Addr, MtrfMode: NooCtr.SendByAdr);
+                mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.Off, addrF: device.Key, MtrfMode: NooCtr.SendByAdr);
             }
             else if (device.Type == DeviceTypeEnum.PowerUnit)
             {
@@ -35,7 +35,7 @@ namespace Home.Web.Extensions
         {
             if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
-                mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.Switch, addrF: device.Addr, MtrfMode: NooCtr.SendByAdr);
+                mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.Switch, addrF: device.Key, MtrfMode: NooCtr.SendByAdr);
             }
             else if (device.Type == DeviceTypeEnum.PowerUnit)
             {
@@ -55,7 +55,7 @@ namespace Home.Web.Extensions
             if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
                 devBrightLvl = Buf.Round(((float)brightLvl / 100) * 255);
-                mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.SetBrightness, addrF: device.Addr, d0: devBrightLvl, MtrfMode: NooCtr.SendByAdr);
+                mtrfDev.SendCmd(device.Channel, NooMode.FTx, NooCmd.SetBrightness, addrF: device.Key, d0: devBrightLvl, MtrfMode: NooCtr.SendByAdr);
             }
             else if (device.Type == DeviceTypeEnum.PowerUnit)
             {
@@ -100,12 +100,12 @@ namespace Home.Web.Extensions
 
         public static void GetNooFSettings(this Device device, Mtrf64Context mtrf, int settingType)
         {
-            mtrf.GetSettings(device.Addr, settingType);
+            mtrf.GetSettings(device.Key, settingType);
         }
 
         public static void SetNooFSettings(this Device device, Mtrf64Context mtrf, NooFSettingType settingType, int settings)
         {
-            mtrf.SetSettings(device.Addr, settingType, settings);
+            mtrf.SetSettings(device.Key, settingType, settings);
         }
         public static void Unbind(this Device device, Mtrf64Context mtrfDev)
         {
