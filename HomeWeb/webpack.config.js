@@ -2,13 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require("webpack");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-
-const host = 'localhost';
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
     mode: 'development',
     resolve: {
-        extensions: ['.js', '.ts']
+        extensions: ['.js', '.ts'],
+        plugins: [
+            new TsconfigPathsPlugin({ configFile: "./client/tsconfig.json" })
+        ]
     },
     entry: {
         polyfills: "./client/src/polyfills.ts",
@@ -24,14 +26,15 @@ module.exports = {
             {
                 test: /\.html$/,
                 loader: "html-loader"
-            }, {
+            },
+            {
                 test: /\.css$/,
                 loader: ["style-loader", "css-loader"]
             },
             {
                 test: /\.ts$/,
-                loaders: ["awesome-typescript-loader", "angular2-template-loader"],
-                exclude: [/node_modules/, /\.(spec|e2e)\.ts$/]
+                loaders: ["ts-loader", "angular2-template-loader"],
+                exclude: [/node_modules/, /test/, /\.(spec|e2e)\.ts$/]
             },
             {
                 test: /\.ts$/,
@@ -48,7 +51,7 @@ module.exports = {
             },
             {
                 test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-                loader: 'file-loader?name=[name].[ext]'  // <-- retain original file name
+                loader: 'file-loader?name=[name].[ext]' // <-- retain original file name
             }
         ]
     },
@@ -71,7 +74,8 @@ module.exports = {
         }),
         new webpack.ContextReplacementPlugin(
             /\@angular(\\|\/)core(\\|\/)fesm5/,
-            path.resolve(__dirname, 'client/src'), {}
+            path.resolve(__dirname, 'client/src'),
+            {}
         ),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
