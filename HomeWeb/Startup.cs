@@ -17,7 +17,6 @@ using MongoDB.Bson.Serialization;
 using Driver.Mtrf64;
 using Home.Web.Serialization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using MongoDB.Bson.Serialization.Conventions;
 
 namespace Home.Web
@@ -37,12 +36,13 @@ namespace Home.Web
             });
             BsonClassMap.RegisterClassMap<Device>().SetIgnoreExtraElements(true);
             BsonClassMap.RegisterClassMap<LogItem>();
+            //convention: ignore extra elements (that exists in document, but doesn't exist in document's model)
             ConventionRegistry.Register("IgnoreExtraElements", new ConventionPack { new IgnoreExtraElementsConvention(true) }, type=>true);
         }
-        public void OnShutdown(object toDispose)
+        public void OnShutdown(object serviceProvider)
         {
-            var disposable = toDispose as IDisposable;
-            disposable?.Dispose();
+            var provider = serviceProvider as IServiceProvider;
+            provider.GetService<ActionHandlerService>()?.Dispose();
         }
         public IConfiguration Configuration { get; }
 
@@ -89,7 +89,7 @@ namespace Home.Web
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var applicationLifetime = app.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();
-            applicationLifetime.ApplicationStopped.Register(OnShutdown, app.ApplicationServices.GetService<Mtrf64Context>());
+            applicationLifetime.ApplicationStopped.Register(OnShutdown, app.ApplicationServices);
             applicationLifetime.ApplicationStarted.Register(OnStart);
             if (env.IsDevelopment())
             {
@@ -100,6 +100,9 @@ namespace Home.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.ApplicationServices.GetService<ActionHandlerService>();
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();

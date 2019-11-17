@@ -39,14 +39,7 @@ namespace Home.Web.Extensions
             }
             else if (device.Type == DeviceTypeEnum.PowerUnit)
             {
-                if (device.State != 0)
-                {
-                    mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.Off);
-                }
-                else
-                {
-                    mtrfDev.SendCmd(device.Channel, NooMode.Tx, NooCmd.On);
-                }
+                mtrfDev.SendCmd(device.Channel, NooMode.Tx, device.State.LoadState != LoadStateEnum.On ? NooCmd.On : NooCmd.Off);
             }
         }
         public static void SetBright(this Device device, Mtrf64Context mtrfDev, int brightLvl)
@@ -69,21 +62,21 @@ namespace Home.Web.Extensions
             {
                 if (rxBuf.D0 >= 28)
                 {
-                    device.Bright = Buf.Round((((float)rxBuf.D0 - 28) / 128) * 100);
+                    device.State.Bright = Buf.Round((((float)rxBuf.D0 - 28) / 128) * 100);
                     if (rxBuf.D0 > 28)
                     {
-                        device.State = 1;
+                        device.State.LoadState = LoadStateEnum.On;
                     }
                     else
                     {
-                        device.Bright = 0;
-                        device.State = 0;
+                        device.State.Bright = 0;
+                        device.State.LoadState = LoadStateEnum.Off;
                     }
                 }
                 else
                 {
-                    device.Bright = 0;
-                    device.State = 0;
+                    device.State.Bright = 0;
+                    device.State.LoadState = LoadStateEnum.Off;
                 }
             }
         }
@@ -91,10 +84,10 @@ namespace Home.Web.Extensions
         {
             if (device.Type == DeviceTypeEnum.PowerUnitF)
             {
-                device.ExtDevType = rxBuf.D0;
+                device.SubType = rxBuf.SubType;
                 device.FirmwareVer = rxBuf.D1;
-                device.State = rxBuf.D2;
-                device.Bright = Buf.Round(((float)rxBuf.D3 / 255) * 100);
+                device.State.LoadState = (LoadStateEnum)rxBuf.State();
+                device.State.Bright = Buf.Round(((float)rxBuf.D3 / 255) * 100);
             }
         }
 

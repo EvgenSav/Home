@@ -11,16 +11,13 @@ using Home.Web.Models;
 
 namespace Home.Web.Services
 {
-    public class ActionHandlerService
+    public class ActionHandlerService : IDisposable
     {
         private readonly Mtrf64Context _mtrf64Context;
         private readonly DevicesService _devicesService;
         private readonly ActionLogService _actionLogService;
-        //private readonly IHubContext<DeviceHub> hubContext;
         private readonly NotificationService _notificationService;
         private readonly RequestService _requestService;
-        public string test = "";
-
 
         public ActionHandlerService(Mtrf64Context mtrf64Context, DevicesService devicesService, ActionLogService actionLogService, NotificationService notificationService,
             RequestService requestService)
@@ -29,9 +26,14 @@ namespace Home.Web.Services
             _actionLogService = actionLogService;
             _mtrf64Context = mtrf64Context;
             _notificationService = notificationService;
-            //this.hubContext = hubContext;
             _requestService = requestService;
             mtrf64Context.DataReceived += Mtrf64Context_NewDataReceived;
+        }
+
+        public void Dispose()
+        {
+            _mtrf64Context.DataReceived -= Mtrf64Context_NewDataReceived;
+            _mtrf64Context.Dispose();
         }
 
         private async void Mtrf64Context_NewDataReceived(object sender, BufferEventArgs e)
@@ -71,11 +73,8 @@ namespace Home.Web.Services
                         {
                             if (device.Type == DeviceTypeEnum.PowerUnit)
                             {
-                                device.State = 1;
-                                //todo: implement storing state
-                                var state = new DeviceState
-                                { Bright = device.Bright, ExtType = 0, FirmwareVersion = 0, State = device.State };
-                                await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, state));
+                                device.State.LoadState = LoadStateEnum.On;
+                                await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, device.State));
                             }
 
                         }
@@ -87,10 +86,8 @@ namespace Home.Web.Services
                     case NooCmd.Off:
                         if (rxBuf.Mode == NooMode.Tx)
                         {
-                            device.State = 0;
-                            var state = new DeviceState
-                            { Bright = device.Bright, ExtType = 0, FirmwareVersion = 0, State = device.State };
-                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, state));
+                            device.State.LoadState = LoadStateEnum.Off;
+                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, device.State));
                         }
                         else if (rxBuf.Mode == NooMode.Rx)
                         {
@@ -106,21 +103,33 @@ namespace Home.Web.Services
                         break;
                     case NooCmd.SensTempHumi:
                         var temperature = _mtrf64Context.ParseTemperature(rxBuf);
-                        await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, temperature));
+                        var measures = new Dictionary<string, double>();
+                        measures.Add(SensorDataTypeEnum.Temperature.ToString(), temperature);
+                        if ((rxBuf.D1 & 0x20) != 0)
+                        {
+                            measures.Add(SensorDataTypeEnum.Humidity.ToString(), rxBuf.D2);
+                        }
+                        device.State.MeasuredData = measures;
+                        await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, measures));
                         break;
                     case NooCmd.TemporaryOn:
                         var devLog = await _actionLogService.GetDeviceLog(device.Key);
                         var latest = devLog.OrderByDescending(r => r.TimeStamp).FirstOrDefault();
+                        var measure = new Dictionary<string, double>();
                         if (latest != null)
                         {
+                            measure.Add(SensorDataTypeEnum.TimeIntervalCount.ToString(), rxBuf.D0);
                             if (DateTime.Now.Subtract(latest.TimeStamp).Seconds > 4)
                             {
-                                await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, rxBuf.D0));
+                                device.State.MeasuredData = measure;
+                                await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, measure));
                             }
                         }
                         else
                         {
-                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, rxBuf.D0));
+                            measure.Add(SensorDataTypeEnum.TimeIntervalCount.ToString(), rxBuf.D0);
+                            device.State.MeasuredData = measure;
+                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, measure));
                         }
                         break;
 
@@ -146,7 +155,7 @@ namespace Home.Web.Services
                             var requestF = await processorF.GetPendingBind(rxBuf);
                             if (requestF != null)
                             {
-                                await processorF.Complete(requestF, rxBuf.AddrF);
+                                await processorF.Complete(requestF, rxBuf.SubType, rxBuf.AddrF);
                             }
                         }
                         break;
@@ -165,7 +174,7 @@ namespace Home.Web.Services
                 case NooCmd.Bind:
                     var processor = new ActionProcessor(_mtrf64Context, _devicesService, _notificationService, _requestService);
                     var request = await processor.GetPendingBind(rxBuf);
-                    if (request != null) await processor.Complete(request);
+                    if (request != null) await processor.Complete(request, rxBuf.SubType);
                     break;
                 case NooCmd.SendState:
                     //bind received
@@ -175,7 +184,7 @@ namespace Home.Web.Services
                         var requestF = await processorF.GetPendingBind(rxBuf);
                         if (requestF != null)
                         {
-                            await processorF.Complete(requestF, rxBuf.AddrF);
+                            await processorF.Complete(requestF, rxBuf.SubType, rxBuf.AddrF);
                         }
                     }
                     break;

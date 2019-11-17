@@ -96,7 +96,7 @@ namespace Driver.Mtrf64
             else return (int)val;
         }
 
-        public int ExtDevType() => D0;
+        public int SubType => D0;
         public int FirmwareVer() => D1;
         public int State() => D2;
         public int Bright() => Round(((float)D3 / 255) * 100);

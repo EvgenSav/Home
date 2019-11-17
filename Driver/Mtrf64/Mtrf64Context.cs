@@ -70,9 +70,9 @@ namespace Driver.Mtrf64
             //_cmdQueueTmr.Elapsed += CmdQueueTmr_Elapsed;
             //_cmdQueueTmr.AutoReset = false;
 
-            _seqCmdSend = new Task(CmdSendTask, _txTokenSource.Token, TaskCreationOptions.RunContinuationsAsynchronously);
+            _seqCmdSend = new Task(CmdSendTask, _txTokenSource.Token, TaskCreationOptions.LongRunning);
             _seqCmdSend.Start();
-            _seqReadReceived = new Task(ReadReceivedTask, _rxTokenSource.Token, TaskCreationOptions.RunContinuationsAsynchronously);
+            _seqReadReceived = new Task(ReadReceivedTask, _rxTokenSource.Token, TaskCreationOptions.LongRunning);
             _seqReadReceived.Start();
             _searchMtrfTask = new Task<List<MtrfModel>>(SearchMtrf);
         }
@@ -88,7 +88,6 @@ namespace Driver.Mtrf64
                 {
                    if(_receivedQueue.TryDequeue(out var bufferedData)) DataReceived?.Invoke(this, new BufferEventArgs(bufferedData));
                 }
-
             }
         }
         //Task for sequentially transmitting 
@@ -103,7 +102,6 @@ namespace Driver.Mtrf64
                     _answerReceived.WaitOne(5000);
                     _answerReceived.Reset();
                 }
-                
             }
         }
 

@@ -65,6 +65,7 @@ namespace Home.Web.Services
             await _mongoDbStorage.UpdateByIdAsync("devices", r => r.Key, device);
             _memoryCache.StoreCollectionItem(device);
         }
+
         public async Task GetNooFSettings(int devId, int settingType)
         {
             var dev = await GetByIdAsync(devId);

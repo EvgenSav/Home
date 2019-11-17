@@ -20,6 +20,20 @@ namespace Home.Web.Models
         Dimmable = 0x02,
         DefaultOn = 0x20
     }
+
+    public enum SensorTypeEnum
+    {
+        Movement = 4,
+        Temperature = 8,
+        TemperatureAndHumidity = 16
+    }
+
+    public enum SensorDataTypeEnum
+    {
+        TimeIntervalCount = 4,
+        Temperature = 8,
+        Humidity = 16
+    }
     public enum DeviceTypeEnum
     {
         [DisplayName("Remote Controller")]
@@ -140,10 +154,9 @@ namespace Home.Web.Models
         public int Channel { get; set; }
         public DeviceTypeEnum Type { get; set; }
         public string Name { get; set; }
-        public int State { get; set; }
-        public int Bright { get; set; }
+        public DeviceState State { get; set; } = new DeviceState();
         public int FirmwareVer { get; set; }
-        public int ExtDevType { get; set; }
+        public int SubType { get; set; }
         public string Room { get; set; }
         public DeviceSettings Settings { get; set; } = new DeviceSettings();
         public List<int> Redirect { get; set; } = new List<int>();
@@ -164,7 +177,7 @@ namespace Home.Web.Models
                     res = "Пульт";
                     break;
                 case NooDevType.Sensor:
-                    switch (ExtDevType)
+                    switch (SubType)
                     {
                         case 1:
                             res = "PT112";
@@ -184,7 +197,7 @@ namespace Home.Web.Models
                     res = "Сил. блок";
                     break;
                 case NooDevType.PowerUnitF:
-                    switch (ExtDevType)
+                    switch (SubType)
                     {
                         case 0:
                             res = "MTRF-64";

@@ -14,9 +14,9 @@ namespace Home.Web.Extensions
             var state = new DeviceState
             {
                 Bright = buf.Bright(),
-                ExtType = buf.ExtDevType(),
+                ExtType = buf.SubType,
                 FirmwareVersion = buf.FirmwareVer(),
-                State = buf.State()
+                LoadState = (LoadStateEnum) buf.State()
             };
             return state;
         }

@@ -34,7 +34,7 @@ namespace Home.Web.Domain
                 if (devices.Count(x => x.Type == DeviceTypeEnum.PowerUnitF) < 64) return 0;
                 return -1; //noo F memory is Full
             }
-            var memoryCells = Enumerable.Range(0, 64);
+            var memoryCells = Enumerable.Range(1, 64);
             var free = memoryCells.Except(devices.Where(r => r.Key <= 63).Select(r => r.Key)).ToList();
             return free.Any() ? free.FirstOrDefault() : -1;
         }
@@ -50,7 +50,7 @@ namespace Home.Web.Domain
             }
         }
 
-        public async Task Complete(IRequest request, int? deviceKey = null)
+        public async Task Complete(IRequest request, int subType, int? deviceKey = null)
         {
             request.Complete(deviceKey);
             if (request.Step == RequestStepEnum.Completed)
@@ -59,7 +59,8 @@ namespace Home.Web.Domain
                 {
                     Key = request.DeviceFk.Value,
                     Name = request.Name,
-                    Type = request.DeviceType
+                    Type = request.DeviceType,
+                    SubType = subType,
                 };
                 var requestDbo = request.GetRequestDbo();
                 await _requestService.Update(requestDbo);
@@ -95,7 +96,7 @@ namespace Home.Web.Domain
                         case DeviceTypeEnum.Sensor:
                             if (rxBuf.Cmd == NooCmd.Bind &&  request.MetaData?.Channel == rxBuf.Ch && rxBuf.Fmt == 1)
                             {
-                                /*Device.ExtDevType = e.Buffer.D0;*/
+                                /*Device.SubType = e.Buffer.D0;*/
                                 return  Request.FromDbo(request, _mtrf64Context);
                             }
                             break;

@@ -8,15 +8,14 @@ using Microsoft.AspNetCore.SignalR;
 namespace Home.Web.Hubs {
     public class DeviceHub : Hub {
 
-        private readonly ActionHandlerService actionHandlerService;
-        public DeviceHub(ActionHandlerService actionHandlerService) {
-            this.actionHandlerService = actionHandlerService;
+        private readonly DevicesService _deviceService;
+        public DeviceHub(DevicesService deviceService) {
+            _deviceService = deviceService;
         }
-        public async Task SendMessage(string user, string message) {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
-        }
-        public override Task OnConnectedAsync() {
-            return base.OnConnectedAsync();
+        public override async Task OnConnectedAsync()
+        {
+            var devices = await _deviceService.GetDeviceList();
+            await Clients.All.SendAsync("DeviceCollection", devices);
         }
         public override Task OnDisconnectedAsync(Exception exception) {
             return base.OnDisconnectedAsync(exception);

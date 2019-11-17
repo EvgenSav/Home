@@ -19,6 +19,6 @@ namespace Home.Web.Models
         DeviceTypeEnum DeviceTypeFk { get; set; }
         DeviceState State { get; set; }
         Buf ReceivedBuffer { get; set; }
-        double? MeasuredData { get; set; }
+        Dictionary<string, double> MeasuredData { get; set; }
     }
 }

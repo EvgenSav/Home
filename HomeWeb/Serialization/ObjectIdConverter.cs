@@ -7,10 +7,6 @@ namespace Home.Web.Serialization
 {
     public class ObjectIdConverter : JsonConverter<ObjectId>
     {
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(ObjectId);
-        }
         public override ObjectId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             reader.TryGetBytesFromBase64(out var bytes);
