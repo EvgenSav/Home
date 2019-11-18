@@ -18,6 +18,7 @@ using Driver.Mtrf64;
 using Home.Web.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson.Serialization.Conventions;
+using Newtonsoft.Json.Serialization;
 
 namespace Home.Web
 {
@@ -37,7 +38,7 @@ namespace Home.Web
             BsonClassMap.RegisterClassMap<Device>().SetIgnoreExtraElements(true);
             BsonClassMap.RegisterClassMap<LogItem>();
             //convention: ignore extra elements (that exists in document, but doesn't exist in document's model)
-            ConventionRegistry.Register("IgnoreExtraElements", new ConventionPack { new IgnoreExtraElementsConvention(true) }, type=>true);
+            ConventionRegistry.Register("IgnoreExtraElements", new ConventionPack { new IgnoreExtraElementsConvention(true) }, type => true);
         }
         public void OnShutdown(object serviceProvider)
         {
@@ -78,11 +79,12 @@ namespace Home.Web
             services.Configure<JsonOptions>(config =>
             {
                 config.JsonSerializerOptions.Converters.Add(new ObjectIdConverter());
+                config.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
             services.Configure<IISServerOptions>(options => { options.AutomaticAuthentication = false; });
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson(config => config.SerializerSettings.ContractResolver = new DefaultContractResolver());
             //services.AddRazorPages();
-            services.AddSignalR().AddNewtonsoftJsonProtocol();
+            services.AddSignalR().AddNewtonsoftJsonProtocol(config => config.PayloadSerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
