@@ -36,7 +36,7 @@ namespace Home.Web.Services
                 log.AddRange(devLog);
                 _memoryCache.StoreCollection(log);
             }
-            return log.Where(r => r.DeviceFk == devId).ToList();
+            return log.Where(r => r.DeviceFk == devId).OrderByDescending(r => r.TimeStamp).ToList();
         }
 
         public async Task AddAsync(LogItem item)
