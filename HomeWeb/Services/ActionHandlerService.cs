@@ -110,7 +110,7 @@ namespace Home.Web.Services
                             measures.Add(SensorDataTypeEnum.Humidity.ToString(), rxBuf.D2);
                         }
                         device.State.MeasuredData = measures;
-                        await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, measures));
+                        await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, device.State));
                         break;
                     case NooCmd.TemporaryOn:
                         var devLog = await _actionLogService.GetDeviceLog(device.Key);
@@ -122,14 +122,14 @@ namespace Home.Web.Services
                             if (DateTime.Now.Subtract(latest.TimeStamp).Seconds > 4)
                             {
                                 device.State.MeasuredData = measure;
-                                await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, measure));
+                                await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, device.State));
                             }
                         }
                         else
                         {
                             measure.Add(SensorDataTypeEnum.TimeIntervalCount.ToString(), rxBuf.D0);
                             device.State.MeasuredData = measure;
-                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, null, measure));
+                            await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, device.State));
                         }
                         break;
 

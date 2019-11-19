@@ -36,7 +36,7 @@ namespace Home.Web
                 r.SetIsRootClass(true);
             });
             BsonClassMap.RegisterClassMap<Device>().SetIgnoreExtraElements(true);
-            BsonClassMap.RegisterClassMap<LogItem>();
+            BsonClassMap.RegisterClassMap<LogItem>().SetIgnoreExtraElements(true);
             //convention: ignore extra elements (that exists in document, but doesn't exist in document's model)
             ConventionRegistry.Register("IgnoreExtraElements", new ConventionPack { new IgnoreExtraElementsConvention(true) }, type => true);
         }

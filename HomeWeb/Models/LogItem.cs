@@ -18,11 +18,10 @@ namespace Home.Web.Models
         public DeviceTypeEnum DeviceTypeFk { get; set; }
         public DeviceState State { get; set; }
         public Buf ReceivedBuffer { get; set; }
-        public Dictionary<string, double> MeasuredData { get; set; }
         [JsonConstructor]
         public LogItem() { }
 
-        public LogItem(Buf receivedBuffer, DeviceTypeEnum deviceTypeFk, DeviceState state, Dictionary<string, double> measuredData = null)
+        public LogItem(Buf receivedBuffer, DeviceTypeEnum deviceTypeFk, DeviceState state)
         {
             ReceivedBuffer = receivedBuffer;
             TimeStamp = DateTime.Now;
@@ -30,10 +29,6 @@ namespace Home.Web.Models
             DeviceFk = receivedBuffer.Id;
             DeviceTypeFk = deviceTypeFk;
             State = state;
-            if (deviceTypeFk == DeviceTypeEnum.Sensor)
-            {
-                MeasuredData = measuredData;
-            }
             //switch (device.DeviceType)
             //{
             //    case NooDevType.PowerUnitF:
@@ -49,7 +44,7 @@ namespace Home.Web.Models
         }
         public string GetTemperatureString()
         {
-            return $"{MeasuredData:#.##} {(char)176}C";
+            return $"{1:#.##} {(char)176}C";
         }
     }
 }

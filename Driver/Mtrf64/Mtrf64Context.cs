@@ -79,7 +79,7 @@ namespace Driver.Mtrf64
 
 
         //Task for sequentially reading 
-        private void ReadReceivedTask(object token)
+        private async void ReadReceivedTask(object token)
         {
             var cancelToken = (CancellationToken) token;
             while (cancelToken.IsCancellationRequested == false)
@@ -88,6 +88,7 @@ namespace Driver.Mtrf64
                 {
                    if(_receivedQueue.TryDequeue(out var bufferedData)) DataReceived?.Invoke(this, new BufferEventArgs(bufferedData));
                 }
+                await Task.Delay(25, cancelToken);
             }
         }
         //Task for sequentially transmitting 
@@ -102,6 +103,7 @@ namespace Driver.Mtrf64
                     _answerReceived.WaitOne(5000);
                     _answerReceived.Reset();
                 }
+                await Task.Delay(25, cancelToken);
             }
         }
 
