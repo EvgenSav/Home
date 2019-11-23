@@ -32,14 +32,8 @@ namespace Home.Web.Services
         }
         public async Task<IEnumerable<Device>> GetDeviceList()
         {
-            var devices = _memoryCache.GetCollection<Device>();
-            if (devices.Any() == false)
-            {
-                devices = await GetFromDb();
-                _memoryCache.StoreCollection(devices);
-
-            }
-            return await Task.FromResult(devices);
+            var devices = await _memoryCache.GetCollectionAsync(async () => await GetFromDb());
+            return devices;
         }
         public async Task<Device> GetByIdAsync(int deviceKey)
         {
@@ -56,14 +50,14 @@ namespace Home.Web.Services
         public async Task<Device> AddDevice(Device device)
         {
             await _mongoDbStorage.AddAsync(_collection, device);
-            _memoryCache.StoreCollectionItem(device);
+            await _memoryCache.StoreCollectionItem(device, () => GetFromDb());
             return device;
         }
 
         public async Task Update(Device device)
         {
             await _mongoDbStorage.UpdateByIdAsync("devices", r => r.Key, device);
-            _memoryCache.StoreCollectionItem(device);
+            await _memoryCache.StoreCollectionItem(device, () => GetFromDb());
         }
 
         public async Task GetNooFSettings(int devId, int settingType)

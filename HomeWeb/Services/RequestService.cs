@@ -35,14 +35,8 @@ namespace Home.Web.Services
 
         public async Task<IEnumerable<RequestDbo>> GetBindings()
         {
-            var bindRequests = _memoryCache.GetCollection<RequestDbo>();
-            if (bindRequests.Any() == false)
-            {
-                bindRequests = await GetFromDb();
-                _memoryCache.StoreCollection(bindRequests);
-
-            }
-            return await Task.FromResult(bindRequests);
+            var bindRequests = await _memoryCache.GetCollectionAsync(async ()=> await GetFromDb());
+            return bindRequests;
         }
 
         private async Task<IEnumerable<RequestDbo>> GetFromDb()
@@ -52,7 +46,7 @@ namespace Home.Web.Services
         public async Task<RequestDbo> CreateBindRequest(RequestDbo model)
         {
             await _mongoDbStorage.AddAsync(bindingCollectionName, model);
-            _memoryCache.StoreCollectionItem(model);
+            await _memoryCache.StoreCollectionItem(model, () => GetFromDb());
             return model;
         }
 
@@ -64,7 +58,7 @@ namespace Home.Web.Services
         public async Task Update(RequestDbo model)
         {
             await _mongoDbStorage.UpdateByIdAsync(bindingCollectionName, r => r.Id, model);
-            _memoryCache.StoreCollectionItem(model);
+            await _memoryCache.StoreCollectionItem(model, () => GetFromDb());
         }
 
         public async Task ExecuteRequest(ObjectId requestId)

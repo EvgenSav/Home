@@ -68,7 +68,7 @@ namespace Home.Web
             services.AddTransient<RequestService>();
             services.AddTransient<HomeService>();
             services.AddSingleton<IMongoDbStorage, MongoDbStorageService>();
-            services.AddMemoryCache();
+            services.AddMemoryCache(options => options.ExpirationScanFrequency = TimeSpan.FromMinutes(5));
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

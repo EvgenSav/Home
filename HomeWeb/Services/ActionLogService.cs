@@ -22,6 +22,11 @@ namespace Home.Web.Services
             _memoryCache = memoryCache;
         }
 
+        private async Task<IEnumerable<LogItem>> GetDeviceLogFromDb()
+        {
+            var log = await _mongoDbStorage.GetItemsAsync<LogItem>(_collection);
+            return log;
+        }
         public async Task<IEnumerable<LogItem>> GetDeviceLogFromDb(int devId)
         {
             var log = await _mongoDbStorage.FindAsync<LogItem, int>(_collection, r => r.DeviceFk, devId);
@@ -29,20 +34,14 @@ namespace Home.Web.Services
         }
         public async Task<IEnumerable<LogItem>> GetDeviceLog(int devId)
         {
-            var log = _memoryCache.GetCollection<LogItem>().ToList();
-            if (log.Any(r => r.DeviceFk == devId) == false)
-            {
-                var devLog = await GetDeviceLogFromDb(devId);
-                log.AddRange(devLog);
-                _memoryCache.StoreCollection(log);
-            }
+            var log = await _memoryCache.GetCollectionAsync(async () => await GetDeviceLogFromDb(devId), r => r.DeviceFk == devId);
             return log.Where(r => r.DeviceFk == devId).OrderByDescending(r => r.TimeStamp).ToList();
         }
 
         public async Task AddAsync(LogItem item)
         {
             await _mongoDbStorage.AddAsync(_collection, item);
-            _memoryCache.StoreCollectionItem(item);
+            await _memoryCache.StoreCollectionItem(item, async () => await GetDeviceLogFromDb(item.DeviceFk));
         }
     }
 }
