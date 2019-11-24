@@ -25,6 +25,7 @@ namespace Home.Web.Extensions
             var factoryItems = await factory();
             using (var entry = memoryCache.CreateEntry(type.Name))
             {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
                 if (collection != null)
                 {
                     var res = collection.Concat(factoryItems);
@@ -56,6 +57,22 @@ namespace Home.Web.Extensions
                 memoryCache.Set(type.Name, updated);
             }
             
+        }
+        public static void DeleteCollectionItem<T>(this IMemoryCache memoryCache, Func<T, bool> predicate) where T : IDatabaseModel
+        {
+            var type = typeof(T);
+            var collection = memoryCache.Get<IEnumerable<T>>(type.Name);
+            if (collection?.Any(predicate) == false) return;
+            using (var entry = memoryCache.CreateEntry(type.Name))
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+                if (collection != null)
+                {
+                    var toDelete = collection.FirstOrDefault(predicate);
+                    var res = collection.Where(r=>r.Id != toDelete.Id);
+                    entry.SetValue(res);
+                }
+            }
         }
         //public static T GetCollectionItem<T>(this IMemoryCache memoryCache, ObjectId id, Func<Task<IEnumerable<T>>> factory, Expression<Func<T,bool>> getFromFactory) where T : IDatabaseModel
         //{

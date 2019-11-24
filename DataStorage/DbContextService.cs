@@ -88,5 +88,12 @@ namespace DataStorage
                 return await Task.FromResult(new List<T>());
             }
         }
+
+        public async Task DeleteOneAsync<T>(string collection, Expression<Func<T, bool>> predicate)
+        {
+            if(!IsConnected) return;
+            var filter = Builders<T>.Filter.Where(predicate);
+            await _db.GetCollection<T>(collection).DeleteOneAsync(filter);
+        }
     }
 }

@@ -48,6 +48,20 @@ namespace Home.Web.Domain
                 await _requestService.Update(requestDbo);
                 await _notificationService.NotifyAll(ActionType.RequestUpdated, requestDbo);
             }
+            else
+            {
+                request.Execute(0);
+                if (request.DeviceFk.HasValue && (request.DeviceType == DeviceTypeEnum.RemoteController ||
+                    request.DeviceType == DeviceTypeEnum.Sensor))
+                {
+                    request.Complete(null);
+                    var requestDbo = request.GetRequestDbo();
+                    await _requestService.Update(requestDbo);
+                    await _notificationService.NotifyAll(ActionType.RequestUpdated, requestDbo);
+                    await _devicesService.DeleteDeviceAsync(request.DeviceFk.Value);
+                    await _notificationService.NotifyAll(ActionType.DeviceDeleted, request.DeviceFk);
+                }
+            }
         }
 
         public async Task Complete(IRequest request, int subType, int? deviceKey = null)
@@ -55,18 +69,28 @@ namespace Home.Web.Domain
             request.Complete(deviceKey);
             if (request.Step == RequestStepEnum.Completed)
             {
-                var dev = new Device
-                {
-                    Key = request.DeviceFk.Value,
-                    Name = request.Name,
-                    Type = request.DeviceType,
-                    SubType = subType,
-                };
                 var requestDbo = request.GetRequestDbo();
+                if (request.Type == RequestTypeEnum.Bind)
+                {
+                    var dev = new Device
+                    {
+                        Key = request.DeviceFk.Value,
+                        Name = request.Name,
+                        Type = request.DeviceType,
+                        SubType = subType,
+                        Channel = requestDbo.MetaData.Channel
+                    };
+                   
+                    await _devicesService.AddDevice(dev);
+                    await _notificationService.NotifyAll(ActionType.DeviceAdded, dev);
+                }
+                else
+                {
+                    await _devicesService.DeleteDeviceAsync(request.DeviceFk.Value);
+                    await _notificationService.NotifyAll(ActionType.DeviceDeleted, request.DeviceFk.Value);
+                }
                 await _requestService.Update(requestDbo);
-                await _devicesService.AddDevice(dev);
                 await _notificationService.NotifyAll(ActionType.RequestUpdated, requestDbo);
-                await _notificationService.NotifyAll(ActionType.DeviceAdded, dev);
             }
         }
 

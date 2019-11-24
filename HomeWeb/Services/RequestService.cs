@@ -60,6 +60,11 @@ namespace Home.Web.Services
             await _mongoDbStorage.UpdateByIdAsync(bindingCollectionName, r => r.Id, model);
             await _memoryCache.StoreCollectionItem(model, () => GetFromDb());
         }
+        public async Task Delete(RequestDbo model)
+        {
+            await _mongoDbStorage.DeleteOneAsync<RequestDbo>(bindingCollectionName, r => r.Id == model.Id);
+            _memoryCache.DeleteCollectionItem<RequestDbo>(r => r.Id == model.Id);
+        }
 
         public async Task ExecuteRequest(ObjectId requestId)
         {

@@ -12,7 +12,8 @@ namespace Home.Web.Services {
         DeviceUpdated = 1,
         BindReceived = 2,
         RequestUpdated = 3,
-        DeviceAdded = 4
+        DeviceAdded = 4,
+        DeviceDeleted = 5
     };
     public class NotificationService {
         private readonly IHubContext<DeviceHub> _hubContext;

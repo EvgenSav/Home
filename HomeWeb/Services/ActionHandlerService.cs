@@ -134,6 +134,8 @@ namespace Home.Web.Services
                         break;
 
                     case NooCmd.SendState:
+                        var pendingUnbindRequest = (await _requestService.GetBindings()).FirstOrDefault(r =>
+                            r.Type == RequestTypeEnum.Unbind && r.Step == RequestStepEnum.Pending && r.MetaData?.AddressF == rxBuf.AddrF);
                         //received settings
                         if (Enum.IsDefined(typeof(NooFSettingType), rxBuf.Fmt))
                         {
@@ -157,6 +159,12 @@ namespace Home.Web.Services
                             {
                                 await processorF.Complete(requestF, rxBuf.SubType, rxBuf.AddrF);
                             }
+                        }
+                        //check for unbind
+                        if (rxBuf.Ctr == NooCtr.SendCmd && pendingUnbindRequest != null)
+                        {
+                            var processorF = new ActionProcessor(_mtrf64Context, _devicesService, _notificationService, _requestService);
+                            await processorF.Complete(Request.FromDbo(pendingUnbindRequest, _mtrf64Context), rxBuf.SubType, rxBuf.AddrF);
                         }
                         break;
                     case NooCmd.WriteState:

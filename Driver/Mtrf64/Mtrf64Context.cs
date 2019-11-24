@@ -88,7 +88,7 @@ namespace Driver.Mtrf64
                 {
                    if(_receivedQueue.TryDequeue(out var bufferedData)) DataReceived?.Invoke(this, new BufferEventArgs(bufferedData));
                 }
-                await Task.Delay(25, cancelToken);
+                await Task.Delay(25);
             }
         }
         //Task for sequentially transmitting 
@@ -103,7 +103,7 @@ namespace Driver.Mtrf64
                     _answerReceived.WaitOne(5000);
                     _answerReceived.Reset();
                 }
-                await Task.Delay(25, cancelToken);
+                await Task.Delay(25);
             }
         }
 

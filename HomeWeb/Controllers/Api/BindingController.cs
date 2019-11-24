@@ -26,7 +26,8 @@ namespace Home.Web.Controllers.Api
         public async Task<IEnumerable<RequestDbo>> GetBindings()
         {
             var bindings = await _requestService.GetBindings();
-            return bindings;
+            var notCompleted = bindings.Where(r => !r.Completed.HasValue).ToList();
+            return notCompleted;
         }
         [HttpPost]
         public async Task<RequestDbo> CreateBinding([FromBody] RequestDbo requestDboModel)

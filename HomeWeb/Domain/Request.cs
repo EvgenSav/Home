@@ -91,7 +91,7 @@ namespace Home.Web.Domain
                 Channel = channel
             };
             _request.Step = RequestStepEnum.Pending;
-            _mtrf64Context.SendCmd(0, 0, 0, MtrfMode: NooCtr.BindModeDisable); //send disable bind if enabled
+            _mtrf64Context.SendCmd(channel, 0, 0, MtrfMode: NooCtr.BindModeDisable); //send disable bind if enabled
             switch (DeviceType)
             {
                 case DeviceTypeEnum.PowerUnitF:
@@ -119,7 +119,7 @@ namespace Home.Web.Domain
             }
 
             _request.Step = RequestStepEnum.Completed;
-            _request.Completed = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
+            _request.Completed = DateTime.Now;
         }
     }
 
@@ -132,11 +132,13 @@ namespace Home.Web.Domain
 
         public override void Complete(int? key)
         {
-            throw new NotImplementedException();
+            _request.Step = RequestStepEnum.Completed;
+            _request.Completed = DateTime.Now;
         }
 
         public override void Execute(int channel)
         {
+            _request.Step = RequestStepEnum.Pending;
             switch (DeviceType)
             {
                 case DeviceTypeEnum.PowerUnit:

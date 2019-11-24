@@ -14,5 +14,6 @@ namespace DataStorage
         Task<IEnumerable<T>> GetItemsAsync<T>(string collection);
         Task<IEnumerable<T>> FindAsync<T, TV>(string collection, Expression<Func<T, TV>> getField, TV fieldVal);
         Task UpdateByIdAsync<T, TV>(string collection, Expression<Func<T, TV>> getId, T item);
+        Task DeleteOneAsync<T>(string collection, Expression<Func<T, bool>> predicate);
     }
 }

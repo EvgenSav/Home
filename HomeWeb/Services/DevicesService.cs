@@ -60,6 +60,11 @@ namespace Home.Web.Services
             await _memoryCache.StoreCollectionItem(device, () => GetFromDb());
         }
 
+        public async Task DeleteDeviceAsync(int deviceKey)
+        {
+            await _mongoDbStorage.DeleteOneAsync<Device>(_collection, r => r.Key == deviceKey);
+            _memoryCache.DeleteCollectionItem<Device>(r => r.Key == deviceKey);
+        }
         public async Task GetNooFSettings(int devId, int settingType)
         {
             var dev = await GetByIdAsync(devId);
