@@ -50,20 +50,22 @@ namespace Home.Web.Services
         public async Task<Device> AddDevice(Device device)
         {
             await _mongoDbStorage.AddAsync(_collection, device);
-            await _memoryCache.StoreCollectionItem(device, () => GetFromDb());
+            _memoryCache.StoreCollectionItem(device);
             return device;
         }
 
         public async Task Update(Device device)
         {
             await _mongoDbStorage.UpdateByIdAsync("devices", r => r.Key, device);
-            await _memoryCache.StoreCollectionItem(device, () => GetFromDb());
+            _memoryCache.StoreCollectionItem(device);
         }
 
         public async Task DeleteDeviceAsync(int deviceKey)
         {
             await _mongoDbStorage.DeleteOneAsync<Device>(_collection, r => r.Key == deviceKey);
+            await _mongoDbStorage.DeleteManyAsync<LogItem>("action_log", r => r.DeviceFk == deviceKey);
             _memoryCache.DeleteCollectionItem<Device>(r => r.Key == deviceKey);
+            _memoryCache.DeleteCollectionItems<LogItem>(r => r.DeviceFk == deviceKey);
         }
         public async Task GetNooFSettings(int devId, int settingType)
         {

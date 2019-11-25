@@ -95,5 +95,11 @@ namespace DataStorage
             var filter = Builders<T>.Filter.Where(predicate);
             await _db.GetCollection<T>(collection).DeleteOneAsync(filter);
         }
+        public async Task DeleteManyAsync<T>(string collection, Expression<Func<T, bool>> predicate)
+        {
+            if (!IsConnected) return;
+            var filter = Builders<T>.Filter.Where(predicate);
+            await _db.GetCollection<T>(collection).DeleteManyAsync(filter);
+        }
     }
 }

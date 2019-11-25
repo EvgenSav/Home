@@ -41,7 +41,7 @@ namespace Home.Web.Services
         public async Task AddAsync(LogItem item)
         {
             await _mongoDbStorage.AddAsync(_collection, item);
-            await _memoryCache.StoreCollectionItem(item, async () => await GetDeviceLogFromDb(item.DeviceFk));
+            _memoryCache.StoreCollectionItem(item);
         }
     }
 }

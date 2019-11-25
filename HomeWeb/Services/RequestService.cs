@@ -46,7 +46,7 @@ namespace Home.Web.Services
         public async Task<RequestDbo> CreateBindRequest(RequestDbo model)
         {
             await _mongoDbStorage.AddAsync(bindingCollectionName, model);
-            await _memoryCache.StoreCollectionItem(model, () => GetFromDb());
+            _memoryCache.StoreCollectionItem(model);
             return model;
         }
 
@@ -58,7 +58,7 @@ namespace Home.Web.Services
         public async Task Update(RequestDbo model)
         {
             await _mongoDbStorage.UpdateByIdAsync(bindingCollectionName, r => r.Id, model);
-            await _memoryCache.StoreCollectionItem(model, () => GetFromDb());
+            _memoryCache.StoreCollectionItem(model);
         }
         public async Task Delete(RequestDbo model)
         {
