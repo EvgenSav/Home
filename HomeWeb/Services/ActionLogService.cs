@@ -32,6 +32,11 @@ namespace Home.Web.Services
             var log = await _mongoDbStorage.FindAsync<LogItem, int>(_collection, r => r.DeviceFk, devId);
             return log;
         }
+        public IEnumerable<LogItem> GetDeviceLogFromCache(int devId)
+        {
+            var log = _memoryCache.GetCollection<LogItem>().Where(r => r.DeviceFk == devId).OrderByDescending(r => r.TimeStamp).ToList();
+            return log;
+        }
         public async Task<IEnumerable<LogItem>> GetDeviceLog(int devId)
         {
             var log = await _memoryCache.GetCollectionAsync(async () => await GetDeviceLogFromDb(devId), r => r.DeviceFk == devId);

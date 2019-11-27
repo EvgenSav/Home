@@ -11,16 +11,17 @@ namespace Home.Web.Extensions
 {
     public static class MemoryCacheExtensions
     {
-        public static void StoreCollection<T>(this IMemoryCache memoryCache, IEnumerable<T> collection)
+        public static IEnumerable<T> GetCollection<T>(this IMemoryCache memoryCache)
         {
             var type = typeof(T);
-            memoryCache.Set(type.Name, collection);
+            var collection = memoryCache.Get<IEnumerable<T>>(type.Name)?.ToList() ?? new List<T>();
+            return collection;
         }
         public static async Task<IEnumerable<T>> GetCollectionAsync<T>(this IMemoryCache memoryCache, Func<Task<IEnumerable<T>>> factory, Expression<Func<T,bool>> getFromFactory)
         {
             var type = typeof(T);
             var compiled = getFromFactory.Compile();
-            var collection = memoryCache.Get<IEnumerable<T>>(type.Name);
+            var collection = memoryCache.Get<IEnumerable<T>>(type.Name)?.ToList();
             if (collection?.Any(compiled) == true) return collection;
             var factoryItems = await factory();
             using (var entry = memoryCache.CreateEntry(type.Name))
@@ -28,9 +29,9 @@ namespace Home.Web.Extensions
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
                 if (collection != null)
                 {
-                    var res = collection.Concat(factoryItems);
-                    entry.SetValue(res);
-                    return res;
+                    collection.AddRange(factoryItems);
+                    // entry.SetValue(collection); redundant => AddRange already modified collection in memory
+                    return collection;
                 }
                 entry.SetValue(factoryItems);
                 return factoryItems;
@@ -41,6 +42,7 @@ namespace Home.Web.Extensions
             var type = typeof(T);
             return await memoryCache.GetOrCreateAsync(type.Name, async r => await factory());
         }
+
         public static void StoreCollectionItem<T>(this IMemoryCache memoryCache, T item) where T : IDatabaseModel
         {
             var type = typeof(T);
@@ -68,8 +70,8 @@ namespace Home.Web.Extensions
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
                 var toDelete = collection.FirstOrDefault(predicate);
-                var res = collection.Remove(toDelete);
-                entry.SetValue(res);
+                collection.Remove(toDelete);
+                entry.SetValue(collection);
             }
         }
         public static void DeleteCollectionItems<T>(this IMemoryCache memoryCache, Func<T, bool> predicate) where T : IDatabaseModel

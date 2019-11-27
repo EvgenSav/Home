@@ -113,7 +113,7 @@ namespace Home.Web.Services
                         await _actionLogService.AddAsync(new LogItem(rxBuf, device.Type, device.State));
                         break;
                     case NooCmd.TemporaryOn:
-                        var devLog = await _actionLogService.GetDeviceLog(device.Key);
+                        var devLog = _actionLogService.GetDeviceLogFromCache(device.Key);
                         var latest = devLog.OrderByDescending(r => r.TimeStamp).FirstOrDefault();
                         var measure = new Dictionary<string, double>();
                         if (latest != null)
