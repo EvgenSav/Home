@@ -9,11 +9,12 @@ using Newtonsoft.Json;
 namespace Home.Web.Services {
     public enum ActionType
     {
-        DeviceUpdated = 1,
-        BindReceived = 2,
-        RequestUpdated = 3,
-        DeviceAdded = 4,
-        DeviceDeleted = 5
+        DeviceUpdate,
+        RequestAdd, 
+        RequestDelete,
+        RequestUpdate,
+        DeviceAdd,
+        DeviceDelete
     };
     public class NotificationService {
         private readonly IHubContext<DeviceHub> _hubContext;

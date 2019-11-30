@@ -46,7 +46,7 @@ namespace Home.Web.Domain
                 request.Execute(emptyChannel);
                 var requestDbo = request.GetRequestDbo();
                 await _requestService.Update(requestDbo);
-                await _notificationService.NotifyAll(ActionType.RequestUpdated, requestDbo);
+                await _notificationService.NotifyAll(ActionType.RequestUpdate, requestDbo);
             }
             else
             {
@@ -57,9 +57,9 @@ namespace Home.Web.Domain
                     request.Complete(null);
                     var requestDbo = request.GetRequestDbo();
                     await _requestService.Update(requestDbo);
-                    await _notificationService.NotifyAll(ActionType.RequestUpdated, requestDbo);
+                    await _notificationService.NotifyAll(ActionType.RequestUpdate, requestDbo);
                     await _devicesService.DeleteDeviceAsync(request.DeviceFk.Value);
-                    await _notificationService.NotifyAll(ActionType.DeviceDeleted, request.DeviceFk);
+                    await _notificationService.NotifyAll(ActionType.DeviceDelete, request.DeviceFk);
                 }
             }
         }
@@ -82,21 +82,21 @@ namespace Home.Web.Domain
                     };
                    
                     await _devicesService.AddDevice(dev);
-                    await _notificationService.NotifyAll(ActionType.DeviceAdded, dev);
+                    await _notificationService.NotifyAll(ActionType.DeviceAdd, dev);
                 }
                 else
                 {
                     await _devicesService.DeleteDeviceAsync(request.DeviceFk.Value);
-                    await _notificationService.NotifyAll(ActionType.DeviceDeleted, request.DeviceFk.Value);
+                    await _notificationService.NotifyAll(ActionType.DeviceDelete, request.DeviceFk.Value);
                 }
                 await _requestService.Update(requestDbo);
-                await _notificationService.NotifyAll(ActionType.RequestUpdated, requestDbo);
+                await _notificationService.NotifyAll(ActionType.RequestUpdate, requestDbo);
             }
         }
 
         public async Task<IRequest> GetPendingBind(Buf rxBuf)
         {
-            var requests = await _requestService.GetBindings();
+            var requests = await _requestService.GetRequestList();
             var pendingRequests = requests
                 .Where(r => r.Step == RequestStepEnum.Pending && GetDevMode(r.DeviceType) == rxBuf.Mode)
                 .ToList();

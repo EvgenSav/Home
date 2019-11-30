@@ -45,7 +45,7 @@ namespace Home.Web.Services
             if (device != null)
             {
                 await _devicesService.Update(device);
-                await _notificationService.NotifyAll(ActionType.DeviceUpdated, device);
+                await _notificationService.NotifyAll(ActionType.DeviceUpdate, device);
             }
         }
 
@@ -134,7 +134,7 @@ namespace Home.Web.Services
                         break;
 
                     case NooCmd.SendState:
-                        var pendingUnbindRequest = (await _requestService.GetBindings()).FirstOrDefault(r =>
+                        var pendingUnbindRequest = (await _requestService.GetRequestList()).FirstOrDefault(r =>
                             r.Type == RequestTypeEnum.Unbind && r.Step == RequestStepEnum.Pending && r.MetaData?.AddressF == rxBuf.AddrF);
                         //received settings
                         if (Enum.IsDefined(typeof(NooFSettingType), rxBuf.Fmt))

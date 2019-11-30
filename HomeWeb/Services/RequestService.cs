@@ -22,7 +22,7 @@ namespace Home.Web.Services
         private readonly NotificationService _notificationService;
         private readonly IMemoryCache _memoryCache;
         private readonly IMongoDbStorage _mongoDbStorage;
-        private readonly string bindingCollectionName = "bindings";
+        private readonly string requestCollectionName = "requests";
         public RequestService(DevicesService devicesService, Mtrf64Context mtrf64Context, NotificationService notificationService,
             IMemoryCache memoryCache, IMongoDbStorage mongoDbStorage)
         {
@@ -33,37 +33,41 @@ namespace Home.Web.Services
             _mongoDbStorage = mongoDbStorage;
         }
 
-        public async Task<IEnumerable<RequestDbo>> GetBindings()
+        public async Task<IEnumerable<RequestDbo>> GetRequestList()
         {
-            var bindRequests = await _memoryCache.GetCollectionAsync(async ()=> await GetFromDb());
-            return bindRequests;
+            var requests = await _memoryCache.GetCollectionAsync(async ()=> await GetFromDb());
+            return requests;
         }
 
         private async Task<IEnumerable<RequestDbo>> GetFromDb()
         {
-            return await _mongoDbStorage.GetItemsAsync<RequestDbo>(bindingCollectionName);
+            return await _mongoDbStorage.GetItemsAsync<RequestDbo>(requestCollectionName);
         }
-        public async Task<RequestDbo> CreateBindRequest(RequestDbo model)
+        public async Task<RequestDbo> CreateRequest(RequestDbo model)
         {
-            await _mongoDbStorage.AddAsync(bindingCollectionName, model);
+            await _mongoDbStorage.AddAsync(requestCollectionName, model);
+            await _notificationService.NotifyAll(ActionType.RequestAdd, model);
             _memoryCache.StoreCollectionItem(model);
             return model;
         }
 
         public async Task<RequestDbo> GetById(ObjectId id)
         {
-            var bindings = await GetBindings();
-            return bindings.FirstOrDefault(r => r.Id == id);
+            var requests = await GetRequestList();
+            return requests.FirstOrDefault(r => r.Id == id);
         }
         public async Task Update(RequestDbo model)
         {
-            await _mongoDbStorage.UpdateByIdAsync(bindingCollectionName, r => r.Id, model);
+            await _mongoDbStorage.UpdateByIdAsync(requestCollectionName, r => r.Id, model);
+            await _notificationService.NotifyAll(ActionType.RequestUpdate, model);
             _memoryCache.StoreCollectionItem(model);
+            
         }
-        public async Task Delete(RequestDbo model)
+        public async Task Delete(ObjectId id)
         {
-            await _mongoDbStorage.DeleteOneAsync<RequestDbo>(bindingCollectionName, r => r.Id == model.Id);
-            _memoryCache.DeleteCollectionItem<RequestDbo>(r => r.Id == model.Id);
+            await _mongoDbStorage.DeleteOneAsync<RequestDbo>(requestCollectionName, r => r.Id == id);
+            await _notificationService.NotifyAll(ActionType.RequestDelete, id);
+            _memoryCache.DeleteCollectionItem<RequestDbo>(r => r.Id == id);
         }
 
         public async Task ExecuteRequest(ObjectId requestId)
