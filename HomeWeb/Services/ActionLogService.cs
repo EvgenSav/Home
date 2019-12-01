@@ -7,6 +7,7 @@ using DataStorage;
 using Home.Web.Extensions;
 using Home.Web.Models;
 using Microsoft.Extensions.Caching.Memory;
+using MongoDB.Driver;
 
 namespace Home.Web.Services
 {
@@ -37,6 +38,23 @@ namespace Home.Web.Services
         {
             await _mongoDbStorage.AddAsync(_collection, item);
             _memoryCache.StoreCollectionItem(item);
+        }
+
+        public async Task<IEnumerable<LogItem>> GetDeviceLogByDate(int devId, DateTime? date = null)
+        {
+            var filters = new List<FilterDefinition<LogItem>>();
+            filters.Add(Builders<LogItem>.Filter.Where(r => r.DeviceFk == devId));
+            if (date.HasValue)
+            {
+                var left = date.Value.Date;
+                var right = date.Value.Date.AddDays(1).AddSeconds(-1);
+                var andFilter = new FilterDefinitionBuilder<LogItem>()
+                    .And(Builders<LogItem>.Filter.Gt(r => r.TimeStamp, left), Builders<LogItem>.Filter.Lt(r => r.TimeStamp, right));
+                filters.Add(andFilter);
+            }
+            var filterDefinition = new FilterDefinitionBuilder<LogItem>().And(filters);
+            var items = await _mongoDbStorage.FindWhere<LogItem>(_collection, filterDefinition);
+            return items;
         }
 
         private async Task<IEnumerable<LogItem>> GetAllDevicesLogFromDb()

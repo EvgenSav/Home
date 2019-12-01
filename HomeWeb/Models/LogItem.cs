@@ -24,7 +24,7 @@ namespace Home.Web.Models
         public LogItem(Buf receivedBuffer, DeviceTypeEnum deviceTypeFk, DeviceState state)
         {
             ReceivedBuffer = receivedBuffer;
-            TimeStamp = DateTime.Now;
+            TimeStamp = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
             Cmd = receivedBuffer.Cmd;
             DeviceFk = receivedBuffer.Id;
             DeviceTypeFk = deviceTypeFk;

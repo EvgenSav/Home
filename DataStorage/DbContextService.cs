@@ -88,6 +88,19 @@ namespace DataStorage
                 return await Task.FromResult(new List<T>());
             }
         }
+        public async Task<IEnumerable<T>> FindWhere<T>(string collection, FilterDefinition<T> filterDefinition)
+        {
+            if (IsConnected)
+            {
+                var findQuery = _db.GetCollection<T>(collection).Find(filterDefinition);
+                var items = await findQuery.ToListAsync();
+                return items;
+            }
+            else
+            {
+                return await Task.FromResult(new List<T>());
+            }
+        }
 
         public async Task DeleteOneAsync<T>(string collection, Expression<Func<T, bool>> predicate)
         {

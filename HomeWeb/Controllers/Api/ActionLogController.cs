@@ -23,5 +23,11 @@ namespace Home.Web.Controllers.Api
         {
             return await _actionLogService.GetDeviceLog(devId);
         }
+        [HttpGet("{devId:int}/From/{dateIsoString}")]
+        public async Task<IEnumerable<ILogItem>> GetLogsByDate(int devId, string dateIsoString = null)
+        {
+            DateTime.TryParse(dateIsoString, out var date);
+            return await _actionLogService.GetDeviceLogByDate(devId, date);
+        }
     }
 }
