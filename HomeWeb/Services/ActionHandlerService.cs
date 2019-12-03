@@ -39,7 +39,7 @@ namespace Home.Web.Services
         private async void Mtrf64Context_NewDataReceived(object sender, BufferEventArgs e)
         {
             var rxBuf = e.Buffer;
-            ParseIncomingData(rxBuf);
+            await ParseIncomingData(rxBuf);
             var devKey = rxBuf.Mode == NooMode.FTx ? rxBuf.AddrF : rxBuf.Ch;
             var device = await _devicesService.GetByIdAsync(devKey);
             if (device != null)
@@ -49,7 +49,7 @@ namespace Home.Web.Services
             }
         }
 
-        private async void ParseIncomingData(Buf rxBuf)
+        private async Task ParseIncomingData(Buf rxBuf)
         {
             var device = await _devicesService.GetByIdAsync(rxBuf.Id);
             if (device != null)
