@@ -15,6 +15,9 @@ using Home.Web.Hubs;
 using Home.Web.Models;
 using MongoDB.Bson.Serialization;
 using Driver.Mtrf64;
+using Home.Web.Domain;
+using Home.Web.Domain.Automation;
+using Home.Web.Domain.Automation.Condition;
 using Home.Web.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson.Serialization.Conventions;
@@ -37,7 +40,11 @@ namespace Home.Web
             });
             BsonClassMap.RegisterClassMap<Device>().SetIgnoreExtraElements(true);
             BsonClassMap.RegisterClassMap<LogItem>().SetIgnoreExtraElements(true);
+            BsonClassMap.RegisterClassMap<Condition>().SetIgnoreExtraElements(true);
+            BsonClassMap.RegisterClassMap<DeviceCmdCondition>().SetIgnoreExtraElements(true);
+            BsonClassMap.RegisterClassMap<DeviceStateCondition>().SetIgnoreExtraElements(true);
             //convention: ignore extra elements (that exists in document, but doesn't exist in document's model)
+            //BsonSerializer.RegisterSerializer(typeof(IConditionItem), new ConditionItemSerializer());
             ConventionRegistry.Register("IgnoreExtraElements", new ConventionPack { new IgnoreExtraElementsConvention(true) }, type => true);
         }
         public void OnShutdown(object serviceProvider)
@@ -67,7 +74,9 @@ namespace Home.Web
             services.AddSingleton<ActionHandlerService>();
             services.AddTransient<RequestService>();
             services.AddTransient<HomeService>();
+            services.AddTransient<IAutomationService, AutomationService>();
             services.AddSingleton<IMongoDbStorage, MongoDbStorageService>();
+            services.AddSingleton<IAutomationProcessorService, AutomationProcessorService>();
             services.AddMemoryCache(options => options.ExpirationScanFrequency = TimeSpan.FromMinutes(5));
             services.Configure<CookiePolicyOptions>(options =>
             {

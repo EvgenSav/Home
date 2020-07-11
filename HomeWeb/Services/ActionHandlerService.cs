@@ -18,15 +18,17 @@ namespace Home.Web.Services
         private readonly ActionLogService _actionLogService;
         private readonly NotificationService _notificationService;
         private readonly RequestService _requestService;
+        private readonly IAutomationService _automationService;
 
         public ActionHandlerService(Mtrf64Context mtrf64Context, DevicesService devicesService, ActionLogService actionLogService, NotificationService notificationService,
-            RequestService requestService)
+            RequestService requestService, IAutomationService automationService)
         {
             _devicesService = devicesService;
             _actionLogService = actionLogService;
             _mtrf64Context = mtrf64Context;
             _notificationService = notificationService;
             _requestService = requestService;
+            _automationService = automationService;
             mtrf64Context.DataReceived += Mtrf64Context_NewDataReceived;
         }
 
@@ -52,6 +54,7 @@ namespace Home.Web.Services
         private async Task ParseIncomingData(Buf rxBuf)
         {
             var device = await _devicesService.GetByIdAsync(rxBuf.Id);
+            var automations = await _automationService.GetAutomationItems();
             if (device != null)
             {
                 switch (rxBuf.Cmd)
@@ -175,6 +178,22 @@ namespace Home.Web.Services
                         break;
                     default:
                         break;
+                }
+
+                var deviceAutomations = automations.Where(r => r.Condition.ConditionItems.Any(item => item.DeviceId == device.Key));
+                if (deviceAutomations.Any())
+                {
+                    foreach (var automation in deviceAutomations)
+                    {
+                        if (automation.Condition.IsFulfilled(rxBuf))
+                        {
+                            foreach (var resItem in automation.Result.ResultItems)
+                            {
+                                var devItem = await _devicesService.GetByIdAsync(resItem.DeviceId);
+                                devItem.SetBright(_mtrf64Context, resItem.State.Bright ?? 0);
+                            }
+                        }
+                    }
                 }
             }
             switch (rxBuf.Cmd)
