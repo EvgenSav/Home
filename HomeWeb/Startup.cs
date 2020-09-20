@@ -20,7 +20,9 @@ using Home.Web.Domain.Automation;
 using Home.Web.Domain.Automation.Condition;
 using Home.Web.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Bson.Serialization.Serializers;
 using Newtonsoft.Json.Serialization;
 
 namespace Home.Web
@@ -45,6 +47,7 @@ namespace Home.Web
             BsonClassMap.RegisterClassMap<DeviceStateCondition>().SetIgnoreExtraElements(true);
             //convention: ignore extra elements (that exists in document, but doesn't exist in document's model)
             //BsonSerializer.RegisterSerializer(typeof(IConditionItem), new ConditionItemSerializer());
+            BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(BsonType.String));
             ConventionRegistry.Register("IgnoreExtraElements", new ConventionPack { new IgnoreExtraElementsConvention(true) }, type => true);
         }
         public void OnShutdown(object serviceProvider)

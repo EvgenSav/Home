@@ -14,7 +14,8 @@ namespace Home.Web.Services {
         RequestDelete,
         RequestUpdate,
         DeviceAdd,
-        DeviceDelete
+        DeviceDelete,
+        AutomationUpdate
     };
     public class NotificationService {
         private readonly IHubContext<DeviceHub> _hubContext;

@@ -14,15 +14,18 @@ namespace Home.Web.Services
     {
         private readonly IMemoryCache _memoryCache;
         private readonly IMongoDbStorage _dbStorage;
-        public AutomationService(IMongoDbStorage dbStorage,  IMemoryCache memoryCache)
+        private readonly NotificationService _notificationService;
+        private readonly string automationCollectionName = "automation";
+        public AutomationService(IMongoDbStorage dbStorage,  IMemoryCache memoryCache, NotificationService notificationService)
         {
             _dbStorage = dbStorage;
             _memoryCache = memoryCache;
+            _notificationService = notificationService;
         }
 
         public async Task<IAutomationItem> AddAutomation(IAutomationItem automation)
         {
-            await _dbStorage.AddAsync("automation", automation);
+            await _dbStorage.AddAsync(automationCollectionName, automation);
             _memoryCache.StoreCollectionItem(automation);
             return automation;
         }
@@ -33,6 +36,12 @@ namespace Home.Web.Services
             var auto = automations.FirstOrDefault(r => r.Id == id);
             return auto;
         }
+        public async Task UpdateAutomationItem(IAutomationItem item)
+        {
+            await _dbStorage.UpdateByIdAsync(automationCollectionName, r => r.Id, item);
+            await _notificationService.NotifyAll(ActionType.RequestUpdate, item);
+            _memoryCache.StoreCollectionItem(item);
+        }
         
         public async Task<IEnumerable<IAutomationItem>> GetAutomationItems()
         {
@@ -41,7 +50,7 @@ namespace Home.Web.Services
 
         private async Task<IEnumerable<IAutomationItem>> GetAutomationItemsFromDb()
         {
-            return await _dbStorage.GetItemsAsync<IAutomationItem>("automation");
+            return await _dbStorage.GetItemsAsync<IAutomationItem>(automationCollectionName);
         }
     } 
 }
