@@ -73,6 +73,8 @@
 
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
 
+    <UserSecretsId>f8c6f379-734a-4dc4-b64e-5950002533ad</UserSecretsId>
+
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -82,12 +84,12 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+  <!--<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="C:\WINDOWS\system32\inetsrv\APPCMD stop apppool &quot;home&quot;&#xD;&#xA;npm run build" />
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="C:\WINDOWS\system32\inetsrv\APPCMD start apppool &quot;home&quot;&#xD;&#xA;&#xD;&#xA;" />
-  </Target>
+  </Target>-->
 
 </Project>

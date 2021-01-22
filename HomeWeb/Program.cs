@@ -27,7 +27,7 @@ namespace Home.Web
                 StringComparison.OrdinalIgnoreCase);
             if (isDevelopment) return WebHost.CreateDefaultBuilder<Startup>(args);
 
-            return WebHost.CreateDefaultBuilder<Startup>(args).UseKestrel(r => r.ListenAnyIP(80));
+            return WebHost.CreateDefaultBuilder<Startup>(args).UseKestrel(r => r.ListenLocalhost(3000));
         }
 
     }
