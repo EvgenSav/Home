@@ -1,12 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.2" />-->
-    <PackageReference Include="SerialPortStream" Version="2.2.0" />
+    <PackageReference Include="SerialPortStream" Version="2.2.2" />
   </ItemGroup>
 
 </Project>
